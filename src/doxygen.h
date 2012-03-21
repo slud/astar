@@ -1,7 +1,7 @@
 #ifndef DOXYGEN_H
 	#define DOXYGEN_H
 
-/** @file Doxygen.h
+/** @file doxygen.h
  *	Brief descr. of the file.
  *	Details goes here.
  */

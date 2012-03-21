@@ -31,12 +31,15 @@ Jesli wprowadzimy przestrzenie nazw, to beda mogly istniec dwie klasy o takich s
 Jesli wprowadzimy oba powyzsze rozwiazanie to zarobimy sie z porzadkowaniem tego balaganu ;]
 
 Zasady projektu:
+
 	Przedrostek stosowany w calym projekcie:
 	AS_ - straznicy plikow naglowkowych: #ifndef AS_HEADER_H
 	C - prefix nazwy klasy
 	CT - prefix szablonu klasy
 	S - struktura
 	Singleton - suffix dla singletonow
+
+	Plik binarki kopiowany jest z katalogu ROOT_DIR/BIN_DIR do ROOT_DIR
 
 
 

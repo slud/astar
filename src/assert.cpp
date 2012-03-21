@@ -1,4 +1,4 @@
-#include "Assert.h"
+#include "assert.h" // "" makes it choose local file.
 
 bool CustomAssertFunction(bool, char*, int, char*, bool*)
 {

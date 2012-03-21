@@ -1,7 +1,7 @@
 #include <cassert>
 
-#include "Console.h"
-#include "Application.h"
+#include "console.h"
+#include "app.h"
 
 // TODO: Read-in those values from an xml settings file.
 const int c_ScreenWidth = 800;

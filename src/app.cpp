@@ -1,5 +1,5 @@
-#include "Application.h"
-#include "Console.h"
+#include "app.h"
+#include "console.h"
 
 CApplication::CApplication() :
 	m_pDisplay(NULL),
@@ -10,9 +10,10 @@ CApplication::CApplication() :
 
 CApplication::~CApplication()
 {
+	// This is handled by SDL itself.
+	// SDL_Quit() does the job.
 	//delete m_pDisplay;
 	//m_pDisplay = NULL;
-	
 	//delete m_pVideoInfo;
 	//m_pVideoInfo = NULL;
 }
@@ -29,10 +30,11 @@ void CApplication::Start()
 
 	SDL_Event event;
 
+	// THIS IS THE MAIN LOOP
 	// TODO: Is enum fast enough?
 	while( m_eRunningMode == e_Running )
 	{
-		// No virtuals allowed here.
+		// No overhead from calling virtuals allowed here.
 		// Only static code.
 		while( SDL_PollEvent( &event ) )
 		{
