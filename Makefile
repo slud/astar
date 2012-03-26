@@ -6,6 +6,9 @@ INCLUDE_DIR=$(SOURCE_DIR)
 RESOURCES_DIR=res
 BIN_DIR=bin
 OBJ_DIR=obj
+# External libs
+BOOST_VER=boos_1_48_0
+BOOST_DIR=/home/paza/matrix/dev/$(BOOST_VER)
 #-------------------------------------------------------------
 DEBUG=debug
 RELEASE=release
@@ -26,7 +29,7 @@ all: $(OBJECT_FILES)
 #	cp $(RESOURCES_DIR)/settings.xml $(BIN_DIR)/$(RESOURCES_DIR)/
 
 $(OBJECT_DIR)/%.o : $(SOURCE_DIR)/%.cpp
-	$(CC) -c $< `sdl-config --cflags --libs` -o $@
+	$(CC) -c $< -I$(BOOST_DIR) `sdl-config --cflags --libs` -o $@
 
 clean:
 	# Left the setting file untouched.

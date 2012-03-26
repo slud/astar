@@ -19,6 +19,12 @@ static void Quit()
 
 CApplication::EResult CApplication::Init()
 {
+	// TODO: Steps in Init are more that SDL video init.
+	// TODO: Use threads for startup.
+	// TODO: Make thread-safe types.
+
+	// start -> Init all subsystems -> Show main window -> start main loop -> clean-up -> exit.
+
 	// Will leave checks of returns because this code is executed only once.
 
     // Initialize SDL.
