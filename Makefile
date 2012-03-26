@@ -1,3 +1,8 @@
+# Increase this value every time local.config is about to change.
+LOCAL_CONFIG_VER=1
+
+include local.config
+
 CC=g++
 #-------------------------------------------------------------
 ROOT_DIR=.
@@ -6,9 +11,6 @@ INCLUDE_DIR=$(SOURCE_DIR)
 RESOURCES_DIR=res
 BIN_DIR=bin
 OBJ_DIR=obj
-# External libs
-BOOST_VER=boos_1_48_0
-BOOST_DIR=/home/paza/matrix/dev/$(BOOST_VER)
 #-------------------------------------------------------------
 DEBUG=debug
 RELEASE=release

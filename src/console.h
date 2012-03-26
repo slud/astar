@@ -3,6 +3,7 @@
 
 #include <vector>
 
+// TODO: Add smart pointers.
 class CConsoleSingleton
 {
 public:
@@ -13,6 +14,7 @@ public:
 		e_clog
 	};
 
+	// TODO: Is singleton required here? Maybe static methods would be enough?
 	static inline CConsoleSingleton* Instance()
 	{
 		// We could use RAII with static data and return a reference,

@@ -1,6 +1,8 @@
 #ifndef AS_APPLICATION_H
 	#define AS_APPLICATION_H
 
+#include <boost/utility.hpp>
+
 // CApplication's fields are SDL specific so that is why
 // we include this header.
 #include "SDL.h"
@@ -8,7 +10,7 @@
 /**
  *	Represents OS process + main window.
  */
-class CApplication // class is an aggregate like array and struct.
+class CApplication : public boost::noncopyable // class is an aggregate like array and struct.
 {
 public:
 
@@ -79,11 +81,12 @@ private:
 	// TODO: Can I put inline keyword both in method declaration and at the definition?
 
 // MEMBERS
-
+	bool					m_Running;
 	ERunningMode			m_eRunningMode;
 	SDL_Surface*			m_pDisplay;
 	const SDL_VideoInfo*	m_pVideoInfo;
 	int						m_VideoFlags;
+	SDL_Event				m_Event;
 };
 
 #endif
