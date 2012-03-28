@@ -1,6 +1,8 @@
 #ifndef AS_NAME_H
 	#define AS_NAME_H
 
+// LICENSE
+
 /**
  *  @file name
  *
@@ -13,7 +15,7 @@
 /**
  *	Class description.
  */
-class CClass
+class CExample
 {
 public:
 
@@ -56,3 +58,7 @@ private:
 // REFERENCES
 
 #endif // AS_NAME_H
+
+
+
+

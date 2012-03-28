@@ -1,15 +1,15 @@
 #ifndef AS_TYPES_H
 	#define AS_TYPES_H
 
-namespace AStar
+namespace AS
 {
 	typedef int Result;
 
 	enum EGenericResult
 	{
-		e_SUCCESS = 0,
-		e_FAILURE = 1
+		e_Success = 0,
+		e_Failure = 1
 	};
 }
 
-#endif
+#endif // AS_TYPES_H

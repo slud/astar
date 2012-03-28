@@ -1,6 +1,16 @@
 #ifndef AS_APPLICATION_H
 	#define AS_APPLICATION_H
 
+// LICENSE
+
+/**
+ *  @file name
+ *
+ *  Some description.
+ */
+
+//INCLUDES
+
 #include <boost/utility.hpp>
 
 // CApplication's fields are SDL specific so that is why
@@ -30,7 +40,7 @@ public:
 	 */
 	void Start();
 
-// MEMBERS
+// DATA
 
 private:
 
@@ -80,7 +90,8 @@ private:
 
 	// TODO: Can I put inline keyword both in method declaration and at the definition?
 
-// MEMBERS
+// DATA
+
 	bool					m_Running;
 	ERunningMode			m_eRunningMode;
 	SDL_Surface*			m_pDisplay;
@@ -89,4 +100,10 @@ private:
 	SDL_Event				m_Event;
 };
 
-#endif
+// REFERENCES
+
+#endif // AS_APPLICATION_H
+
+
+
+

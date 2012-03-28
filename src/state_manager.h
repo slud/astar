@@ -1,6 +1,8 @@
 #ifndef AS_STATE_MANAGER_H
 	#define AS_STATE_MANAGER_H
 
+// LICENSE
+
 /**
  *  @file name
  *
@@ -9,7 +11,6 @@
 
 // INCLUDES
 // [SO1]
-#include <boost/bind.hpp>
 #include <boost/function.hpp>
 #include <boost/utility.hpp>
 #include "SDL.h"
@@ -19,23 +20,41 @@
  *  Is it some kind of a Mediator design pattern?
  *
  */
-class CStateManager : public boost::noncopyable
+class CApplicationStateManagerSingleton : public boost::noncopyable
 {
 public:
 
 // TYPES
+	enum EState
+	{
+		e_MainWindow,
+		e_MainMenu,
+		e_Edit,
+		e_Playing,
+		e_Paused,
+		e_Undefined
+	};
 
 // LIFECYCLE
-	CStateManager();
 
 // OPERATORS
 
 // METHODS
 
+	void RequestStateChange(EState NewState);
+
+	CApplicationStateManagerSingleton& Instance()
+	{
+		// GCC probably supports thread-safe static initialization.
+		// TODO: BE AWARE OF THE STATIC DEINITIALIZATION FIASCO!
+		static CApplicationStateManagerSingleton Instance;
+		return Instance;
+	}
+
 // DATA
 
 	// TODO: Replace with [CP1]
-	boost::function<void(SDL_Event *event)> EventHandler;
+	boost::function<void(SDL_Event* Event)> EventHandlerDelegate;
 
 protected:
 
@@ -54,12 +73,15 @@ private:
 // TYPES
 
 // LIFECYCLE
+	CApplicationStateManagerSingleton();
+	~CApplicationStateManagerSingleton();
 
 // OPERATORS
 
 // METHODS
 
 // DATA
+	EState m_eCurrentState;
 
 };
 

@@ -1,8 +1,9 @@
 #include "app.h"
 #include "console.h"
 
-const int c_BPP = 32;
 
+// TODO: Put it into settings.xml
+const int c_BPP = 32;
 
 CApplication::CApplication() :
 	m_pDisplay(NULL),
@@ -16,6 +17,7 @@ CApplication::~CApplication()
 {
 	// This is handled by SDL itself.
 	// SDL_Quit() does the job.
+
 	//delete m_pDisplay;
 	//m_pDisplay = NULL;
 	//delete m_pVideoInfo;
@@ -30,13 +32,13 @@ void CApplication::Start()
 	if(Init() != e_Success)
 	{
 		CConsoleSingleton::Instance()->Transmit(CConsoleSingleton::e_cerr, "Init failed. Aborted!!!");
+		// TODO: Low priority. Investigate this kind of flow.
 		return;
 	}
-
 	
 
 	// THIS IS THE MAIN LOOP
-	// TODO: Is enum fast enough?
+	// TODO: Is enum to bool fast enough?
 	while( m_Running )
 	{
 		// No overhead from calling virtuals allowed here.

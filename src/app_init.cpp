@@ -17,15 +17,15 @@ static void Quit()
 	SDL_Quit();
 }
 
-CApplication::EResult CApplication::Init()
+AS::EGenericResult CApplication::Init()
 {
-	// TODO: Steps in Init are more that SDL video init.
+	// TODO: Steps in Init are more than SDL video init.
 	// TODO: Use threads for startup.
 	// TODO: Make thread-safe types.
 
 	// start -> Init all subsystems -> Show main window -> start main loop -> clean-up -> exit.
 
-	// Will leave checks of returns because this code is executed only once.
+	// Leaving checks of returns because this code is executed only once.
 
     // Initialize SDL.
 	if( SDL_Init(SDL_INIT_VIDEO) < 0 )
@@ -84,6 +84,6 @@ CApplication::EResult CApplication::Init()
 
 	assert( m_pDisplay && c_CantSetVideoMode);
 	
-	return e_Success;
+	return AS::e_Success;
 }
 

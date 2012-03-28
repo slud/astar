@@ -35,19 +35,16 @@ private:
 	EStates m_eState;
 	SDL_Event m_Event;		
 };
-
+////////////////////////////////////////////////////////////
 class CEventHandler // common
 {
 public:
-	void handler(SDL_Event *_event)
-	{
-			
-	}
+	SDL_Event* GetLastEvent() const;
 
 protected:
 	SDL_Event m_Event;
 };
-
+////////////////////////////////////////////////////////////
 class CEventHandlerApp : public CEventHandler
 {
 public:
@@ -56,17 +53,14 @@ public:
 			
 	}
 };
-
+////////////////////////////////////////////////////////////
 class CEventHandlerMainWindow : public CEventHandlerApp // derive to handle all app's events first.
 {
 public:
-	void handler(SDL_Event *_event)
-	{
-			
-	}
+	void operator()(SDL_Event* Event);
 };
-
-class CEventHandlerMenu
+////////////////////////////////////////////////////////////
+class CEventHandlerMainMenu
 {
 public:
 	enum States
@@ -82,7 +76,7 @@ public:
 			//wspolne dla menu np.: ESC
 	}
 };
-
+////////////////////////////////////////////////////////////
 
 #endif
 
