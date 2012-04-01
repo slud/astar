@@ -1,13 +1,13 @@
-#ifndef AS_NAME_H
-	#define AS_NAME_H
-
-// LICENSE
-
 /**
  *  @file name
  *
  *  Some description.
  */
+
+// LICENSE
+
+#ifndef AS_NAME_H
+	#define AS_NAME_H
 
 // INCLUDES
 

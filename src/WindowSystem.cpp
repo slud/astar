@@ -1,7 +1,12 @@
+#include "WindowSystem.h"
+#include "state_manager.h"
+#include "event_handler.h"
+#include "EventSystem.h"
+
 #include <cassert>
 
 #include "console.h"
-#include "app.h"
+
 
 // TODO: Read-in those values from an xml settings file.
 const int c_ScreenWidth = 800;
@@ -12,19 +17,44 @@ const char c_VideoInitFailed[] = "Video initialization failed.";
 const char c_VideoQueryFailed[] = "Video query failed.";
 const char c_CantSetVideoMode[] = "Can't set video mode.";
 
-static void Quit()
+
+CWindowSystemSingleton::CWindowSystemSingleton() :
+	m_pDisplay(NULL),
+	m_pVideoInfo(NULL),
+	m_VideoFlags(0)
 {
-	SDL_Quit();
 }
 
-AS::EGenericResult CApplication::Init()
+// Try to optimise.
+void CWindowSystemSingleton::Events()
 {
-	// TODO: Steps in Init are more than SDL video init.
-	// TODO: Use threads for startup.
-	// TODO: Make thread-safe types.
+	// TODO: I know it's an SDL dependency again, but no time to implement a new DirectInputSystem.
+	CEventSystemSingleton::Event_T Event;
+	// Get an event from the que.
+	while( CEventSystemSingleton::Instance().GetEvent(Event, CEventSystemSingleton::e_WindowSystem) )
+	{
+		switch(Event.type)
+		{
+			case SDL_KEYDOWN:
+				switch(Event.key.keysym.sym)
+				{
+					case SDLK_F1:
+						SwitchToFulscreen();
+						break;
+					default:
+						break;
+				}
+				break;
+			default:
+				break;
 
-	// start -> Init all subsystems -> Show main window -> start main loop -> clean-up -> exit.
+		}
+		
+	}	
+}
 
+CWindowSystemSingleton::EResult CWindowSystemSingleton::Init()
+{
 	// Leaving checks of returns because this code is executed only once.
 
     // Initialize SDL.
@@ -34,7 +64,7 @@ AS::EGenericResult CApplication::Init()
 		vec[0] = SDL_GetError();
 		vec[1] = c_VideoInitFailed;
 		CConsoleSingleton::Instance()->Transmit(CConsoleSingleton::e_cerr, vec);
-		Quit();
+		Shutdown();
 		return e_InitFailure;
 	}
 
@@ -49,7 +79,7 @@ AS::EGenericResult CApplication::Init()
 		vec[0] = SDL_GetError();
 		vec[1] = c_VideoQueryFailed;
 		CConsoleSingleton::Instance()->Transmit(CConsoleSingleton::e_cerr, vec);
-		Quit();
+		Shutdown();
 		return e_InitFailure;
 	}
 
@@ -84,6 +114,47 @@ AS::EGenericResult CApplication::Init()
 
 	assert( m_pDisplay && c_CantSetVideoMode);
 	
-	return AS::e_Success;
+	return e_Success;
 }
+
+void CWindowSystemSingleton::SwitchToFullscreen()
+{
+	SDL_WM_ToggleFullScreen( m_pDisplay );
+}
+
+// Try to optimise.
+void CWindowSystemSingleton::SystemEvents()
+{
+	typedef CMainWindowEventHandlerSingleton CASTS;
+
+	// TODO: According to SDL docs a union type SDL_Event should be created here every time.
+	SDL_Event Event;
+	while( SDL_PollEvent( &Event ) )
+	{
+		// TODO: Depending on state call appropriate handler.
+		switch(CASTS::Instance().GetCurrentState())
+		{
+			case CASTS::e_MainWindow:
+				CMainWindowEventHandlerSingleton::Instance().operator()(Event);
+				break;
+			case CASTS::e_MainMenu:
+				break;
+			case CASTS::e_Edit:
+				break;
+			case CASTS::e_Playing:
+				break;
+			case CASTS::e_Paused:
+				break;
+			case CASTS::e_Quit:
+				break;
+			default:
+				break;
+		}
+		
+	}	
+}
+
+
+
+
 

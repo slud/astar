@@ -5,6 +5,7 @@
 
 extern bool CustomAssertFunction(bool, char*, int, char*, bool*);
 
+// Guarantees inlining :-)
 #define Assert(exp, description) \
 	{ \
 		static bool ignoreAlways = false; \

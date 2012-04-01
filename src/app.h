@@ -13,23 +13,19 @@
 
 #include <boost/utility.hpp>
 
-// CApplication's fields are SDL specific so that is why
-// we include this header.
-#include "SDL.h"
+#include "WindowSystem.h"
+
 
 /**
  *	Represents OS process + main window.
  */
-class CApplication : public boost::noncopyable // class is an aggregate like array and struct.
+class CApplicationSingleton : public boost::noncopyable // class is an aggregate like array and struct.
 {
 public:
 
 // TYPES
 
 // LIFECYCE
-
-	CApplication();
-	~CApplication();
 
 // OPERATORS
 
@@ -68,18 +64,8 @@ private:
 
 // LIFECYCLE
 
-	/**
-	 * Private copy ctor.
-	 */
-	CApplication(CApplication const&);
-
-// OPERATORS
-
-	/**
-	 *	Private assignment operator.
-	 */
-	// TODO: Should here be two versions of return value: with and without const?
-	CApplication& operator=(CApplication const&);
+	CApplicationSingleton();
+	~CApplicationSingleton();
 
 // METHODS
 
@@ -88,16 +74,22 @@ private:
 	 */
 	EResult Init();
 
-	// TODO: Can I put inline keyword both in method declaration and at the definition?
+	void Shutdown();
+
+	/**
+	 *	App stop request.
+	 *  This can be called only internally.
+	 *  Somehow from within of the main loop.
+	 */
+	void Stop();
 
 // DATA
 
-	bool					m_Running;
-	ERunningMode			m_eRunningMode;
-	SDL_Surface*			m_pDisplay;
-	const SDL_VideoInfo*	m_pVideoInfo;
-	int						m_VideoFlags;
-	SDL_Event				m_Event;
+	bool		    m_Running;
+#if 0
+	ERunningMode	m_eRunningMode;
+#endif
+
 };
 
 // REFERENCES

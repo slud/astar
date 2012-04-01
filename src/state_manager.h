@@ -13,11 +13,11 @@
 // [SO1]
 #include <boost/function.hpp>
 #include <boost/utility.hpp>
-#include "SDL.h"
+#include "app.h"
 
 /**
- *  CStateManager class.
- *  Is it some kind of a Mediator design pattern?
+ * CStateManager class.
+ * Is it some kind of a Mediator design pattern?
  *
  */
 class CApplicationStateManagerSingleton : public boost::noncopyable
@@ -32,6 +32,7 @@ public:
 		e_Edit,
 		e_Playing,
 		e_Paused,
+		e_Quit,
 		e_Undefined
 	};
 
@@ -41,20 +42,20 @@ public:
 
 // METHODS
 
-	void RequestStateChange(EState NewState);
+	EState GetCurrentState() const;
 
-	CApplicationStateManagerSingleton& Instance()
+	static CApplicationStateManagerSingleton& Instance()
 	{
-		// GCC probably supports thread-safe static initialization.
-		// TODO: BE AWARE OF THE STATIC DEINITIALIZATION FIASCO!
 		static CApplicationStateManagerSingleton Instance;
 		return Instance;
 	}
 
+	void RequestStateChange(EState NewState);
+
 // DATA
 
 	// TODO: Replace with [CP1]
-	boost::function<void(SDL_Event* Event)> EventHandlerDelegate;
+	//boost::function<void()> EventHandlerDelegate;
 
 protected:
 
@@ -73,6 +74,7 @@ private:
 // TYPES
 
 // LIFECYCLE
+
 	CApplicationStateManagerSingleton();
 	~CApplicationStateManagerSingleton();
 
@@ -81,6 +83,7 @@ private:
 // METHODS
 
 // DATA
+
 	EState m_eCurrentState;
 
 };

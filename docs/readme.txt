@@ -39,7 +39,7 @@ Zasady projektu:
 	Przedrostek stosowany w calym projekcie:
 		AS_ - straznicy plikow naglowkowych: #ifndef AS_HEADER_H
 		C - prefix nazwy klasy
-		CT - prefix szablonu klasy
+		//CT - prefix szablonu klasy
 		S - struktura
 		E - enum
 		c_ - unmutable object
@@ -52,6 +52,7 @@ Zasady projektu:
 	Obowiazauje CamelCase w kodzie
 	Typy wskaznikowe: T* ptr; 
 	Plik binarki kopiowany jest z katalogu ROOT_DIR/BIN_DIR do ROOT_DIR
+	Nie uzywac singletonow w destruktorach innych singletonow.
 
 
 Uwagi, obserwacje, notatki:
@@ -71,7 +72,18 @@ Pytania, ktore sie nasunely podczas pracy nad projektem:
 		- struktura: chyba zagwarantowane, ze tak jak leza.
 		- klasa: zalezy od implementacji?
 	Czy dlugie nazwy w kodzie sa optymalizowane? Czy kod wynikowy nie jest przez to wiekszy?
-
+	Jak nazywac obiekty?
+		Zaczynajac od lewej uzywajac najpierw najbardziej abstrakcyjnych pojec
+		np.: CEventHandlerMainWindow czy od najbardziej konkretnych np.: CMainWindowEventHandler?
+	Jak obslugiwac "puste" referencje?
+		Moze tak.: assert(&refToObject)?
+		Skoro jest mozliwe cos takiego:
+			Pisarz* pPis = NULL;
+			Pisarz& pis = *pPis;
+		Blad (SEGFAULT) zostanie wychwycony dopiero podczas wykonania.
+		- Jest to nielegalna konstrukcja, mimo, ze kompilator na to pozwala.
+		- Idea referencji jest to, ze referuje istniejacy l-value obiekt.
+		-  C++ FAQ http://www.parashift.com/c++-faq-lite/references.html [8.7]
 
 
 

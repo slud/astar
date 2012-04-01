@@ -1,101 +1,79 @@
+#include <cassert>
 #include "app.h"
 #include "console.h"
+#include "state_manager.h"
+#include "WindowSystem.h"
 
+const char c_InitFailed[] = "Init failed. Aborted!!!";
 
-// TODO: Put it into settings.xml
-const int c_BPP = 32;
-
-CApplication::CApplication() :
-	m_pDisplay(NULL),
-	m_pVideoInfo(NULL),
-	m_VideoFlags(0),
+CApplicationSingleton::CApplicationSingleton() :
 	m_Running(false)
 {
 }
 
-CApplication::~CApplication()
+CApplicationSingleton::~CApplicationSingleton()
 {
-	// This is handled by SDL itself.
-	// SDL_Quit() does the job.
-
-	//delete m_pDisplay;
-	//m_pDisplay = NULL;
-	//delete m_pVideoInfo;
-	//m_pVideoInfo = NULL;
 }
 
-void CApplication::Start()
+CApplicationSingleton::EResult CApplicationSingleton::Init()
+{
+	// TODO: Steps in Init are more than SDL video init.
+	// TODO: Use threads for startup.
+	// TODO: Make thread-safe types.
+
+	// start -> Init all subsystems -> Show main window -> start main loop -> clean-up -> exit.
+
+	// Leaving checks of returns because this code is executed only once.
+
+	CWindowSystemSingleton& WindowSystem = CWindowSystemSingleton::Instance();
+	if(WindowSystem.Init() != CWindowSystemSingleton::e_Success)
+	{
+		return e_InitFailure;
+	}
+
+	return e_Success;
+}
+
+void CApplicationSingleton::Shutdown()
+{
+	CWindowSystemSingleton::Instance().Shutdown();
+}
+
+
+void CApplicationSingleton::Start()
 {
 	m_Running = true;
-	bool IsActive = true;
 
-	if(Init() != e_Success)
+	// Init all subsystems.
+	EResult Result = Init();
+	if(Result != e_Success)
 	{
-		CConsoleSingleton::Instance()->Transmit(CConsoleSingleton::e_cerr, "Init failed. Aborted!!!");
-		// TODO: Low priority. Investigate this kind of flow.
+		CConsoleSingleton::Instance()->Transmit(CConsoleSingleton::e_cerr, c_InitFailed);
+		// TODO: [Low priority] Investigate this kind of flow.
 		return;
 	}
-	
+
+	// Reference has a right to be "faster" than pointer.
+	CWindowSystemSingleton& WindowSystem = CWindowSystemSingleton::Instance();
 
 	// THIS IS THE MAIN LOOP
 	// TODO: Is enum to bool fast enough?
 	while( m_Running )
 	{
 		// No overhead from calling virtuals allowed here.
-		// Only static code.
-		while( SDL_PollEvent( &m_Event ) )
-		{
-			//events( &event );
-		    switch( m_Event.type )
-			{
-			case SDL_ACTIVEEVENT:
-			    /* Something's happend with our focus
-			     * If we lost focus or we are iconified, we
-			     * shouldn't draw the screen
-			     */
-			    if ( m_Event.active.gain == 0 )
-				IsActive = false;
-			    else
-				IsActive = true;
-			    break;
-			case SDL_VIDEORESIZE:
-			    /* handle resize event */
-			    m_pDisplay = SDL_SetVideoMode( m_Event.resize.w, m_Event.resize.h, c_BPP, m_VideoFlags );
-			    //if ( !surface )
-			    //resizeWindow( m_Event.resize.w, m_Event.resize.h );
-			    break;
-			case SDL_KEYDOWN:
-			    /* handle key presses */
-			    //handleKeyPress( &event.key.keysym );
-				switch ( m_Event.key.keysym.sym )
-				{
-				case SDLK_ESCAPE:
-					/* ESC key was pressed */
-					m_Running = false;
-					break;
-				case SDLK_F1:
-					/* F1 key was pressed
-					 * this toggles fullscreen mode
-					 */
-					SDL_WM_ToggleFullScreen( m_pDisplay );
-					break;
-				default:
-					break;
-				}
-			    break;
-			case SDL_QUIT:
-				m_Running = false;
-			    break;
-			default:
-			    break;
-			}
-		}
+		// Delegates and simple functions only.
+		
+		// Handle OSEvents.
+		WindowSystem.SystemEvents();
+		WindowSystem.Events();
+		// OtherSystem.Events();
+
 		// update();
 		// render();
 	}
 	
 	// cleanup();
-	SDL_Quit();
+	Shutdown();
 
 	// Check for necessary subsystems.
 	// Init all data.
@@ -104,9 +82,16 @@ void CApplication::Start()
 	// Start game.
 }
 
-
-
-
+void CApplicationSingleton::Stop()
+{
+	// TODO: It is not enough!
+	// We need to push an event here so it can be eaten.
+	// Here is an example:
+	// app.Start();
+	// app.Stop(); // It never reaches this point (if no quit event occur).
+	// It is no more valid. I moved Stop to private section.
+	m_Running = false;
+}
 
 
 

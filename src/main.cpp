@@ -5,8 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-	CApplication app;
-	app.Start();
+	CApplicationSingleton::Instance().Start();
 	
 	return 0;
 }
