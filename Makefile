@@ -23,7 +23,7 @@ OBJECT_DIR := $(ROOT_DIR)/obj
 BIN_DIR := $(ROOT_DIR)/bin
 
 # Alphabetical order.
-OBJECT_FILES := $(addprefix $(OBJECT_DIR)/,main.o app.o app_events.o assert.o console.o event_handler.o WindowSystem.o)
+OBJECT_FILES := $(addprefix $(OBJECT_DIR)/,main.o app.o app_events.o assert.o console.o event_handler.o EventSystem.o state_manager.o WindowSystem.o)
 
 all: $(OBJECT_FILES)
 	$(CC) -o $(BIN_DIR)/$(BIN_NAME) $(OBJECT_FILES) `sdl-config --cflags --libs`

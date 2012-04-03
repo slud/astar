@@ -3,18 +3,21 @@
 
 CApplicationStateManagerSingleton::CApplicationStateManagerSingleton() :
 	//m_pApplication(&Application),
-	/m_eCurrentState(e_MainWindow)
+	m_eCurrentState(e_MainWindow)
 	//EventHandlerDelegate(CMainWindowEventHandlerSingleton())
 {
-	
 }
 
-inline CApplicationStateManagerSingleton::EState CApplicationStateManagerSingleton::GetCurrentState() const
+CApplicationStateManagerSingleton::~CApplicationStateManagerSingleton()
+{
+}
+
+CApplicationStateManagerSingleton::EState CApplicationStateManagerSingleton::GetCurrentState() const
 {
 	return m_eCurrentState;
 }
 
-void CApplicationStateManager::RequestStateChange(EState NewState)
+void CApplicationStateManagerSingleton::RequestStateChange(EState NewState)
 {
 	if( m_eCurrentState != NewState )
 	{

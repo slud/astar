@@ -4,6 +4,14 @@
 // TODO: Put it into settings.xml
 const int c_BPP = 32;
 
+CMainWindowEventHandlerSingleton::CMainWindowEventHandlerSingleton()
+{
+}
+
+CMainWindowEventHandlerSingleton::~CMainWindowEventHandlerSingleton()
+{
+}
+
 void CMainWindowEventHandlerSingleton::operator()(SDL_Event const& Event)
 {
 #if 0
@@ -42,9 +50,9 @@ void CMainWindowEventHandlerSingleton::operator()(SDL_Event const& Event)
 			{
 				case SDLK_ESCAPE:
 					//m_Running = false;
-					CEventSystemSingleton::Event_T Event;
+					//CEventSystemSingleton::Event_T Event;
 					
-					CEventSystemSingleton::AddEvent(Event, e_Application);
+					//CEventSystemSingleton::AddEvent(Event, e_Application);
 					break;
 				case SDLK_F1:
 					//SDL_WM_ToggleFullScreen( m_pDisplay );

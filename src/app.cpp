@@ -3,6 +3,7 @@
 #include "console.h"
 #include "state_manager.h"
 #include "WindowSystem.h"
+#include "EventSystem.h"
 
 const char c_InitFailed[] = "Init failed. Aborted!!!";
 
@@ -31,6 +32,8 @@ CApplicationSingleton::EResult CApplicationSingleton::Init()
 		return e_InitFailure;
 	}
 
+	CApplicationStateManagerSingleton::Instance();
+
 	return e_Success;
 }
 
@@ -54,17 +57,22 @@ void CApplicationSingleton::Start()
 	}
 
 	// Reference has a right to be "faster" than pointer.
+	CEventSystemSingleton& EventSystem = CEventSystemSingleton::Instance();
 	CWindowSystemSingleton& WindowSystem = CWindowSystemSingleton::Instance();
 
 	// THIS IS THE MAIN LOOP
 	// TODO: Is enum to bool fast enough?
+	// TODO: Add scheduler?
+	// TODO: Add priorities?
 	while( m_Running )
 	{
 		// No overhead from calling virtuals allowed here.
 		// Delegates and simple functions only.
 		
 		// Handle OSEvents.
-		WindowSystem.SystemEvents();
+		//WindowSystem.SystemEvents();
+		EventSystem.GetSystemEvent();
+		Events();
 		WindowSystem.Events();
 		// OtherSystem.Events();
 

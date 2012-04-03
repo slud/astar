@@ -31,10 +31,29 @@ public:
 
 // METHODS
 
+	static CApplicationSingleton& Instance()
+	{
+		static CApplicationSingleton Instance;
+		return Instance;
+	}
+
 	/**
 	 *	App start routine (process + GUI).
 	 */
 	void Start();
+
+// DATA
+
+protected:
+
+// TYPES
+
+// LIFECYCLE
+
+// OPERATORS
+
+// METHODS
+	void Events();
 
 // DATA
 

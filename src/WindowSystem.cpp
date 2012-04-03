@@ -25,21 +25,25 @@ CWindowSystemSingleton::CWindowSystemSingleton() :
 {
 }
 
+CWindowSystemSingleton::~CWindowSystemSingleton()
+{
+}
+
 // Try to optimise.
 void CWindowSystemSingleton::Events()
 {
 	// TODO: I know it's an SDL dependency again, but no time to implement a new DirectInputSystem.
-	CEventSystemSingleton::Event_T Event;
+	CEventSystemSingleton::Event_T Event = CEventSystemSingleton::Instance().GetEvent();
 	// Get an event from the que.
-	while( CEventSystemSingleton::Instance().GetEvent(Event, CEventSystemSingleton::e_WindowSystem) )
-	{
+	//while( CEventSystemSingleton::Instance().GetEvent(Event, CEventSystemSingleton::e_WindowSystem) )
+	//{
 		switch(Event.type)
 		{
 			case SDL_KEYDOWN:
 				switch(Event.key.keysym.sym)
 				{
 					case SDLK_F1:
-						SwitchToFulscreen();
+						SwitchToFullscreen();
 						break;
 					default:
 						break;
@@ -50,7 +54,7 @@ void CWindowSystemSingleton::Events()
 
 		}
 		
-	}	
+	//}	
 }
 
 CWindowSystemSingleton::EResult CWindowSystemSingleton::Init()
@@ -125,27 +129,27 @@ void CWindowSystemSingleton::SwitchToFullscreen()
 // Try to optimise.
 void CWindowSystemSingleton::SystemEvents()
 {
-	typedef CMainWindowEventHandlerSingleton CASTS;
+	typedef CApplicationStateManagerSingleton CASMS;
 
 	// TODO: According to SDL docs a union type SDL_Event should be created here every time.
 	SDL_Event Event;
 	while( SDL_PollEvent( &Event ) )
 	{
 		// TODO: Depending on state call appropriate handler.
-		switch(CASTS::Instance().GetCurrentState())
+		switch(CASMS::Instance().GetCurrentState())
 		{
-			case CASTS::e_MainWindow:
+			case CASMS::e_MainWindow:
 				CMainWindowEventHandlerSingleton::Instance().operator()(Event);
 				break;
-			case CASTS::e_MainMenu:
+			case CASMS::e_MainMenu:
 				break;
-			case CASTS::e_Edit:
+			case CASMS::e_Edit:
 				break;
-			case CASTS::e_Playing:
+			case CASMS::e_Playing:
 				break;
-			case CASTS::e_Paused:
+			case CASMS::e_Paused:
 				break;
-			case CASTS::e_Quit:
+			case CASMS::e_Quit:
 				break;
 			default:
 				break;
