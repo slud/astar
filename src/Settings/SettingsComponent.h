@@ -1,13 +1,13 @@
 /**
  *  @file name
- *  Brief description.
- *  Details description.
+ *
+ *  Some description.
  */
 
 // LICENSE
 
-#ifndef AS_NAME_H
-	#define AS_NAME_H
+#ifndef AS_SETTINGS_COMPONENT_H
+	#define AS_SETTINGS_COMPONENT_H
 
 // INCLUDES
 
@@ -15,7 +15,8 @@
 /**
  *	Class description.
  */
-class CExample
+// TODO [PAZA][09.04.2012] How to 
+class CSettingsComponent
 {
 public:
 
@@ -26,6 +27,10 @@ public:
 // OPERATORS
 
 // METHODS
+
+	virtual void Read() = 0;
+	
+	virtual void Write() = 0;	
 
 // DATA
 
@@ -57,7 +62,7 @@ private:
 
 // REFERENCES
 
-#endif // AS_NAME_H
+#endif // AS_SETTINGS_COMPONENT_H
 
 
 

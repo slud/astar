@@ -9,7 +9,7 @@
 
 /**
  *	Brief description goes here.
- *	Brief description ends after a dot and a space or new line.
+ *	Detailed description: Brief description ends after a dot and a space or new line.
  *
  */
 class SomeClass

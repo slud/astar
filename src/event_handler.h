@@ -181,7 +181,7 @@ private:
 
 
 // REFERENCES
-// [HC1] Hack­Craft - Templates and Inheritance (http://www.hackcraft.net/cpp/templateInheritance/).
+// [HC1] Hack­Craft - Templates and Inheritance http://www.hackcraft.net/cpp/templateInheritance/
 
 #endif // AS_EVENT_HANDLER_H
 

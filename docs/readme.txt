@@ -53,6 +53,9 @@ Zasady projektu:
 	Typy wskaznikowe: T* ptr; 
 	Plik binarki kopiowany jest z katalogu ROOT_DIR/BIN_DIR do ROOT_DIR
 	Nie uzywac singletonow w destruktorach innych singletonow.
+	Szablon komentarzy dla plikow naglowkowych zawiera komentarze. Dodajac nowy plik usuwamy komentarze, a w razie potrzeby dodajemy je wg schematu. W przypadku zmiany redukuje to liczbe plikow, ktore trzeba by bylo poddac obrobce.
+	TODO [USER][DATE]: Description
+	Szablon referencji: [Unikatowy skrot z duzych liter] Tytuł URL
 
 
 Uwagi, obserwacje, notatki:
@@ -84,8 +87,8 @@ Pytania, ktore sie nasunely podczas pracy nad projektem:
 		- Jest to nielegalna konstrukcja, mimo, ze kompilator na to pozwala.
 		- Idea referencji jest to, ze referuje istniejacy l-value obiekt.
 		-  C++ FAQ http://www.parashift.com/c++-faq-lite/references.html [8.7]
-
-
+	Jesli mamy wielowatkowe srodowisko to czy obiekt powinien miec funkcje inline?
+	Jaka powinna byc kolejnosc dolaczania plikow naglowkowych? Najpierw biblioteki a potem lokalne?
 
 
 
