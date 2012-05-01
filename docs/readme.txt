@@ -89,7 +89,7 @@ Pytania, ktore sie nasunely podczas pracy nad projektem:
 		-  C++ FAQ http://www.parashift.com/c++-faq-lite/references.html [8.7]
 	Jesli mamy wielowatkowe srodowisko to czy obiekt powinien miec funkcje inline?
 	Jaka powinna byc kolejnosc dolaczania plikow naglowkowych? Najpierw biblioteki a potem lokalne?
-
+	Gdy tworzymy wlasny obiekt-kolekcje to czy tworzymy interfejs zgodny z STL, czyli zamiast Add definiujemy push_back?
 
 
 

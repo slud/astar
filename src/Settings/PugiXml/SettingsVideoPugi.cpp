@@ -12,6 +12,7 @@ CVideoPugi::CVideoPugi(pugi::xml_element& element) :
 	m_Height(0),
 	m_pXmlElement(&element)
 {
+	// No sense. References are always initialised with an l-value object.
 	assert(m_pXmlElement);
 	
 	char const* DefinedXmlName = CVideo::GetXmlName();

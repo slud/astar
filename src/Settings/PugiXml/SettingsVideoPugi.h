@@ -21,7 +21,7 @@ namespace AS
 		/**
 		 *	Class description.
 		 */
-		class CVideoPugi : public CVideo
+		class CVideoPugi : public CVideoXml
 		{
 		public:
 
@@ -45,6 +45,12 @@ namespace AS
 			virtual int GetHeight() const;
 			
 			virtual int GetWidth() const;
+
+			virtual void SetBPP(int bpp);
+			
+			virtual void SetHeight(int height);
+			
+			virtual void SetWidth(int width);
 
 		// DATA
 

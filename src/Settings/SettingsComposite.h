@@ -28,14 +28,7 @@ public:
 
 // OPERATORS
 
-	CSettingsComponent& operator[](char const* child);
-
 // METHODS
-
-	/**
-	 *  Just to know who I am.
-	 */
-	static void IM_A_COMPOSITE() {};
 
 // DATA
 

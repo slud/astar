@@ -11,12 +11,15 @@
 
 // INCLUDES
 
+#include "Component.h"
+
+// For the simplicity sake I considered it is an xml component.
 
 /**
  *	Class description.
  */
-// TODO [PAZA][09.04.2012] How to 
-class CSettingsComponent
+template<class T>
+class CSettingsComponent : public CComponent<CSettingsComponent, char const*>
 {
 public:
 
@@ -26,11 +29,13 @@ public:
 
 // OPERATORS
 
+	CSettingsComponent& operator[](char const* child);
+
 // METHODS
 
-	virtual void Read() = 0;
+	T const& GetValue() const;
 	
-	virtual void Write() = 0;	
+	void SetValue(T const& value);
 
 // DATA
 
