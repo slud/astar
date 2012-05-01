@@ -10,12 +10,13 @@
 
 // INCLUDES
 
+#include <boost/utility.hpp>
 
 /**
  *	CSingleton.
  */
 template< class T >
-class CSingleton
+class CSingleton : boost::noncopyable
 {
 public:
 
@@ -54,7 +55,7 @@ private:
 // LIFECYCLE
 
 	/**
-	 *  Non-public constructor.
+	 *  Non-public default constructor.
 	 */
 	T();
 
@@ -63,6 +64,7 @@ private:
 	 */
 	virtual ~T();
 
+#if 0
 	/**
 	 *  Non-public copy constructor.
 	 */
@@ -74,7 +76,7 @@ private:
 	 *  Non-public assignment operator.
 	 */
 	T& operator=(T const&);
-
+#endif
 // METHODS
 
 // DATA

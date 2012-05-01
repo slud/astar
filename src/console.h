@@ -1,49 +1,33 @@
 #ifndef AS_CONSOLE_H
 	#define AS_CONSOLE_H
 
-#include <vector>
+// INCLUDES
 
-// TODO: Add smart pointers.
-class CConsoleSingleton
+#include <vector>
+#include <boost/utility.hpp>
+#include "Singleton.h"
+
+class CConsole : public CSingleton<CConsole>
 {
 public:
-	enum EOutput
-	{
-		e_cerr,
-		e_cout,
-		e_clog
-	};
 
-	// TODO: Is singleton required here? Maybe static methods would be enough?
-	static inline CConsoleSingleton* Instance()
-	{
-		// We could use RAII with static data and return a reference,
-		// but it has something in common with "static fiasco".
-		// So for now I decided to use pointer.
-
-		//if(!m_pInstance) m_pInstance = new T;
-		//return m_pInstance;
-		return m_pInstance ? m_pInstance : (m_pInstance = new CConsoleSingleton);
-	}
-
-	void Transmit(EOutput out, const char* text);
+// TYPES
 
 	/**
-	 *	Do something with the message.
-	 *	Using EOutput instead of ostream to avoid includes of stream libs.
+	 *  Message type.
+	 *  It is not an output direction.
 	 */
-	void Transmit(EOutput out, const char* tab[], int count);
+	enum EMessageType
+	{
+		e_Error,
+		e_Info,
+		e_Warning
+	};
 
-	// TODO: If I want to typedef the latter parameter,
-	// how can user know what type of object does it holds?
-	void Transmit(EOutput out, std::vector<const char*> const& col);
+// METHODS
 
-private:
-	CConsoleSingleton() {};
-	~CConsoleSingleton() {};
-	CConsoleSingleton(CConsoleSingleton const&);
-	CConsoleSingleton& operator=(CConsoleSingleton const&);
-	static CConsoleSingleton* m_pInstance;
+	void Transmit(const char* text, EMessageType messageType = e_Info);
+
 };
 
 

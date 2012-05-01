@@ -23,42 +23,10 @@ class CUtils
 {
 public:
 
-// TYPES
-
-// LIFECYCLE
-
-// OPERATORS
-
 // METHODS
 
 	template<class To, class From>
 	static To Convert(From const& data);
-
-// DATA
-
-protected:
-
-// TYPES
-
-// LIFECYCLE
-
-// OPERATORS
-
-// METHODS
-
-// DATA
-
-private:
-
-// TYPES
-
-// LIFECYCLE
-
-// OPERATORS
-
-// METHODS
-
-// DATA
 
 };
 

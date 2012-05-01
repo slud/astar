@@ -55,6 +55,10 @@ private:
 
 };
 
+// INLINE METHODS
+
+// TEMPLATE DEFINITIONS
+
 // REFERENCES
 
 #endif // AS_NAME_H
