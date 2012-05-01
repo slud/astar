@@ -17,36 +17,29 @@ namespace AS
 {
 	namespace Settings
 	{
-		/**
-		 *  CVideo
-		 * 
-		 *	An ABC class for video xml element.
-		 */
-		class CVideo : public CSettingsComponent
+		class CVideo
 		{
 		public:
 
-		// TYPES
-
-		// LIFECYCLE
-
-		// OPERATORS
-
 		// METHODS
 
-			virtual int GetBPP() const = 0;
-			
 			/**
-			 *  Returns the name of a video element in an xml settings file.
-			 *  @return Pointer to an ummutable C string.
+			 *  Gets color depth.
+			 *  @return Bits per pixel
 			 */
-			static inline char const* GetXmlName();
-
+			virtual int GetBPP() const = 0;
+		
+			/**
+			 *  Gets window height.
+			 *  @return Window height
+			 */
 			virtual int GetHeight() const = 0;
 			
-			virtual int GetWidth() const = 0;			
-
-		// DATA
+			/**
+			 *  Gets window width.
+			 *  @return Window width
+			 */
+			virtual int GetWidth() const = 0;
 
 		protected:
 
@@ -71,21 +64,37 @@ namespace AS
 		// METHODS
 
 		// DATA
-		
-			static const char m_XmlName[];
 
 		};
+
+#if 0
+		/** 
+		 *  CVideoXml class
+		 *  We keep the setting in an xml file.
+		 */
+		class CVideoXml : public CVideo
+		{
+		public:
+			/**
+			 *  Returns the name of a video element in an xml settings file.
+			 *  @return Pointer to an ummutable C string.
+			 */
+			static inline char const* GetXmlName();
+		private:
+			static const char m_XmlName[];
+		};
 		
-		inline char const* CVideo::GetXmlName()
+		inline char const* CVideoXml::GetXmlName()
 		{
 			return m_XmlName;
 		}
+#endif
 	} // NS Settings
 } // NS AS
 
 // REFERENCES
 
-// [PAZA] - xml element is all that is <name1></name1> whereas xml tag is the "name1".
+// [PAZA1] - an xml element consists of all parts like <name1></name1> whereas xml tag is just the "name1".
 
 #endif // AS_SETTINGS_VIDEO_H
 

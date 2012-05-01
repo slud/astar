@@ -33,7 +33,7 @@ public:
 // TEMPLATE DEFINITIONS
 
 template<class To, class From>
-To Convert(From const& data)
+To CUtils::Convert(From const& data)
 {
 	try
 	{

@@ -1,11 +1,3 @@
-/**
- *  @file name
- *
- *  Some description.
- */
-
-// LICENSE
-
 #ifndef AS_SETTINGS_H
 	#define AS_SETTINGS_H
 
@@ -18,49 +10,35 @@ namespace AS
 	/**
 	 *	CSettings
 	 */
-	class CSettings : public CSettingsComposite
+	class CSettings
 	{
 	public:
-
-	// TYPES
-
-	// LIFECYCLE
-
-	// OPERATORS
-
 	// METHODS
 
 		virtual AS::Settings::CVideo& GetVideo() = 0;
 
-	// DATA
-
-	protected:
-
-	// TYPES
-
-	// LIFECYCLE
-
-	// OPERATORS
-
-	// METHODS
-
-	// DATA
-
-	private:
-
-	// TYPES
-
-	// LIFECYCLE
-
-	// OPERATORS
-
-	// METHODS
-
-	// DATA
-
 	};
-
+#if 0
+	/** 
+	 *  CSettingsXml class
+	 */
+	class CSettingsXml : public CSettigns
+	{
+	public:
+		/**
+		 *  Returns the name of a video element in an xml settings file.
+		 *  @return Pointer to an ummutable C string.
+		 */
+		static inline char const* GetXmlName();
+	private:
+		static const char m_XmlName[];
+	};
 	
+	inline char const* CVideoXml::GetXmlName()
+	{
+		return m_XmlName;
+	}
+#endif	
 } // NS AS
 
 // REFERENCES
