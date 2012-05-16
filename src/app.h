@@ -1,5 +1,5 @@
 #ifndef AS_APPLICATION_H
-	#define AS_APPLICATION_H
+    #define AS_APPLICATION_H
 
 // LICENSE
 
@@ -17,7 +17,7 @@
 
 
 /**
- *	Represents OS process + main window.
+ *  Represents OS process + main window.
  */
 class CApplicationSingleton : public boost::noncopyable // class is an aggregate like array and struct.
 {
@@ -31,16 +31,16 @@ public:
 
 // METHODS
 
-	static CApplicationSingleton& Instance()
-	{
-		static CApplicationSingleton Instance;
-		return Instance;
-	}
+    static CApplicationSingleton& Instance()
+    {
+        static CApplicationSingleton Instance;
+        return Instance;
+    }
 
-	/**
-	 *	App start routine (process + GUI).
-	 */
-	void Start();
+    /**
+     *  App start routine (process + GUI).
+     */
+    void Start();
 
 // DATA
 
@@ -53,7 +53,7 @@ protected:
 // OPERATORS
 
 // METHODS
-	void Events();
+    void Events();
 
 // DATA
 
@@ -61,52 +61,52 @@ private:
 
 // TYPES
 
-	/**
-	 *	Application's specific result values.
-	 */
-	enum EResult
-	{
-		e_Success = 0,
-		e_InitFailure = 1
-	};
+    /**
+     *  Application's specific result values.
+     */
+    enum EResult
+    {
+        e_Success = 0,
+        e_InitFailure = 1
+    };
 
-	/**
-	 *	State of an application.
-	 */
-	enum ERunningMode
-	{
-		e_Running,
-		e_Stopped,
-		e_Paused,
-		e_Undefined
-	};
+    /**
+     *  State of an application.
+     */
+    enum ERunningMode
+    {
+        e_Running,
+        e_Stopped,
+        e_Paused,
+        e_Undefined
+    };
 
 // LIFECYCLE
 
-	CApplicationSingleton();
-	~CApplicationSingleton();
+    CApplicationSingleton();
+    ~CApplicationSingleton();
 
 // METHODS
 
-	/**
-	 *	Inits the application.
-	 */
-	EResult Init();
+    /**
+     *  Inits the application.
+     */
+    EResult Init();
 
-	void Shutdown();
+    void Shutdown();
 
-	/**
-	 *	App stop request.
-	 *  This can be called only internally.
-	 *  Somehow from within of the main loop.
-	 */
-	void Stop();
+    /**
+     *  App stop request.
+     *  This can be called only internally.
+     *  Somehow from within of the main loop.
+     */
+    void Stop();
 
 // DATA
 
-	bool		    m_Running;
+    bool            m_Running;
 #if 0
-	ERunningMode	m_eRunningMode;
+    ERunningMode    m_eRunningMode;
 #endif
 
 };

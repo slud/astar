@@ -8,17 +8,19 @@
 
 // LICENSE
 
-#ifndef AS_NAME_INC
-    #define AS_NAME_INC
+#ifndef AS_SETTINGS_H
+    #define AS_SETTINGS_H
 
 // INCLUDES
+
+#include "SettingsVideo.hpp"
 
 // MACROS
 
 /**
  *  Class description.
  */
-class CExample
+class CSettings
 {
 public:
 
@@ -26,9 +28,14 @@ public:
 
 // LIFECYCLE
 
+    CSettings();
+    virtual ~CSettings();
+
 // OPERATORS
 
 // METHODS
+
+    Settings::CVideo& GetVideo();
 
 // DATA
 
@@ -50,11 +57,17 @@ private:
 
 // LIFECYCLE
 
+    CSettings(CSettings const&);
+
 // OPERATORS
+
+    CSettings& operator=(CSettings const&);
 
 // METHODS
 
 // DATA
+
+    Settings::CVideo m_Video;
 
 };
 
@@ -64,7 +77,7 @@ private:
 
 // REFERENCES
 
-#endif // AS_NAME_INC
+#endif // AS_SETTINGS_H
 
 
 

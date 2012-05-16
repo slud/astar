@@ -7,7 +7,7 @@
 // LICENSE
 
 #ifndef AS_UTILS_H
-    #define AS_UTILS_H
+	#define AS_UTILS_H
 
 // INCLUDES
 
@@ -15,9 +15,9 @@
 
 
 /**
- *  CUtils
+ *	CUtils
  * 
- *  Tools for various tasks.
+ * 	Tools for various tasks.
  */
 class CUtils
 {
@@ -25,8 +25,8 @@ public:
 
 // METHODS
 
-    template<class To, class From>
-    static To Convert(From const& data);
+	template<class To, class From>
+	static To Convert(From const& data);
 
 };
 
@@ -35,15 +35,15 @@ public:
 template<class To, class From>
 To CUtils::Convert(From const& data)
 {
-    try
-    {
-        return boost::lexical_cast<To>(data);
-    }
-    catch(boost::bad_lexical_cast &)
-    {
-        // In case of a failure return default value.
-        return To();
-    }   
+	try
+	{
+		return boost::lexical_cast<To>(data);
+	}
+	catch(boost::bad_lexical_cast &)
+	{
+		// In case of a failure return default value.
+		return To();
+	}	
 }
 
 // REFERENCES

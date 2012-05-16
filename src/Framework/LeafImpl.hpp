@@ -1,24 +1,25 @@
 /**
- *  class header template version 1
- * 
- *  @file name
- *  Brief description.
- *  Details description.
+ *  @file LeafImpl.hpp
+ *
+ *  Some description.
  */
 
 // LICENSE
 
-#ifndef AS_NAME_INC
-    #define AS_NAME_INC
+#ifndef AS_LEAF_IMPL_INC
+    #define AS_LEAF_IMPL_INC
 
 // INCLUDES
+
+#include "ComponentImpl.hpp"
 
 // MACROS
 
 /**
  *  Class description.
  */
-class CExample
+template<class T>
+class TLeafImpl : public TComponentImpl<T>
 {
 public:
 
@@ -64,7 +65,7 @@ private:
 
 // REFERENCES
 
-#endif // AS_NAME_INC
+#endif // AS_LEAF_IMPL_INC
 
 
 
