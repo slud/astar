@@ -1,6 +1,18 @@
-#include "assert.h" // "" makes it choose local file.
+#include "Assert.hpp" // "" makes it choose local file.
+#include <iostream>
+#include <cstdlib>
 
-bool CustomAssertFunction(bool, char*, int, char*, bool*)
+#ifdef _DEBUG
+
+bool AS::CustomAssertFunction(bool cond, std::string const& descr, int line, std::string const& filename, bool* ignore)
 {
-	return true;
+    if(!cond)
+    {
+        std::cerr << "ASSERTION FAILED @ " << filename << ":" << line << ", " << descr << std::endl;
+        abort();
+    }
+    
+    return cond;
 }
+
+#endif

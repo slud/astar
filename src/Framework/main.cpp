@@ -1,4 +1,5 @@
 #include "Component.hpp"
+#include "Assert.hpp"
 
 #include <boost/utility.hpp>
 
@@ -51,6 +52,19 @@ protected:
 
 };
 
+class CAudio : public CMyLeaf
+{
+public:
+    CAudio() :
+        CMyLeaf()
+    {
+    }
+
+    virtual ~CAudio()
+    {
+    }
+};
+
 class CMyComposite : public CMyComponent
 {
 public:
@@ -64,6 +78,8 @@ public:
     {
         // No allocated memory to release.
     }
+    
+    CAudio& GetAudio();
 
 protected:
 
@@ -80,16 +96,28 @@ class CMyBuilder
 public:
     static std::auto_ptr<CMyComponent> Audio() // Source idiom
     {
-        std::auto_ptr<CMyComponent> ap(new CMyLeaf);
+        std::auto_ptr<CMyComponent> ap(new CAudio);
         ap->SetName("Audio");
         return ap;
     }
 };
 
+CAudio& CMyComposite::GetAudio()
+{
+    return dynamic_cast<CAudio&>(this->operator[]("Audio"));
+}
+
+template<class T>
+std::ostream& dout(std::ostream& out, T& val)
+{
+    out << val;
+    return out;
+}
+
 int main()
 {
     CMyComposite settings;
-    
+
         //std::cout << "__SetName begin" << std::endl;
     settings.SetName("ustawienia programu");
         //std::cout << "__SetName end" << std::endl;
@@ -108,6 +136,7 @@ int main()
     //std::cout << settings["multiplayer"].GetName() << std::endl;
         //std::cout << "__[\"Audio\"].GetName begin" << std::endl;
     std::cout << settings["Audio"].GetName() << std::endl;
+    std::cout << settings.GetAudio().GetName() << std::endl;
         //std::cout << "__[\"Audio\"].GetName end" << std::endl;
     //std::cout << settings["video"].GetName() << std::endl;
 

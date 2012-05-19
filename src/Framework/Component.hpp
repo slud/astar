@@ -176,20 +176,13 @@ private:
 template<class T>
 TComponentImpl<T>* TComponent<T>::GetPimpl()
 {
-    /*
-    std::cout << "GetPimpl (inside) begin" << std::endl;
-    std::cout << "Hi. My name is " << "null" << std::endl;
-    std::cout << "My type is " << typeid(this).name() << std::endl;
-    */
-    
     if(!m_pImpl)
     {
         SetPimpl();
     }
-    
+
     assert(m_pImpl);
-    
-    //std::cout << "GetPimpl (inside) end" << std::endl;
+
     return m_pImpl.get();
 }
 
