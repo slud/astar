@@ -10,7 +10,7 @@
  */
 
 // INCLUDES
-// [SO1]
+// Ref: [SO1]
 #include <boost/function.hpp>
 #include <boost/utility.hpp>
 #include "app.h"

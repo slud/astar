@@ -1,5 +1,5 @@
-#ifndef AS_APPLICATION_H
-    #define AS_APPLICATION_H
+#ifndef AS_APPLICATION_INCLUDE
+    #define AS_APPLICATION_INCLUDE
 
 // LICENSE
 
@@ -11,15 +11,13 @@
 
 //INCLUDES
 
-#include <boost/utility.hpp>
-
-#include "WindowSystem.h"
-
+#include "Framework/ASSDL.hpp"
+#include <boost/shared_ptr.hpp>
 
 /**
  *  Represents OS process + main window.
  */
-class CApplicationSingleton : public boost::noncopyable // class is an aggregate like array and struct.
+class CApplication // Tip: class is an aggregate like array and struct but types may vary.
 {
 public:
 
@@ -27,20 +25,17 @@ public:
 
 // LIFECYCE
 
+    CApplication();
+
 // OPERATORS
 
 // METHODS
 
-    static CApplicationSingleton& Instance()
-    {
-        static CApplicationSingleton Instance;
-        return Instance;
-    }
-
     /**
      *  App start routine (process + GUI).
+     *  @return Returns exit status.
      */
-    void Start();
+    int Start(int argc, char* argv[]);
 
 // DATA
 
@@ -53,7 +48,7 @@ protected:
 // OPERATORS
 
 // METHODS
-    void Events();
+    void ProcessEvents(Event_t const&);
 
 // DATA
 
@@ -67,7 +62,7 @@ private:
     enum EResult
     {
         e_Success = 0,
-        e_InitFailure = 1
+        e_InitializeFailure = 1
     };
 
     /**
@@ -83,15 +78,21 @@ private:
 
 // LIFECYCLE
 
-    CApplicationSingleton();
-    ~CApplicationSingleton();
+	CApplication(CApplication const&);
+    ~CApplication();
+
+// OPERATORS
+
+	CApplication& operator=(CApplication const&);
 
 // METHODS
 
     /**
      *  Inits the application.
      */
-    EResult Init();
+    EResult Initialize();
+
+	void Loop();
 
     void Shutdown();
 
@@ -104,16 +105,16 @@ private:
 
 // DATA
 
+	class CWindowSystem;
+	boost::shared_ptr<CWindowSystem> m_pWindowSystem;
+
     bool            m_Running;
-#if 0
-    ERunningMode    m_eRunningMode;
-#endif
 
 };
 
 // REFERENCES
 
-#endif // AS_APPLICATION_H
+#endif // AS_APPLICATION_INCLUDE
 
 
 

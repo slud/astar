@@ -12,8 +12,10 @@
 
 void CApplicationSingleton::Events()
 {
-	CEventSystemSingleton::Event_T Event = CEventSystemSingleton::Instance().GetEvent();
+	register SDL_Event Event;
 
+	SDL_PollEvent(&Event);
+	
 	switch( Event.type )
 	{
 	case SDL_KEYDOWN:

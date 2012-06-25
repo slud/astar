@@ -9,8 +9,8 @@
 
 // LICENSE
 
-#ifndef AS_NAME_INCLUDE
-    #define AS_NAME_INCLUDE
+#ifndef AS_MAIN_LOOP_INCLUDE
+    #define AS_MAIN_LOOP_INCLUDE
 
 // INCLUDES
 
@@ -23,15 +23,15 @@
 // MACROS
 
 /**
- *  CExample
- *  Class description.
+ *  CMainLoop
+ *  This is a design pattern "Metoda szablonowa".
  *  Mind definitions:
  *  1. Constructor.
  *  2. Copy constructor.
  *  3. Virtual destructor.
  *  4. Assignment operator.
  */
-class CExample
+class CMainLoop
 {
 public:
 
@@ -39,9 +39,13 @@ public:
 
 // LIFECYCLE
 
+	virtual ~CMainLoop();
+
 // OPERATORS
 
 // METHODS
+
+	virtual void Loop() = 0;
 
 // DATA
 
@@ -54,6 +58,10 @@ protected:
 // OPERATORS
 
 // METHODS
+
+	virtual void Events();
+	virtual void Update();
+	virtual void Render();
 
 // DATA
 
@@ -77,7 +85,7 @@ private:
 
 // REFERENCES
 
-#endif // AS_NAME_INCLUDE
+#endif // AS_MAIN_LOOP_INCLUDE
 
 
 

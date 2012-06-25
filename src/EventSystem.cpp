@@ -1,19 +1,14 @@
 #include "EventSystem.h"
 
-CEventSystemSingleton::CEventSystemSingleton()
+CEventSystem::CEventSystem()
 {
 }
 
-CEventSystemSingleton::~CEventSystemSingleton()
+CEventSystem::~CEventSystem()
 {
 }
 
-CEventSystemSingleton::Event_T const& CEventSystemSingleton::GetEvent()
-{
-	return m_Event;
-}
-
-bool CEventSystemSingleton::GetSystemEvent()
+bool CEventSystem::GetSystemEvent()
 {
 	bool result = false;
 	SDL_Event Event;
@@ -25,9 +20,11 @@ bool CEventSystemSingleton::GetSystemEvent()
 	return result;
 }
 
-void CEventSystemSingleton::SetEvent(Event_T const& Event)
+void CEventSystem::SubscribeForEvents(EventHandler const& delegate)
 {
-	m_Event = Event;
+	m_EventHandlers.push_back(delegate);
 }
+
+
 
 

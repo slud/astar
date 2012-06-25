@@ -1,11 +1,15 @@
+#include "Application/Application.hpp"
+
 #include <iostream>
-
-#include "app.h"
-
 
 int main(int argc, char *argv[])
 {
-	CApplicationSingleton::Instance().Start();
+	CApplication application;
+
+	// It end when user hits Esc key
+	// or closes the window.
+	// hits - press down and up Esc key.
+	// closes - clicks on the "close" button at the right upper corner of a window. 
+	return application.Start(argc, argv);
 	
-	return 0;
 }
