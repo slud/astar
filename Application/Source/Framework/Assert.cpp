@@ -5,28 +5,49 @@
 
 #ifdef _DEBUG
 
-std::ofstream gAssertStream;
+namespace AS
+{
+	class CDebugLog
+	{
+	public:
+		operator std::ofstream&()
+		{
+			static bool initialised = false;
+			if(!initialised)
+			{
+				m_DebugLog.open("Debug.txt", std::ios::out, std::ios::app );
+				for(int i=0; i<8; i++ )
+					m_DebugLog << "==========";
+				m_DebugLog << std::endl;
+				initialised = true;
+			}
+			return m_DebugLog;
+		}
+	private:
+		std::ofstream m_DebugLog;
+
+	} gDebugLog;
+}
 
 static bool Initialize()
 {
 	static bool initialised = false;
 	if(!initialised)
 	{
-		gAssertStream.open("Assert.txt", std::ios::out, std::ios::app );
+		AS::gDebugLog().open("Debug.txt", std::ios::out, std::ios::app );
 		for(int i=0; i<8; i++ )
-			gAssertStream << "==========";
-		gAssertStream << std::endl;
+			AS::gDebugLog() << "==========";
+		AS::gDebugLog() << std::endl;
 	}
 	return true;
 }
 
-bool AS::CustomAssertFunction(bool cond, std::string const& descr, int line, std::string const& filename, bool* ignore)
+bool AS::CustomAssert(bool cond, std::string const& descr, std::string const& filename, int line, bool* ignore)
 {
     if(!cond)
     {
-		static bool init = Initialize();
-		gAssertStream << "ASSERTION FAILED @ " << filename << ":" << line << ", " << descr << std::endl;
-		gAssertStream.close();
+		AS::gDebugLog() << "ASSERT[" << filename << ":" << line << "]: " << descr << std::endl;
+		AS::gDebugLog().close();
         abort();
     }
     

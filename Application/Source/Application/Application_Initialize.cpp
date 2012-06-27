@@ -9,7 +9,7 @@
 const char cInitFailed[] = "Init failed. Aborted!!!";
 
 CApplication::CApplication() :
-	m_pWindowSystem(),
+	m_pMainWindow(),
 	m_Running(false)
 {
 }
@@ -24,8 +24,8 @@ CApplication::EResult CApplication::Initialize()
 	int result = SDL_Init(SDL_INIT_VIDEO);
 	ASSERT(result == 0, SDL_GetError());
 
-	m_pWindowSystem.reset(new CWindowSystem);
-	ASSERT(nullptr != m_pWindowSystem.get(), "Failed to create Window system");
+	m_pMainWindow.reset(new CMainWindow);
+	ASSERT(nullptr != m_pMainWindow.get(), "Failed to create Window system");
 
 	return e_Success;
 }

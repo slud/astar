@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="C:\astar\Application\Source"
+				AdditionalIncludeDirectories="$(SolutionDir)"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -220,11 +220,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Framework\Common.hpp"
+				RelativePath=".\Common\Common.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Common\Common.hpp"
+				RelativePath=".\Framework\Common.hpp"
 				>
 			</File>
 			<File

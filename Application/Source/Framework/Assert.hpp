@@ -5,10 +5,13 @@
 
 #include <string>
 #include <cstdio>
+#include <fstream>
 
 namespace AS
 {
-    extern bool CustomAssertFunction(bool, std::string const&, int, std::string const&, bool*);
+    extern bool CustomAssert(bool, std::string const&, std::string const&, int, bool*);
+	class CDebugLog;
+	extern CDebugLog gDebugLog;
 }
 
 // Guarantees inlining :-)
@@ -18,19 +21,28 @@ namespace AS
         static bool ignoreAlways = false; \
         if(!ignoreAlways) \
         { \
-            if(AS::CustomAssertFunction(static_cast<int>((exp)), (description), __LINE__, __FILE__, &ignoreAlways)) \
+            if(AS::CustomAssert(static_cast<int>((exp)), (description), __FILE__, __LINE__, &ignoreAlways)) \
             { \
                 /*_asm { int 3 }*/ \
             } \
         } \
     }
 
-#define TRACE(format, parameters) \
+#define TRACE(text) \
     { \
-        fprintf(stdout, "TRACE: "); \
-        fprintf(stdout, (format), (parameters)); \
-        fprintf(stdout, "\n"); \
+	std::ofstream out; \
+		AS::gDebugLog << "TRACE[" << __FILE__ << ":" << __LINE__ << "]: " << text << std::endl; \
     }
+
+/*
+        fprintf(AS::gDebugLog(), "%s", "TRACE["); \
+		fprintf(AS::gDebugLog(), "%s", __FILE__); \
+		fprintf(AS::gDebugLog(), "%s", ":"); \
+		fprintf(AS::gDebugLog(), "%d",__LINE__); \
+		fprintf(AS::gDebugLog(), "%s", "]: "); \
+		fprintf(AS::gDebugLog(), format, parameters); \
+		fprintf(AS::gDebugLog(), "%s", "\n"); \
+*/
 
 /*
 template<class T>

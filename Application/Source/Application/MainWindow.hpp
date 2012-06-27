@@ -24,11 +24,12 @@ public:
 
 // LIFECYCLE
 
+	CMainWindow();
+	~CMainWindow();
+
 // OPERATORS
 
 // METHODS
-
-	friend CApplication::Initialize();
 
 	void Shutdown();
 
@@ -56,9 +57,7 @@ private:
 
 // LIFECYCLE
 
-	CMainWindow();
 	CMainWindow(CMainWindow const&);
-	~CMainWindow();
 
 // OPERATORS
 
