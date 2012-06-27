@@ -1,0 +1,41 @@
+============================================
+Steps to get it running on windows platform.
+============================================
+
+Download and install github application for windows.
+
+SDL-1.2.15 was used.
+
+Download and upack SDL Development libraries for Visual C++.
+
+Download and unpack boost libraries.
+
+Add paths to SDL include and lib folders under Visual C++.
+
+Add paths to boost folder under Visual C++.
+
+Create a new project.
+
+Copy AStar9.sln and AStar9.vcproj to the source directory. It is because Visual C++ seems to has problems with external directories.
+
+Add at least one source file (*.cpp) to show all project properties.
+
+Set-up AStar9 project properties:
+-Configuration properties:
+--General
+---Output directory: $(SolutionDir)/../Build/Windows/$(ConfigurationName)
+---Intermediate directory: ../Build/Windows/$(ConfigurationName)
+--C/C++
+---General
+----Additional Include Directories: Path to the source folder.
+----Warning leve: consider W4.
+---Code Generation
+----Runtime Library: Multi-threaded DLL
+--Linker
+---General
+----Output File: $(OutDir)\AStar.exe
+---Input
+----Additional Dependencies: SDL.lib SDLmain.lib
+---System
+----Subsytem: Windows
+

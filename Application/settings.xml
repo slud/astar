@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+    <video>
+        <width>800</width>
+        <height>450</height>
+        <bpp>32</bpp>
+    </video>
+</settings>
