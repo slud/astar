@@ -19,7 +19,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="../Build/Windows/$(ConfigurationName)"
-			IntermediateDirectory="../Build/Windows/$(ConfigurationName)/Intermediate"
+			IntermediateDirectory="$(OutDir)/Intermediate"
 			ConfigurationType="1"
 			CharacterSet="1"
 			>
