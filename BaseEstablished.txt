@@ -20,11 +20,21 @@ Copy AStar9.sln and AStar9.vcproj to the source directory. It is because Visual 
 
 Add at least one source file (*.cpp) to show all project properties.
 
+// Define your own AStarDir envir variable, for example:
+AStarDir = C:\astar
+
+As for now all is related upon the solution file path.
+
+Working Directory = $(AStarDir)/Application
+
+OutDir = $(AStarDir)/Application/Build/Windows/$(ConfigurationName)
+IntDir = $(OutDir)/Intermediate
+
 Set-up AStar9 project properties:
 -Configuration properties:
 --General
 ---Output directory: $(SolutionDir)/../Build/Windows/$(ConfigurationName)
----Intermediate directory: ../Build/Windows/$(ConfigurationName)
+---Intermediate directory: ../Build/Windows/$(ConfigurationName)/Intermediate
 --C/C++
 ---General
 ----Additional Include Directories: Path to the source folder.

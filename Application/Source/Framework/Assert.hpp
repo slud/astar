@@ -5,12 +5,80 @@
 
 #include <string>
 #include <cstdio>
+#include <ctime>
 #include <fstream>
+#include <windows.h>
 
 namespace AS
 {
+#ifndef AS_DEBUG_LOG_INCLUDE
+    #define AS_DEBUG_LOG_INCLUDE
+
+	class CDebugLog // Proxy
+	{
+	public:
+		void Close()
+		{
+			m_DebugLog.close();
+		}
+
+		std::ofstream& Subject()
+		{
+			static bool initialized = Initialize();
+			return m_DebugLog;
+		}
+
+	private:
+		bool Initialize()
+		{
+			try
+			{
+				m_DebugLog.open("Debug.txt", std::ios::out, std::ios::app );
+				PrintRunMark();
+				PrintCurrentDateTime();
+				PrintRunMark();
+			}
+			catch(...)
+			{
+				MessageBox(0, (LPCWSTR)L"Wszystko OK", (LPCWSTR)L"Ekran SDL", MB_OK);
+			}
+
+			return true;
+		}
+
+		void PrintCurrentDateTime()
+		{
+			if(m_DebugLog.is_open())
+			{
+				time_t now = time(0);
+				tm local;
+				local = *localtime(&now);
+				char buf[80] = {0};
+				strftime(buf, sizeof(buf), "%Y-%m-%d %X", &local);
+				m_DebugLog << buf << std::endl;
+			}
+		}
+
+		void PrintRunMark()
+		{
+			if(m_DebugLog.is_open())
+			{
+				//for(int i=0; i<8; i++ )
+					//m_DebugLog << "==========";
+				char mark[81] = {'='};
+				mark[80] = '\n';
+				m_DebugLog << mark;
+				//m_DebugLog << std::endl;
+			}
+		}
+
+		std::ofstream m_DebugLog;
+
+	};
+
+#endif // AS_DEBUG_LOG_INCLUDE
+
     extern bool CustomAssert(bool, std::string const&, std::string const&, int, bool*);
-	class CDebugLog;
 	extern CDebugLog gDebugLog;
 }
 
@@ -30,8 +98,7 @@ namespace AS
 
 #define TRACE(text) \
     { \
-	std::ofstream out; \
-		AS::gDebugLog << "TRACE[" << __FILE__ << ":" << __LINE__ << "]: " << text << std::endl; \
+		AS::gDebugLog.Subject() << "TRACE[" << __FILE__ << ":" << __LINE__ << "]: " << text << std::endl; \
     }
 
 /*
