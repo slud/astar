@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../Build/Windows/$(ConfigurationName)"
+			OutputDirectory="../Build/Windows/$(ProjectName)/$(ConfigurationName)"
 			IntermediateDirectory="$(OutDir)/Intermediate"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -220,11 +220,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Framework\Common.hpp"
+				RelativePath=".\Common\Common.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Common\Common.hpp"
+				RelativePath=".\Framework\Common.hpp"
 				>
 			</File>
 			<File

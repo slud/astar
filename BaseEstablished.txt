@@ -10,11 +10,11 @@ Download and upack SDL Development libraries for Visual C++.
 
 Download and unpack boost libraries.
 
-Add paths to SDL include and lib folders under Visual C++.
+Add paths to SDL include and lib folders under Visual C++. Visual C++ in Tools->Options->Project And Solutions->VC++ Directories menu.
 
 Add paths to boost folder under Visual C++.
 
-Create a new project.
+Create a new project AStar9
 
 Copy AStar9.sln and AStar9.vcproj to the source directory. It is because Visual C++ seems to has problems with external directories.
 
@@ -23,21 +23,24 @@ Add at least one source file (*.cpp) to show all project properties.
 // Define your own AStarDir envir variable, for example:
 AStarDir = C:\astar
 
-As for now all is related upon the solution file path.
+As for now all is related upon the $(SolutionDir), not $(AStarDir).
 
-Working Directory = $(AStarDir)/Application
+Working Directory = $(SolutionDir)/..
+//Working Directory = $(AStarDir)/Application
 
-OutDir = $(AStarDir)/Application/Build/Windows/$(ConfigurationName)
+OutDir = $(AStarDir)/Application/Build/Windows/$(ProjectName)/$(ConfigurationName)
 IntDir = $(OutDir)/Intermediate
 
 Set-up AStar9 project properties:
 -Configuration properties:
 --General
----Output directory: $(SolutionDir)/../Build/Windows/$(ConfigurationName)
----Intermediate directory: ../Build/Windows/$(ConfigurationName)/Intermediate
+---Output Directory: $(SolutionDir)/../Build/Windows/$(ProjectName)/$(ConfigurationName)
+---Intermediate Directory: $(OutDir)/Intermediate
+--Debugging
+---Working Directory: $(SolutionDir)/..
 --C/C++
 ---General
-----Additional Include Directories: Path to the source folder.
+----Additional Include Directories: Path to our source folder ($(AStarDir)/Application/Source).
 ----Warning leve: consider W4.
 ---Code Generation
 ----Runtime Library: Multi-threaded DLL
@@ -48,4 +51,22 @@ Set-up AStar9 project properties:
 ----Additional Dependencies: SDL.lib SDLmain.lib
 ---System
 ----Subsytem: Windows
+
+Tester Project:
+
+http://cppunit.sourceforge.net/doc/lastest/money_example.html
+
+Set-up Tester project properties:
+Similar to AStar9 plus:
+
+-Configuration properties:
+--C/C++
+---General
+----Additional Include Directories: "$(SolutionDir)";"$(SolutionDir)\Libraries\cppunit-1.12.1\include"
+--Linker
+---General
+----Additional Library Directories: $(SolutionDir)/Libraries/cppunit-1.12.1/lib
+---Input
+----Additional Dependencies: cppunit.lib
+
 

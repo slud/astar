@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStar9", "AStar9.vcproj", "{A16EA6D2-AB0C-4D3D-9F08-704A85A2E87B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tester", "Tester.vcproj", "{52F1EA1D-CA10-4A57-B5F9-1087D10FA039}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{A16EA6D2-AB0C-4D3D-9F08-704A85A2E87B}.Debug|Win32.Build.0 = Debug|Win32
 		{A16EA6D2-AB0C-4D3D-9F08-704A85A2E87B}.Release|Win32.ActiveCfg = Release|Win32
 		{A16EA6D2-AB0C-4D3D-9F08-704A85A2E87B}.Release|Win32.Build.0 = Release|Win32
+		{52F1EA1D-CA10-4A57-B5F9-1087D10FA039}.Debug|Win32.ActiveCfg = Debug|Win32
+		{52F1EA1D-CA10-4A57-B5F9-1087D10FA039}.Debug|Win32.Build.0 = Debug|Win32
+		{52F1EA1D-CA10-4A57-B5F9-1087D10FA039}.Release|Win32.ActiveCfg = Release|Win32
+		{52F1EA1D-CA10-4A57-B5F9-1087D10FA039}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
