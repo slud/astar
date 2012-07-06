@@ -1,18 +1,35 @@
+Libraries used:
+  Boost: 1.47.0
+  SDL: 1.2.15
+
 ============================================
 Steps to get it running on windows platform.
 ============================================
 
-Download and install github application for windows.
+You'll have to define some environment variables, so keep the Environmental Variables window open until finished.
 
-SDL-1.2.15 was used.
+Download and install dedicated github application for windows (no specific version required).
+
+Clone the repository.
+
+Define ASTAR_DIR envir. variable. Set it to your cloned repository folder.
 
 Download and upack SDL Development libraries for Visual C++.
 
-Download and unpack boost libraries.
+Define SDL_DIR envir. variable. Set it to your SDL dev. libs folder.
 
-Add paths to SDL include and lib folders under Visual C++. Visual C++ in Tools->Options->Project And Solutions->VC++ Directories menu.
+Download and unpack/install boost libraries. Use latest installer from BoostPro Computing.
 
-Add paths to boost folder under Visual C++.
+Define BOOST_DIR envir. variable. Set it to your Boost installation folder.
+
+Deprecated: Add paths to SDL include and lib folders under Visual C++. Visual C++ in Tools->Options->Project And Solutions->VC++ Directories menu.
+
+Deprecated: Add paths to boost folder under Visual C++.
+
+Copy SDL.dll to where your *.exe file is.
+
+
+Projects construction steps:
 
 Create a new project AStar9
 
@@ -21,32 +38,30 @@ Copy AStar9.sln and AStar9.vcproj to the source directory. It is because Visual 
 Add at least one source file (*.cpp) to show all project properties.
 
 // Define your own AStarDir envir variable, for example:
-AStarDir = C:\astar
+ASTAR_DIR = C:\astar
 
-As for now all is related upon the $(SolutionDir), not $(AStarDir).
+Working Directory = $(AStarDir)/Application
 
-Working Directory = $(SolutionDir)/..
-//Working Directory = $(AStarDir)/Application
-
-OutDir = $(AStarDir)/Application/Build/Windows/$(ProjectName)/$(ConfigurationName)
+OutDir = $(ASTAR_DIR)/Application/Build/Windows/$(ProjectName)/$(ConfigurationName)
 IntDir = $(OutDir)/Intermediate
 
 Set-up AStar9 project properties:
 -Configuration properties:
 --General
----Output Directory: $(SolutionDir)/../Build/Windows/$(ProjectName)/$(ConfigurationName)
+---Output Directory: $(ASTAR_DIR)/Application/Build/Windows/$(ProjectName)/$(ConfigurationName)
 ---Intermediate Directory: $(OutDir)/Intermediate
 --Debugging
----Working Directory: $(SolutionDir)/..
+---Working Directory: $(ASTAR_DIR)/Application
 --C/C++
 ---General
-----Additional Include Directories: Path to our source folder ($(AStarDir)/Application/Source).
+----Additional Include Directories: "$(ASTAR_DIR)/Application/Source";"$(BOOST_DIR)";"$(SDL_DIR)/include"
 ----Warning leve: consider W4.
 ---Code Generation
 ----Runtime Library: Multi-threaded DLL
 --Linker
 ---General
 ----Output File: $(OutDir)\AStar.exe
+----Additional Library Directories: $(SDL_DIR)/lib/x86
 ---Input
 ----Additional Dependencies: SDL.lib SDLmain.lib
 ---System
@@ -62,10 +77,10 @@ Similar to AStar9 plus:
 -Configuration properties:
 --C/C++
 ---General
-----Additional Include Directories: "$(SolutionDir)";"$(SolutionDir)\Libraries\cppunit-1.12.1\include"
+----Additional Include Directories: "$(ASTAR_DIR)/Application/Source";"$(ASTAR_DIR)/Application/Source/Libraries/cppunit-1.12.1/include"
 --Linker
 ---General
-----Additional Library Directories: $(SolutionDir)/Libraries/cppunit-1.12.1/lib
+----Additional Library Directories: $(ASTAR_DIR)/Application/Source/Libraries/cppunit-1.12.1/lib
 ---Input
 ----Additional Dependencies: cppunit.lib
 

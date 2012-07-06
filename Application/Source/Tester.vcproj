@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)&quot;;&quot;$(SolutionDir)\Libraries\cppunit-1.12.1\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ASTAR_DIR)/Application/Source&quot;;&quot;$(ASTAR_DIR)/Application/Source/Libraries/cppunit-1.12.1/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="cppunitd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(SolutionDir)/Libraries/cppunit-1.12.1/lib"
+				AdditionalLibraryDirectories="$(ASTAR_DIR)/Application/Source/Libraries/cppunit-1.12.1/lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -174,11 +174,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Tests\main.cpp"
+				RelativePath=".\Tests\Framework\ConsoleTest.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Tests\MoneyTest.cpp"
+				RelativePath=".\Tests\main.cpp"
 				>
 			</File>
 		</Filter>
@@ -188,15 +188,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Tests\Money.h"
+				RelativePath=".\Tests\Framework\ConsoleTest.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Tests\MoneyTest.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Tests\SampleTest.hpp"
+				RelativePath=".\ConsoleTest.hpp"
 				>
 			</File>
 		</Filter>

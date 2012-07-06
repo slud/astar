@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../Build/Windows/$(ProjectName)/$(ConfigurationName)"
+			OutputDirectory="$(ASTAR_DIR)/Application/Build/Windows/$(ProjectName)/$(ConfigurationName)"
 			IntermediateDirectory="$(OutDir)/Intermediate"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)"
+				AdditionalIncludeDirectories="&quot;$(ASTAR_DIR)/Application/Source&quot;;&quot;$(BOOST_DIR)&quot;;&quot;$(SDL_DIR)/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,6 +64,7 @@
 				AdditionalDependencies="SDL.lib SDLmain.lib"
 				OutputFile="$(OutDir)\AStar.exe"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(SDL_DIR)/lib/x86"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
