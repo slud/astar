@@ -102,16 +102,6 @@ namespace AS
     }
 
 /*
-        fprintf(AS::gDebugLog(), "%s", "TRACE["); \
-		fprintf(AS::gDebugLog(), "%s", __FILE__); \
-		fprintf(AS::gDebugLog(), "%s", ":"); \
-		fprintf(AS::gDebugLog(), "%d",__LINE__); \
-		fprintf(AS::gDebugLog(), "%s", "]: "); \
-		fprintf(AS::gDebugLog(), format, parameters); \
-		fprintf(AS::gDebugLog(), "%s", "\n"); \
-*/
-
-/*
 template<class T>
 T& transmit(T const&)
 {

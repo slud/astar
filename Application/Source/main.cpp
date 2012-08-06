@@ -1,10 +1,28 @@
 #include "Application/Application.hpp"
 
-#include "Framework/Assert.hpp"
+//#include "Framework/Assert.hpp"
+#include "Framework/NotifyStream.hpp"
 
-#include <iostream>
+#include <boost/signals2.hpp>
 #include <fstream>
-#include <windows.h>
+#include <string>
+//#include <windows.h>
+
+class R123
+{
+public:
+	R123() {}
+	~R123() {}
+
+	void operator()(std::string const& arr)
+	{
+		std::ofstream out;
+		out.open( "slot.txt", std::ios_base::app );
+		//out << "This came from signal: \n";
+		out << arr;
+	}
+
+};
 
 int main(int argc, char *argv[])
 {
@@ -13,22 +31,21 @@ int main(int argc, char *argv[])
 	int result = -1;
 	//result = application.Start(argc, argv);
 
-	result = 0;
-	try {
-	std::ofstream out("BUZIA.txt", std::ios::app );
-	if( !out.is_open() )
-		throw new std::exception( "no i zamkniety bobas" );
-	out << "No to hello..." << std::endl;
-	out.close();
+	R123 r;
+	std::ofstream ofs( "ohmy.txt", std::ios_base::app );
+	AS::CNotifyOutputFileStream<std::ofstream> nfs( ofs );
+	nfs.TextChanged.Connect(r);
+	nfs << "Piszemy " << "obok " << "siebie " << "kilka slowek. A na koniec liczba: " << 7 << "\n";
+/*
+	try
+	{
+
 	}
 	catch(...)
 	{
 		MessageBox(0, (LPCWSTR)L"Wszystko OK", (LPCWSTR)L"Ekran SDL", MB_OK);
 	}
-	//TRACE("tera ju dziala dobrze. Jeden param");
-	//TRACE("multi" << " trace" << "with number: " << 55555);
-	//ASSERT(0, "assercik polecial");
-
+*/
 	return result;
 
 }
