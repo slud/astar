@@ -181,6 +181,10 @@
 				RelativePath=".\Tests\main.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Tests\Framework\NotifyStreamTest.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -188,11 +192,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\ConsoleTest.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Tests\Framework\ConsoleTest.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ConsoleTest.hpp"
+				RelativePath=".\Tests\Framework\NotifyStreamTest.hpp"
 				>
 			</File>
 		</Filter>
