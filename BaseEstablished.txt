@@ -16,7 +16,7 @@ Define ASTAR_DIR envir. variable. Set it to your cloned repository folder.
 
 Download and upack SDL Development libraries for Visual C++.
 
-Define SDL_DIR envir. variable. Set it to your SDL dev. libs folder.
+Define SDL_DIR envir. variable. Set it to your SDL development libraries folder (e.g: C:\SDL-x.x.x).
 
 Download and unpack/install boost libraries. Use latest installer from BoostPro Computing.
 

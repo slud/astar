@@ -4,7 +4,7 @@
 #include <fstream>
 
 
-#ifdef _DEBUG
+#ifdef _DEBUG1
 
 namespace AS
 {

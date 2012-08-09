@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(ASTAR_DIR)/Application/Source&quot;;&quot;$(BOOST_DIR)&quot;;&quot;$(SDL_DIR)/include&quot;"
-				PreprocessorDefinitions="WIN32;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_CONSOLE;_DEBUG1"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="2"
@@ -217,11 +217,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Common\Common.hpp"
+				RelativePath=".\Framework\Common.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Framework\Common.hpp"
+				RelativePath=".\Common\Common.hpp"
 				>
 			</File>
 			<File

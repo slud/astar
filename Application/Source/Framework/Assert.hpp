@@ -1,7 +1,7 @@
 #ifndef AS_ASSERT_H
     #define AS_ASSERT_H
 
-#ifdef _DEBUG
+#ifdef _DEBUG1
 
 #include <string>
 #include <cstdio>
@@ -113,7 +113,7 @@ T& transmit(T const&)
 
 #define ASSERT(exp, description)
 
-#define TRACE(format, parameters)
+#define TRACE(text)
 
 #endif // _DEBUG
 
