@@ -179,18 +179,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Application\Application_Events.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Application\Application_Initialize.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Application\Application_Loop.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Framework\Assert.cpp"
 				>
 			</File>
@@ -199,7 +187,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Application\MainLoop.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Application\MainWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Application\MediaLayer.cpp"
 				>
 			</File>
 		</Filter>
@@ -229,7 +225,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Application\MainLoop.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Application\MainWindow.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Application\MediaLayer.hpp"
 				>
 			</File>
 			<File

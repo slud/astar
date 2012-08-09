@@ -12,9 +12,10 @@
 //INCLUDES
 
 #include "Framework/ASSDL.hpp"
+#include "MediaLayer.hpp"
+#include "MainLoop.hpp"
+#include "MainWindow.hpp"
 #include <boost/shared_ptr.hpp>
-
-class CMainWindow;
 
 /**
  *  Represents OS process + main window.
@@ -51,22 +52,12 @@ protected:
 // OPERATORS
 
 // METHODS
-    void Events();
 
 // DATA
 
 private:
 
 // TYPES
-
-    /**
-     *  Application's specific result values.
-     */
-    enum EResult
-    {
-        e_Success = 0,
-        e_InitializeFailure = 1
-    };
 
     /**
      *  State of an application.
@@ -89,27 +80,11 @@ private:
 
 // METHODS
 
-    /**
-     *  Inits the application.
-     */
-    EResult Initialize();
-
-	void Loop();
-
-    void Shutdown();
-
-    /**
-     *  App stop request.
-     *  This can be called only internally.
-     *  Somehow from within of the main loop.
-     */
-    void Stop();
-
 // DATA
 
-	boost::shared_ptr<CMainWindow> m_pMainWindow;
-    bool m_Running;
-
+	AS::System::CMediaLayer m_MediaLayer;
+	AS::System::CMainLoop m_MainLoop;
+	AS::System::CMainWindow m_MainWindow;
 };
 
 // REFERENCES

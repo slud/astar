@@ -13,70 +13,78 @@
 
 #include "Framework/ASSDL.hpp"
 
-/**
- *	Window + OGL + SDL.
- */
-class CMainWindow
+namespace AS
 {
-public:
+	namespace System
+	{
+		/**
+		 *	Window + OGL + SDL.
+		 */
+		class CMainWindow
+		{
+		public:
 
-// TYPES
+		// TYPES
 
-// LIFECYCLE
+		// LIFECYCLE
 
-	CMainWindow();
-	~CMainWindow();
+			CMainWindow();
+			virtual ~CMainWindow();
 
-// OPERATORS
+		// OPERATORS
 
-// METHODS
+		// METHODS
 
-	void Shutdown();
+			virtual void ProcessEvent(Event_T const&);
 
-	void Start();
+			void Shutdown();
 
-// DATA
+			void Start();
 
-protected:
+		// DATA
 
-// TYPES
+		protected:
 
-// LIFECYCLE
+		// TYPES
 
-// OPERATORS
+		// LIFECYCLE
 
-// METHODS
+		// OPERATORS
 
-	virtual void ProcessEvents(Event_T const&);
+		// METHODS
 
-// DATA
+		// DATA
 
-private:
+		private:
 
-// TYPES
+		// TYPES
 
-// LIFECYCLE
+		// LIFECYCLE
 
-	CMainWindow(CMainWindow const&);
+			CMainWindow(CMainWindow const&);
 
-// OPERATORS
+		// OPERATORS
 
-	CMainWindow& operator=(CMainWindow const&);
+			CMainWindow& operator=(CMainWindow const&);
 
-// METHODS
+		// METHODS
 
-	void Initialize();
+			void Initialize();
 
-	void SwitchToFullscreen();
+			void SwitchToFullscreen();
 
-// DATA
+		// DATA
 
-	SDL_Surface*			m_pDisplay;   // Memory managed by the SDL.
-	const SDL_VideoInfo*	m_pVideoInfo; // Memory managed by the SDL.
+			SDL_Surface*			m_pDisplay;   // Memory managed by the SDL.
+			const SDL_VideoInfo*	m_pVideoInfo; // Memory managed by the SDL.
 
-	int						m_VideoFlags;
+			int						m_VideoFlags;
 
-};
+		};
+
+} // ns System
+
+} // ns AS
 
 // REFERENCES
 

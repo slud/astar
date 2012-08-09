@@ -14,18 +14,18 @@ const char cVideoQueryFailed[] = "Video query failed.";
 const char cCantSetVideoMode[] = "Can't set video mode.";
 
 
-CMainWindow::CMainWindow() :
+AS::System::CMainWindow::CMainWindow() :
 	m_pDisplay(nullptr),
 	m_pVideoInfo(nullptr),
 	m_VideoFlags(0) // m_VideoFlags is of type int.
 {
 }
 
-CMainWindow::~CMainWindow()
+AS::System::CMainWindow::~CMainWindow()
 {
 }
 
-void CMainWindow::Initialize()
+void AS::System::CMainWindow::Initialize()
 {
     // Fetch the video info.
     m_pVideoInfo = SDL_GetVideoInfo();
@@ -65,7 +65,7 @@ void CMainWindow::Initialize()
 }
 
 // Try to optimise.
-void CMainWindow::ProcessEvents(Event_T const& event)
+void AS::System::CMainWindow::ProcessEvent(Event_T const& event)
 {
 	switch(event.type)
 	{
@@ -85,18 +85,24 @@ void CMainWindow::ProcessEvents(Event_T const& event)
 	}
 }
 
-void CMainWindow::Shutdown()
+void AS::System::CMainWindow::Shutdown()
 {
 }
 
-void CMainWindow::Start()
+void AS::System::CMainWindow::Start()
 {
 	Initialize();
 }
 
-void CMainWindow::SwitchToFullscreen()
+void AS::System::CMainWindow::SwitchToFullscreen()
 {
-	SDL_WM_ToggleFullScreen( m_pDisplay );
+	//SDL_WM_ToggleFullScreen( m_pDisplay ); // Doesn't work on win7 pro x64
+
+	// This is the fix from some SDL wiki.
+	int flags = m_pDisplay->flags; /* Save the current flags in case toggling fails */
+	m_pDisplay = SDL_SetVideoMode(0, 0, 0, m_pDisplay->flags ^ SDL_FULLSCREEN); /*Toggles FullScreen Mode */
+	if(m_pDisplay == NULL) m_pDisplay = SDL_SetVideoMode(0, 0, 0, flags); /* If toggle FullScreen failed, then switch back */
+	if(m_pDisplay == NULL) exit(1); /* If you can't switch back for some reason, then epic fail */
 }
 
 
