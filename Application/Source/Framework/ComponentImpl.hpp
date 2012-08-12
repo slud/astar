@@ -16,142 +16,147 @@
 #include <cassert>
 
 // MACROS
-
-/**
- *  Class description.
- */
-template<class T>
-class TComponentImpl
+namespace AS
 {
-public:
+	namespace Compositing
+	{
+		const char[] c_InvalidOperation = "Invalid operation.";
 
-// TYPES
+		/**
+		 *  Class description.
+		 */
+		template<class T>
+		class TComponentImpl
+		{
+		public:
 
-// LIFECYCLE
+		// TYPES
 
-// OPERATORS
+		// LIFECYCLE
 
-    /**
-     *  Access through an index operator.
-     *  @param A name of the component.
-     *  @return A child with a given name.
-     */
-    virtual T&                    operator[](std::string const&)
-    {
-        assert(0);
-        return m_Instance;
-    }
+		// OPERATORS
 
-    /**
-     *  Access through an index operator.
-     *  @warning It's volatile!
-     *  @param Position of a component.
-     *  @return A child with a given name.
-     */
-    virtual T&                    operator[](int)
-    {
-        assert(0);
-        return m_Instance;
-    }
+			/**
+			 *  Access through an index operator.
+			 *  @param A name of the component.
+			 *  @return A child with a given name.
+			 */
+			virtual T&                    operator[](std::string const&)
+			{
+				throw std::exception(c_InvalidOperation);
+			}
 
-// METHODS
+			/**
+			 *  Access through an index operator.
+			 *  @warning It's volatile!
+			 *  @param Position of a component.
+			 *  @return A child with a given name.
+			 */
+			virtual T&                    operator[](int)
+			{
+				throw std::exception(c_InvalidOperation);
+			}
 
-    /**
-     *  Add a child.
-     *  Transfer the ownership.
-     */
-    virtual void                  Add(std::auto_ptr<T>)
-    {
-        assert(0);
-    }
+		// METHODS
 
-    /**
-     *  Get the number of children.
-     *  @return Returns children count.
-     */
-    virtual int                   GetCount() const
-    {
-        assert(0);
-        return -1;
-    }
+			/**
+			 *  Add a child.
+			 *  Transfer the ownership.
+			 */
+			virtual void                  Add(std::auto_ptr<T>)
+			{
+				assert(0);
+			}
 
-    /**
-     *  Get index of the component.
-     *  @warning It's volatile!
-     *  @return Returns index of the component.
-     */
-    virtual int                   GetIndex() const
-    {
-        assert(0);
-        return -1;
-    }
+			/**
+			 *  Get the number of children.
+			 *  @return Returns children count.
+			 */
+			virtual int                   GetCount() const
+			{
+				assert(0);
+				return -1;
+			}
 
-    /**
-     *  Get the name of the component.
-     *  @return Returns name of the component.
-     */
-    virtual std::string const&    GetName() const
-    {
-        return m_Name;
-    }
+			/**
+			 *  Get index of the component.
+			 *  @warning It's volatile!
+			 *  @return Returns index of the component.
+			 */
+			virtual int                   GetIndex() const
+			{
+				assert(0);
+				return -1;
+			}
 
-    /**
-     *  Remove a child.
-     */
-    virtual void                  Remove(T&)
-    {
-        assert(0);
-    }
+			/**
+			 *  Get the name of the component.
+			 *  @return Returns name of the component.
+			 */
+			virtual std::string const&    GetName() const
+			{
+				return m_Name;
+			}
 
-    virtual void                  Remove(std::string const&)
-    {
-        assert(0);
-    }
+			/**
+			 *  Remove a child.
+			 */
+			virtual void                  Remove(T&)
+			{
+				assert(0);
+			}
 
-    virtual void                  Remove(int)
-    {
-        assert(0);
-    }
+			virtual void                  Remove(std::string const&)
+			{
+				assert(0);
+			}
 
-    /**
-     *  Set the name of the component.
-     *  @param name New component's name.
-     */
-    virtual void                  SetName(std::string const& name)
-    {
-        m_Name = name;
-    }
+			virtual void                  Remove(int)
+			{
+				assert(0);
+			}
 
-// DATA
+			/**
+			 *  Set the name of the component.
+			 *  @param name New component's name.
+			 */
+			virtual void                  SetName(std::string const& name)
+			{
+				m_Name = name;
+			}
 
-protected:
+		// DATA
 
-// TYPES
+		protected:
 
-// LIFECYCLE
+		// TYPES
 
-// OPERATORS
+		// LIFECYCLE
 
-// METHODS
+		// OPERATORS
 
-// DATA
+		// METHODS
 
-private:
+		// DATA
 
-// TYPES
+		private:
 
-// LIFECYCLE
+		// TYPES
 
-// OPERATORS
+		// LIFECYCLE
 
-// METHODS
+		// OPERATORS
 
-// DATA
+		// METHODS
 
-    T m_Instance;
-    std::string m_Name;
+		// DATA
 
-};
+			T m_Instance;
+			std::string m_Name;
+
+		};
+	} // ns Compositing
+} // ns AS
 
 // INLINE METHODS
 
