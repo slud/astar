@@ -221,11 +221,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Framework\Common.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Common\Common.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Framework\Common.hpp"
+				RelativePath=".\Framework\Component.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\Composite.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\Leaf.hpp"
 				>
 			</File>
 			<File
@@ -242,6 +254,10 @@
 			</File>
 			<File
 				RelativePath=".\Framework\NotifyStream.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Settings\Settings1.hpp"
 				>
 			</File>
 			<File

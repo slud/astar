@@ -73,7 +73,7 @@ namespace AS
 		public:
 			virtual void SetValue(int const& value)
 			{
-				ASSERT(value>0, "Invalid Height value.");
+				ASSERT(value>0, "Invalid Width value.");
 				m_Value = value;
 			}
 		};
