@@ -1,14 +1,9 @@
 #include "Application/Application.hpp"
-
-//#include "Framework/Assert.hpp"
-
 #include <fstream>
-
 
 int main(int argc, char *argv[])
 {
 	int result = -1;
-
 	try
 	{
 		CApplication application;
@@ -20,7 +15,5 @@ int main(int argc, char *argv[])
 		if( error.is_open() )
 			error << "An exception has been thrown." << "\n";
 	}
-
 	return result;
-
 }
