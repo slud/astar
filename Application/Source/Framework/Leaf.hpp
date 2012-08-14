@@ -10,7 +10,7 @@ namespace AS
 {
 	namespace Compositing
 	{
-		const char[] c_InvalidOperation = "Invalid operation.";
+		const char c_InvalidOperation[] = "Invalid operation.";
 
 		template<class T>
 		class TLeaf : public T

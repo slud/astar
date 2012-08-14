@@ -2,6 +2,7 @@
     #define AS_COMPOSITING_TCOMPONENT_INCLUDE
 
 #include <string>
+#include <memory>
 
 namespace AS
 {
@@ -73,13 +74,13 @@ namespace AS
 } // ns AS
 
 template<class T>
-std::string const& AS::Compositing::TComponent::GetName() const
+std::string const& AS::Compositing::TComponent<T>::GetName() const
 {
 	return m_Name;
 }
 
 template<class T>
-void AS::Compositing::TComponent::SetName(std::string const& name)
+void AS::Compositing::TComponent<T>::SetName(std::string const& name)
 {
 	m_Name = name;
 }

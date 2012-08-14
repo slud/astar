@@ -12,6 +12,7 @@
 //INCLUDES
 
 #include "Framework/ASSDL.hpp"
+#include "Settings/Settings1.hpp"
 #include "MediaLayer.hpp"
 #include "MainLoop.hpp"
 #include "MainWindow.hpp"
@@ -82,6 +83,7 @@ private:
 
 // DATA
 
+	AS::Cfg::CSettings m_Settings;
 	AS::System::CMediaLayer m_MediaLayer;
 	AS::System::CMainLoop m_MainLoop;
 	AS::System::CMainWindow m_MainWindow;

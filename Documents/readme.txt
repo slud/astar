@@ -99,6 +99,8 @@ Pytania, ktore sie nasunely podczas pracy nad projektem:
 		5. system headers
 		In that order you will not miss any of your header files that forgot to include libraries by their own (http://stackoverflow.com/questions/614302/c-header-order).
 	Gdy tworzymy wlasny obiekt-kolekcje to czy tworzymy interfejs zgodny z STL, czyli zamiast Add definiujemy push_back?
+    Mamy nastepujaca hierarchie dziedziczenia np.: Klasa_A <- T <- Klasa_B, gdzie T jest szablonem klasy bez zdefiniowanego jakiegokolwiek konstruktora. To czy w klasie najbardziej bazowej, czyli Klasa_A moge zdefiniowac konstruktor sparametryzowany, a potem jakos skonstruowac w konstruktorze klasy Klasa_B obiekt klasy Klasa_A: Klasa_B(std::string const& name) : Klasa_A(name) ???
+
 
 
 TODO:
