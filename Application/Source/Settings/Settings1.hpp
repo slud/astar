@@ -61,11 +61,11 @@ namespace AS
 		class CSettingsLeaf : public AS::Compositing::TLeaf<CSettingsComponent>
 		{
 		public:
-			T const& GetValue() const
+			virtual T const& GetValue() const
 			{
 				return m_Value;
 			}
-			void SetValue(T const& value)
+			virtual void SetValue(T const& value)
 			{
 				m_Value = value;
 			}
@@ -82,7 +82,7 @@ namespace AS
 			{
 				return m_PropertyName;
 			}
-			void SetValue(int const& value)
+			virtual void SetValue(int const& value)
 			{
 				ASSERT(value==24 || value==32, "Invalid BPP value.");
 				m_Value = value;
@@ -98,7 +98,7 @@ namespace AS
 			{
 				return m_PropertyName;
 			}
-			void SetValue(int const& value)
+			virtual void SetValue(int const& value)
 			{
 				ASSERT(value>0, "Invalid Height value.");
 				m_Value = value;
@@ -114,7 +114,7 @@ namespace AS
 			{
 				return m_PropertyName;
 			}
-			void SetValue(int const& value)
+			virtual void SetValue(int const& value)
 			{
 				ASSERT(value>0, "Invalid Width value.");
 				m_Value = value;
@@ -157,8 +157,6 @@ namespace AS
 			boost::property_tree::ptree m_PropertyTree;
 			CVideo m_Video;
 		};
-
-		const char CSettings::m_SettingsFileName[] = "Settings.xml";
 	} // ns Cfg
 } // ns AS
 

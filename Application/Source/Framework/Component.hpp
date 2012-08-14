@@ -8,6 +8,7 @@ namespace AS
 {
 	namespace Compositing
 	{
+		namespace { const char c_NotImplemented[] = "Not implemented."; }
 		/**
 		 *  Component class template.
 		 *  TODO: Ctor, dtor, copy ctor, assignment operator
@@ -27,7 +28,7 @@ namespace AS
 			 *  @param A name of the component.
 			 *  @return A child with a given name.
 			 */
-			virtual T&                    operator[](std::string const&);
+			virtual T&                    operator[](std::string const&) { throw std::exception(c_NotImplemented); };
 
 			/**
 			 *  Access through an index operator.
@@ -35,19 +36,19 @@ namespace AS
 			 *  @param Position of a component.
 			 *  @return A child with a given name.
 			 */
-			virtual T&                    operator[](int);
+			virtual T&                    operator[](int)                { throw std::exception(c_NotImplemented); };
 
 			/**
 			 *  Add a child.
 			 *  Transfer the ownership.
 			 */
-			virtual void                  Add(std::auto_ptr<T>);
+			virtual void                  Add(std::auto_ptr<T>)          { throw std::exception(c_NotImplemented); };
 
 			/**
 			 *  Get the number of children.
 			 *  @return Returns children count.
 			 */
-			virtual int                   GetCount();
+			virtual int                   GetCount()                     { throw std::exception(c_NotImplemented); };
 
 			/**
 			 *  Get the name of the component.
@@ -58,9 +59,9 @@ namespace AS
 			/**
 			 *  Remove a child.
 			 */
-			virtual void                  Remove(T&);
-			virtual void                  Remove(std::string const&);
-			virtual void                  Remove(int);
+			virtual void                  Remove(T&)                    { throw std::exception(c_NotImplemented); };
+			virtual void                  Remove(std::string const&)    { throw std::exception(c_NotImplemented); };
+			virtual void                  Remove(int)                   { throw std::exception(c_NotImplemented); };
 
 			/**
 			 *  Set the name of the component.
