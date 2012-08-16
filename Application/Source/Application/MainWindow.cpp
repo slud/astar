@@ -25,6 +25,10 @@ AS::System::CMainWindow::~CMainWindow()
 {
 }
 
+void AS::System::CMainWindow::Close()
+{
+}
+
 void AS::System::CMainWindow::Initialize()
 {
     // Fetch the video info.
@@ -85,11 +89,7 @@ void AS::System::CMainWindow::ProcessEvent(Event_T const& event)
 	}
 }
 
-void AS::System::CMainWindow::Shutdown()
-{
-}
-
-void AS::System::CMainWindow::Start()
+void AS::System::CMainWindow::Show()
 {
 	Initialize();
 }

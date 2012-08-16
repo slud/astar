@@ -1,94 +1,33 @@
-/**
- *  @file name
- *
- *  Some description.
- */
-
-// LICENSE
-
-#ifndef AS_MAIN_WINDOW_INCLUDE
-	#define AS_MAIN_WINDOW_INCLUDE
-
-// INCLUDES
+#ifndef AS_SYSTEM_MAIN_WINDOW_INCLUDE
+	#define AS_SYSTEM_MAIN_WINDOW_INCLUDE
 
 #include "Framework/ASSDL.hpp"
+#include <boost/utility.hpp>
 
 namespace AS
 {
 	namespace System
 	{
-		/**
-		 *	Window + OGL + SDL.
-		 */
-		class CMainWindow
+		class CMainWindow : boost::noncopyable
 		{
 		public:
-
-		// TYPES
-
-		// LIFECYCLE
-
 			CMainWindow();
 			virtual ~CMainWindow();
-
-		// OPERATORS
-
-		// METHODS
-
+			virtual void Close();
 			virtual void ProcessEvent(Event_T const&);
-
-			void Shutdown();
-
-			void Start();
-
-		// DATA
-
+			virtual void Show();
 		protected:
-
-		// TYPES
-
-		// LIFECYCLE
-
-		// OPERATORS
-
-		// METHODS
-
-		// DATA
-
+			virtual void Initialize();
+			virtual void SwitchToFullscreen();
 		private:
-
-		// TYPES
-
-		// LIFECYCLE
-
-			CMainWindow(CMainWindow const&);
-
-		// OPERATORS
-
-			CMainWindow& operator=(CMainWindow const&);
-
-		// METHODS
-
-			void Initialize();
-
-			void SwitchToFullscreen();
-
-		// DATA
-
 			SDL_Surface*			m_pDisplay;   // Memory managed by the SDL.
 			const SDL_VideoInfo*	m_pVideoInfo; // Memory managed by the SDL.
-
 			int						m_VideoFlags;
-
 		};
-
-} // ns System
-
+	} // ns System
 } // ns AS
 
-// REFERENCES
-
-#endif // AS_MAIN_WINDOW_INCLUDE
+#endif // AS_SYSTEM_MAIN_WINDOW_INCLUDE
 
 
 

@@ -1,95 +1,24 @@
 #ifndef AS_APPLICATION_INCLUDE
     #define AS_APPLICATION_INCLUDE
 
-// LICENSE
-
-/**
- *  @file name
- *
- *  Some description.
- */
-
-//INCLUDES
-
-#include "Framework/ASSDL.hpp"
-#include "Settings/Settings1.hpp"
+#include "Settings/Settings.hpp"
 #include "MediaLayer.hpp"
 #include "MainLoop.hpp"
 #include "MainWindow.hpp"
-#include <boost/shared_ptr.hpp>
+#include <boost/utility.hpp>
 
-/**
- *  Represents OS process + main window.
- */
-class CApplication // Tip: class is an aggregate like array and struct but types may vary.
+class CApplication : boost::noncopyable
 {
 public:
-
-// TYPES
-
-// LIFECYCE
-
     CApplication();
-    ~CApplication();
-
-// OPERATORS
-
-// METHODS
-
-    /**
-     *  App start routine (process + GUI).
-     *  @return Returns exit status.
-     */
+	virtual ~CApplication();
     int Start(int argc, char* argv[]);
-
-// DATA
-
-protected:
-
-// TYPES
-
-// LIFECYCLE
-
-// OPERATORS
-
-// METHODS
-
-// DATA
-
 private:
-
-// TYPES
-
-    /**
-     *  State of an application.
-     */
-    enum ERunningMode
-    {
-        e_Running,
-        e_Stopped,
-        e_Paused,
-        e_Undefined
-    };
-
-// LIFECYCLE
-
-	CApplication(CApplication const&);
-
-// OPERATORS
-
-	CApplication& operator=(CApplication const&);
-
-// METHODS
-
-// DATA
-
-	AS::Cfg::CSettings m_Settings;
+	AS::System::CSettings m_Settings;
 	AS::System::CMediaLayer m_MediaLayer;
 	AS::System::CMainLoop m_MainLoop;
 	AS::System::CMainWindow m_MainWindow;
 };
-
-// REFERENCES
 
 #endif // AS_APPLICATION_INCLUDE
 

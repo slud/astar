@@ -59,7 +59,7 @@ namespace AS
 			{
 				ASSERT(component.get() != nullptr, "Null pointer");
 				int Return = m_Components.erase(component->GetName());
-				ASSERT(!((bool)Return), "Component already existed. Replaced.");
+				ASSERT(0 != Return, "Component already existed. Replaced.");
 				m_Components[component->GetName()] = component;
 			}
 
