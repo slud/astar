@@ -17,7 +17,7 @@ namespace AS
 			virtual ~CMediaLayer();
 			virtual void Events();
 			virtual void RegisterEventHandler(SystemEventEventHandler event);
-			virtual void Start();
+			virtual void Attach();
 		private:
 			CMediaLayer(CMediaLayer const&);
 			CMediaLayer& operator=(CMediaLayer const&);

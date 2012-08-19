@@ -27,7 +27,7 @@ void AS::System::CMediaLayer::RegisterEventHandler(SystemEventEventHandler event
 	m_EventHandlers.push_back(event);
 }
 
-void AS::System::CMediaLayer::Start()
+void AS::System::CMediaLayer::Attach()
 {
 	int result = SDL_Init(SDL_INIT_VIDEO);
 }

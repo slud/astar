@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SDL.lib SDLmain.lib"
+				AdditionalDependencies="SDL.lib SDLmain.lib opengl32.lib"
 				OutputFile="$(OutDir)\AStar.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="C:\io\SDK\boost_1_47\lib;&quot;$(SDL_DIR)/lib/x86&quot;"
@@ -198,6 +198,10 @@
 				RelativePath=".\Application\MediaLayer.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Renderer\Renderer.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -217,11 +221,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Common\Common.hpp"
+				RelativePath=".\Framework\Common.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Framework\Common.hpp"
+				RelativePath=".\Common\Common.hpp"
 				>
 			</File>
 			<File
@@ -253,7 +257,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Renderer\Renderer.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Settings\Settings.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Settings\SettingsSimple.hpp"
 				>
 			</File>
 			<File
