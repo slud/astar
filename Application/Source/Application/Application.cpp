@@ -1,12 +1,8 @@
 #include "Application.hpp"
-
-#include "MainWindow.hpp"
 #include "Common/Common.hpp"
-#include "Framework/Assert.hpp"
-
 #include <boost/bind.hpp>
 
-AS::System::CSettingsSimple gSettings;
+AS::Settings::CSettingsSimple gSettings;
 
 CApplication::CApplication()
 {

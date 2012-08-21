@@ -69,7 +69,7 @@ void AS::System::CMainWindow::Initialize()
 }
 
 #include "Settings/SettingsSimple.hpp"
-extern AS::System::CSettingsSimple gSettings;
+extern AS::Settings::CSettingsSimple gSettings;
 static void SceneEvents(Event_T const& event)
 {
 	const double Value = 0.5;
@@ -79,14 +79,14 @@ static void SceneEvents(Event_T const& event)
 			switch(event.button.button)
 			{
 			case SDL_BUTTON_WHEELUP:
-				gSettings.Scene.ChainedCamera.eyex += Value;
-				gSettings.Scene.ChainedCamera.eyey += Value;
-				gSettings.Scene.ChainedCamera.eyez += Value;
+				gSettings.Scene.TargetCamera.EyeX += Value;
+				gSettings.Scene.TargetCamera.EyeY += Value;
+				gSettings.Scene.TargetCamera.EyeZ += Value;
 				break;
 			case SDL_BUTTON_WHEELDOWN:
-				gSettings.Scene.ChainedCamera.eyex -= Value;
-				gSettings.Scene.ChainedCamera.eyey -= Value;
-				gSettings.Scene.ChainedCamera.eyez -= Value;
+				gSettings.Scene.TargetCamera.EyeX -= Value;
+				gSettings.Scene.TargetCamera.EyeY -= Value;
+				gSettings.Scene.TargetCamera.EyeZ -= Value;
 				break;
 			}
 			break;

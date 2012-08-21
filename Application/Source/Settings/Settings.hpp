@@ -1,5 +1,5 @@
-#ifndef AS_SYSTEM_SETTINGS_INCLUDE
-	#define AS_SYSTEM_SETTINGS_INCLUDE
+#ifndef AS_SETTINGS_SETTINGS_INCLUDE
+	#define AS_SETTINGS_SETTINGS_INCLUDE
 
 #include "Framework/Common.hpp"
 #include "Framework/Component.hpp"
@@ -11,7 +11,7 @@
 
 namespace AS
 {
-	namespace System
+	namespace Settings
 	{
 		const char c_SettingsPathSeparator = '.';
 		const char c_XmlPathSeparator      = '/';
@@ -181,7 +181,7 @@ namespace AS
 			CVideo m_Video;
 			boost::property_tree::ptree m_PropertyTree;
 		};
-	} // ns Cfg
+	} // ns Settings
 } // ns AS
 
-#endif // AS_SYSTEM_SETTINGS_INCLUDE
+#endif // AS_SETTINGS_SETTINGS_INCLUDE

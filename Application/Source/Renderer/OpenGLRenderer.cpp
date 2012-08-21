@@ -4,7 +4,7 @@
 #include "SDL_opengl.h"
 #include "freeglut.h"
 
-extern AS::System::CSettingsSimple gSettings;
+extern AS::Settings::CSettingsSimple gSettings;
 
 void AS::Rendering::COpenGLRenderer::Initialize()
 {
@@ -22,9 +22,9 @@ static int ticks = 0;
 
 void AS::Rendering::COpenGLRenderer::Render()
 {
-	glMatrixMode( GL_MODELVIEW );
-		glLoadIdentity();
-	gluLookAt(gSettings.Scene.ChainedCamera.eyex, gSettings.Scene.ChainedCamera.eyey, gSettings.Scene.ChainedCamera.eyez, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	//glMatrixMode( GL_MODELVIEW );
+	//glLoadIdentity();
+	//gluLookAt(gSettings.Scene.TargetCamera.EyeX, gSettings.Scene.TargetCamera.EyeY, gSettings.Scene.TargetCamera.EyeZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	if(1000/33 > (SDL_GetTicks() - ticks))
 		return;

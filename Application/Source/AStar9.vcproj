@@ -187,15 +187,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Application\MainLoop.cpp"
+				RelativePath=".\System\MainLoop.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Application\MainWindow.cpp"
+				RelativePath=".\System\MainWindow.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Application\MediaLayer.cpp"
+				RelativePath=".\System\MediaLayer.cpp"
 				>
 			</File>
 			<File
@@ -204,6 +204,10 @@
 			</File>
 			<File
 				RelativePath=".\Renderer\Renderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Settings\SettingsSimple.cpp"
 				>
 			</File>
 		</Filter>
@@ -245,15 +249,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Application\MainLoop.hpp"
+				RelativePath=".\System\MainLoop.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Application\MainWindow.hpp"
+				RelativePath=".\System\MainWindow.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Application\MediaLayer.hpp"
+				RelativePath=".\System\MediaLayer.hpp"
 				>
 			</File>
 			<File

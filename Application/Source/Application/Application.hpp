@@ -2,9 +2,9 @@
     #define AS_APPLICATION_INCLUDE
 
 #include "Settings/SettingsSimple.hpp"
-#include "MediaLayer.hpp"
-#include "MainLoop.hpp"
-#include "MainWindow.hpp"
+#include "System/MediaLayer.hpp"
+#include "System/MainLoop.hpp"
+#include "System/MainWindow.hpp"
 #include "Renderer/Renderer.hpp"
 #include "Renderer/OpenGLRenderer.hpp"
 #include <boost/utility.hpp>
