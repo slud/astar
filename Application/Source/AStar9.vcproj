@@ -61,10 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SDL.lib SDLmain.lib opengl32.lib"
+				AdditionalDependencies="SDL.lib SDLmain.lib opengl32.lib freeglut_static.lib"
 				OutputFile="$(OutDir)\AStar.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="C:\io\SDK\boost_1_47\lib;&quot;$(SDL_DIR)/lib/x86&quot;"
+				AdditionalLibraryDirectories="&quot;$(ASTAR_DIR)/Application/Source/Libraries/freeglut-2.8.0/lib/x86/Debug&quot;;C:\io\SDK\boost_1_47\lib;&quot;$(SDL_DIR)/lib/x86&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Renderer\OpenGLRenderer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Renderer\Renderer.cpp"
 				>
 			</File>
@@ -221,11 +225,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Framework\Common.hpp"
+				RelativePath=".\Common\Common.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Common\Common.hpp"
+				RelativePath=".\Framework\Common.hpp"
 				>
 			</File>
 			<File
@@ -254,6 +258,10 @@
 			</File>
 			<File
 				RelativePath=".\Framework\NotifyStream.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Renderer\OpenGLRenderer.hpp"
 				>
 			</File>
 			<File
