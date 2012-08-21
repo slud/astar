@@ -9,21 +9,29 @@ namespace AS
 		class CRenderer
 		{
 		public:
-			enum ECamera
-			{
-				e_Left,
-				e_Right,
-				e_Top,
-				e_45
-			};
-
 			CRenderer();
 			void Initialize();
 			void Render();
-			void SetCamera(ECamera camera);
 		private:
 			T m_Renderer;
 		};
+
+		template<class T>
+		CRenderer<T>::CRenderer()
+		{
+		}
+
+		template<class T>
+		void CRenderer<T>::Initialize()
+		{
+			m_Renderer.Initialize();
+		}
+
+		template<class T>
+		void CRenderer<T>::Render()
+		{
+			m_Renderer.Render();
+		}
 	}
 }
 

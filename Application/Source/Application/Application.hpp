@@ -6,6 +6,7 @@
 #include "MainLoop.hpp"
 #include "MainWindow.hpp"
 #include "Renderer/Renderer.hpp"
+#include "Renderer/OpenGLRenderer.hpp"
 #include <boost/utility.hpp>
 
 class CApplication : boost::noncopyable
@@ -15,7 +16,6 @@ public:
 	virtual ~CApplication();
     int Start(int argc, char* argv[]);
 private:
-	AS::System::CSettingsSimple m_Settings;
 	AS::System::CMediaLayer m_MediaLayer;
 	AS::System::CMainLoop m_MainLoop;
 	AS::System::CMainWindow m_MainWindow;

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ASTAR_DIR)/Application/Source&quot;;&quot;$(BOOST_DIR)&quot;;&quot;$(SDL_DIR)/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ASTAR_DIR)/Application/Source&quot;;&quot;$(BOOST_DIR)&quot;;&quot;$(SDL_DIR)/include&quot;;&quot;$(ASTAR_DIR)/Application/Source/Libraries/freeglut-2.8.0/include/GL&quot;"
 				PreprocessorDefinitions="WIN32;_CONSOLE;_DEBUG1"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SDL.lib SDLmain.lib opengl32.lib freeglut_static.lib"
+				AdditionalDependencies="SDL.lib SDLmain.lib opengl32.lib freeglut.lib"
 				OutputFile="$(OutDir)\AStar.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(ASTAR_DIR)/Application/Source/Libraries/freeglut-2.8.0/lib/x86/Debug&quot;;C:\io\SDK\boost_1_47\lib;&quot;$(SDL_DIR)/lib/x86&quot;"
@@ -266,6 +266,10 @@
 			</File>
 			<File
 				RelativePath=".\Renderer\Renderer.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\Scene.hpp"
 				>
 			</File>
 			<File

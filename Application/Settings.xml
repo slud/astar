@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<settings><video><bpp>32</bpp><height>450</height><width>800</width></video></settings>
+<settings><video><bpp>32</bpp><height>450</height><width>800</width></video><scene><chained_camera><eyex>-3.5</eyex><eyey>-5.5</eyey><eyez>4.5</eyez><centerx>0</centerx><centery>0</centery><centerz>0</centerz><upx>0</upx><upy>1</upy><upz>0</upz></chained_camera><default_chained_camera><eyex>10</eyex><eyey>10</eyey><eyez>10</eyez><centerx>0</centerx><centery>0</centery><centerz>0</centerz><upx>0</upx><upy>1</upy><upz>0</upz></default_chained_camera></scene></settings>

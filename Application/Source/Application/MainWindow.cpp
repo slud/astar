@@ -68,6 +68,33 @@ void AS::System::CMainWindow::Initialize()
 	ASSERT(nullptr != m_pDisplay, cCantSetVideoMode);
 }
 
+#include "Settings/SettingsSimple.hpp"
+extern AS::System::CSettingsSimple gSettings;
+static void SceneEvents(Event_T const& event)
+{
+	const double Value = 0.5;
+	switch(event.type)
+	{
+		case SDL_MOUSEBUTTONUP:
+			switch(event.button.button)
+			{
+			case SDL_BUTTON_WHEELUP:
+				gSettings.Scene.ChainedCamera.eyex += Value;
+				gSettings.Scene.ChainedCamera.eyey += Value;
+				gSettings.Scene.ChainedCamera.eyez += Value;
+				break;
+			case SDL_BUTTON_WHEELDOWN:
+				gSettings.Scene.ChainedCamera.eyex -= Value;
+				gSettings.Scene.ChainedCamera.eyey -= Value;
+				gSettings.Scene.ChainedCamera.eyez -= Value;
+				break;
+			}
+			break;
+		default:
+			break;
+	}
+}
+
 // Try to optimise.
 void AS::System::CMainWindow::ProcessEvent(Event_T const& event)
 {
@@ -87,6 +114,7 @@ void AS::System::CMainWindow::ProcessEvent(Event_T const& event)
 		default:
 			break;
 	}
+	SceneEvents(event);
 }
 
 void AS::System::CMainWindow::Show()

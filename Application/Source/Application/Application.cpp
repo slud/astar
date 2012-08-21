@@ -6,6 +6,8 @@
 
 #include <boost/bind.hpp>
 
+AS::System::CSettingsSimple gSettings;
+
 CApplication::CApplication()
 {
 }
@@ -17,7 +19,7 @@ CApplication::~CApplication()
 int CApplication::Start(int argc, char* argv[])
 {
 	// TODO: Think about state machine...
-	m_Settings.Load();
+	gSettings.Load();
 	m_MediaLayer.Attach();
 	m_MediaLayer.RegisterEventHandler(boost::bind(&AS::System::CMainLoop::ProcessEvent, &m_MainLoop, _1));
 	m_MediaLayer.RegisterEventHandler(boost::bind(&AS::System::CMainWindow::ProcessEvent, &m_MainWindow, _1));
@@ -26,7 +28,7 @@ int CApplication::Start(int argc, char* argv[])
 	m_MainLoop.RegisterStepFunction(boost::bind(&AS::System::CMediaLayer::Events, &m_MediaLayer));
 	m_MainLoop.RegisterStepFunction(boost::bind(&AS::Rendering::CRenderer<AS::Rendering::COpenGLRenderer>::Render, &m_Renderer));
 	m_MainLoop.Loop();
-	m_Settings.Save();
+	gSettings.Save();
 	return 0;
 }
 
