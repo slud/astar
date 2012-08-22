@@ -79,14 +79,14 @@ static void SceneEvents(Event_T const& event)
 			switch(event.button.button)
 			{
 			case SDL_BUTTON_WHEELUP:
-				gSettings.Scene.TargetCamera.EyeX += Value;
-				gSettings.Scene.TargetCamera.EyeY += Value;
-				gSettings.Scene.TargetCamera.EyeZ += Value;
-				break;
-			case SDL_BUTTON_WHEELDOWN:
-				gSettings.Scene.TargetCamera.EyeX -= Value;
+				//gSettings.Scene.TargetCamera.EyeX += Value;
 				gSettings.Scene.TargetCamera.EyeY -= Value;
 				gSettings.Scene.TargetCamera.EyeZ -= Value;
+				break;
+			case SDL_BUTTON_WHEELDOWN:
+				//gSettings.Scene.TargetCamera.EyeX -= Value;
+				gSettings.Scene.TargetCamera.EyeY += Value;
+				gSettings.Scene.TargetCamera.EyeZ += Value;
 				break;
 			}
 			break;
