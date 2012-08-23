@@ -10,13 +10,21 @@ extern AS::Settings::CSettingsSimple gSettings;
 
 
 static stb_fontchar fontdata[STB_SOMEFONT_NUM_CHARS];
-
+static GLuint gTextureID = 0;
 static void init(void)
 {
+	
     // optionally replace both STB_SOMEFONT_BITMAP_HEIGHT with STB_SOMEFONT_BITMAP_HEIGHT_POW2
-    static unsigned char fontpixels[STB_SOMEFONT_BITMAP_HEIGHT][STB_SOMEFONT_BITMAP_WIDTH];
-    STB_SOMEFONT_CREATE(fontdata, fontpixels, STB_SOMEFONT_BITMAP_HEIGHT);
+    static GLubyte fontpixels[STB_SOMEFONT_BITMAP_HEIGHT_POW2][STB_SOMEFONT_BITMAP_WIDTH];
+	//GLuint fontpixels1[STB_SOMEFONT_BITMAP_HEIGHT_POW2][STB_SOMEFONT_BITMAP_WIDTH] = {0};
+    STB_SOMEFONT_CREATE(fontdata, fontpixels, STB_SOMEFONT_BITMAP_HEIGHT_POW2);
     //... create texture ...
+	glGenTextures(1, &gTextureID);
+	glBindTexture(GL_TEXTURE_2D, gTextureID );
+	glTexImage2D(GL_TEXTURE_2D, 0, 1, STB_SOMEFONT_BITMAP_WIDTH, STB_SOMEFONT_BITMAP_HEIGHT_POW2, 0, 1, GL_UNSIGNED_BYTE, fontpixels );
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, NULL);
     // for best results rendering 1:1 pixels texels, use nearest-neighbor sampling
     // if allowed to scale up, use bilerp
 }
@@ -24,19 +32,22 @@ static void init(void)
 static void draw_string_integer(int x, int y, char *str) // draw with top-left point x,y
 {
     //... use texture ...
+	glBindTexture(GL_TEXTURE_2D, gTextureID);
     //... turn on alpha blending and gamma-correct alpha blending ...
+	glEnable(GL_ALPHA_TEST);
+	glEnable(GL_BLEND);
     glBegin(GL_QUADS);
     while (*str) {
         int char_codepoint = *str++;
         stb_fontchar *cd = &fontdata[char_codepoint - STB_SOMEFONT_FIRST_CHAR];
-		glColor3f(1.0f, 0.0f, 0.0f);
-        //glTexCoord2f(cd->s0, cd->t0);
+		//glColor3f(1.0f, 0.0f, 0.0f);
+        glTexCoord2f(cd->s0, cd->t0);
 		glVertex2i(x + cd->x0, y + cd->y0);
-        //glTexCoord2f(cd->s1, cd->t0);
+        glTexCoord2f(cd->s1, cd->t0);
 		glVertex2i(x + cd->x1, y + cd->y0);
-        //glTexCoord2f(cd->s1, cd->t1);
+        glTexCoord2f(cd->s1, cd->t1);
 		glVertex2i(x + cd->x1, y + cd->y1);
-        //glTexCoord2f(cd->s0, cd->t1);
+        glTexCoord2f(cd->s0, cd->t1);
 		glVertex2i(x + cd->x0, y + cd->y1);
         // if bilerping, in D3D9 you'll need a half-pixel offset here for 1:1 to behave correct
         x += cd->advance_int;
@@ -47,17 +58,62 @@ static void draw_string_integer(int x, int y, char *str) // draw with top-left p
 void AS::Rendering::COpenGLRenderer::Initialize()
 {
 	init();
-	glutInitContextVersion(2, 1);
+	//glutInitContextVersion(2, 1);
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	//glViewport(0, 0, 800, 450);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45.0,800.0/450.0, 0.01, 1000.0);
+	//glOrtho( 0.0, gSettings.Video.Width, gSettings.Video.Height, 0.0, 1.0, -1.0 );
 	glMatrixMode( GL_MODELVIEW );
-	gluLookAt(0.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0);
+	glLoadIdentity();
+	//gluLookAt(0.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0);
+	glEnable( GL_TEXTURE_2D );
 }
 
 static int ticks = 0;
+
+static void DrawCube()
+{
+	glBegin( GL_QUADS );
+		// top red
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, -1.0f);
+		glVertex3f(1.0f, 1.0f, -1.0f);
+		glVertex3f(1.0f, 1.0f, 1.0f);
+		glVertex3f(-1.0f, 1.0f, 1.0f);
+		// bottom green 
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 1.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);
+		glVertex3f(1.0f, -1.0f, -1.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);
+		// side xy blue
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);
+		glVertex3f(1.0f, -1.0f, -1.0f);
+		glVertex3f(1.0f, 1.0f, -1.0f);
+		glVertex3f(-1.0f, 1.0f, -1.0f);
+
+	glEnd();
+}
+
+static void DrawTester(float xs, float ys, float zs)
+{
+	float xo = xs;
+	float yo = ys;
+	float zo = zs;
+	glBegin( GL_QUADS );
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f+xo, -1.0f+yo, 1.0f+zo);
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(1.0f+xo, -1.0f+yo, 1.0f+zo);
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(1.0f+xo, 1.0f+yo, 1.0f+zo);
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f+xo, 1.0f+yo, 1.0f+zo);
+	glEnd();
+}
 
 void AS::Rendering::COpenGLRenderer::Render()
 {
@@ -66,18 +122,28 @@ void AS::Rendering::COpenGLRenderer::Render()
 
 	ticks = SDL_GetTicks();
 
+	glClear( GL_COLOR_BUFFER_BIT );
+
+	DrawTester(0.0,0.0,-6.0);
+
+	glLoadIdentity();
+	glTranslatef(0.0f,0.0f,-3.0f);
 	draw_string_integer(0,0,"hello world");
 /*
-	glPushMatrix();
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
-	gluLookAt(0.0, gSettings.Scene.TargetCamera.EyeZ, gSettings.Scene.TargetCamera.EyeZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0.0, gSettings.Scene.TargetCamera.EyeY, gSettings.Scene.TargetCamera.EyeZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 	glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 
-	glClear( GL_COLOR_BUFFER_BIT );
 	
-	glPopMatrix();
-	glRotatef(2.4f, 0.0f, 1.0f, 0.0f);
+	glPushMatrix();
+	static float angle1 = 2.4f;
+	angle1 += 2.4f;
+	//glLoadIdentity();
+	glRotatef(angle1, 0.0f, 1.0f, 0.0f);
+	DrawCube();
+	*/
+	/*
 	// sun
 	glBegin( GL_QUADS );
 		glColor3f(1.0f, 0.0f, 0.0f);
@@ -90,23 +156,26 @@ void AS::Rendering::COpenGLRenderer::Render()
 		glVertex3f(-1.0f, 0.0f, -1.0f);
 	glEnd();
 	
-
 	glPushMatrix();
-	glRotatef(15.4f, 1.0f, 0.0f, 0.0f);
+	static float angle2 = 2.4f;
+	angle2 += 9.6f;
 	glTranslatef(-4.0f, 0.0f, 0.0f);
+	glRotatef(angle2, 0.0f, 1.0f, 0.0f);
+	
 	// earth
 	glBegin( GL_QUADS );
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(0.5f, 0.5f, 0.5f);
 		glVertex3f(-1.0f, 0.0f, 1.0f);
-		glColor3f(1.0f, 1.0f, 0.0f);
+		glColor3f(0.5f, 1.0f, 0.0f);
 		glVertex3f(1.0f, 0.0f, 1.0f);
-		glColor3f(0.0f, 1.0f, 0.0f);
+		glColor3f(0.0f, 1.0f, 0.5f);
 		glVertex3f(1.0f, 0.0f, -1.0f);
-		glColor3f(0.0f, 1.0f, 1.0f);
+		glColor3f(1.0f, 1.0f, 1.0f);
 		glVertex3f(-1.0f, 0.0f, -1.0f);
 	glEnd();
 	glPopMatrix();
 	*/
+	//glPopMatrix();
 
 /*
 	glBegin( GL_QUADS );
