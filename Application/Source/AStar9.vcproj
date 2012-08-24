@@ -210,6 +210,10 @@
 				RelativePath=".\Settings\SettingsSimple.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Views\View.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -229,11 +233,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Common\Common.hpp"
+				RelativePath=".\Framework\Common.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Framework\Common.hpp"
+				RelativePath=".\Common\Common.hpp"
 				>
 			</File>
 			<File
@@ -261,6 +265,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Common\Messages.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Framework\NotifyStream.hpp"
 				>
 			</File>
@@ -285,7 +293,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Views\Types.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Framework\Utils.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Views\View.hpp"
 				>
 			</File>
 		</Filter>
