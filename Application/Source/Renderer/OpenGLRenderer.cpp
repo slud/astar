@@ -57,6 +57,29 @@ static void init(void)
     // for best results rendering 1:1 pixels texels, use nearest-neighbor sampling
     // if allowed to scale up, use bilerp
 }
+struct rect
+{
+	int height;
+	int width;
+};
+
+rect calc_string_rect(const char *str)
+{
+	int width = 0;
+	int height =0;
+    while (*str) {
+        int char_codepoint = *str++;
+        stb_fontchar *cd = &fontdata[char_codepoint - STB_SOMEFONT_FIRST_CHAR];
+		width += cd->advance_int;
+		int max = cd->y1-cd->y0;
+		if(max>height)
+			height=max;
+    }
+	rect r;
+	r.height=height;
+	r.width=width;
+	return r;
+}
 
 static void draw_string_integer(int x, int y, char *str) // draw with top-left point x,y
 {
@@ -65,21 +88,28 @@ static void draw_string_integer(int x, int y, char *str) // draw with top-left p
     //... turn on alpha blending and gamma-correct alpha blending ...
 	//glEnable(GL_ALPHA_TEST);
 	//glEnable(GL_BLEND);
+	int width = 0;
+	int height =0;
     glBegin(GL_QUADS);
     while (*str) {
         int char_codepoint = *str++;
         stb_fontchar *cd = &fontdata[char_codepoint - STB_SOMEFONT_FIRST_CHAR];
 		//glColor3f(1.0f, 0.0f, 0.0f);
-        glTexCoord2f(cd->s0, cd->t0);
-		glVertex2i(x + cd->x0, y + cd->y0);
-        glTexCoord2f(cd->s1, cd->t0);
+											glTexCoord2f(cd->s0, cd->t0);
+		glVertex2i(x + cd->x0, y + cd->y0); 
+											glTexCoord2f(cd->s1, cd->t0);
 		glVertex2i(x + cd->x1, y + cd->y0);
-        glTexCoord2f(cd->s1, cd->t1);
+											glTexCoord2f(cd->s1, cd->t1);
 		glVertex2i(x + cd->x1, y + cd->y1);
-        glTexCoord2f(cd->s0, cd->t1);
+											glTexCoord2f(cd->s0, cd->t1);
 		glVertex2i(x + cd->x0, y + cd->y1);
         // if bilerping, in D3D9 you'll need a half-pixel offset here for 1:1 to behave correct
         x += cd->advance_int;
+
+		width += cd->x1-cd->x0;
+		int max = cd->y1-cd->y0;
+		if(max>height)
+			height=max;
     }
     glEnd();
 }
@@ -125,6 +155,7 @@ static void DrawCube()
 {
 	glBegin( GL_QUADS );
 		// top red
+	
 		glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, 1.0f, -1.0f);
 		glVertex3f(1.0f, 1.0f, -1.0f);
@@ -136,6 +167,7 @@ static void DrawCube()
 		glVertex3f(1.0f, -1.0f, 1.0f);
 		glVertex3f(1.0f, -1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
+		
 		// side xy blue
 		glColor3f(0.0f, 0.0f, 1.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
@@ -153,9 +185,10 @@ static void DrawTester(float xs, float ys, float zs)
 	float zo = zs;
 	int id = gTextureID;
 	//int id = gCheckerID;
+	//int id = NULL;
 	glBindTexture(GL_TEXTURE_2D, id);
 	glBegin( GL_QUADS );
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.0f, 1.0f);
 		glTexCoord2f(0.0f,1.0f);
 		glVertex3f(-1.0f+xo, -1.0f+yo, 1.0f+zo);
 
@@ -172,7 +205,7 @@ static void DrawTester(float xs, float ys, float zs)
 		glVertex3f(-1.0f+xo, 1.0f+yo, 1.0f+zo);
 	glEnd();
 }
-float aspect = 800.0f / 450.0f;
+float aspect = 1.0f; //800.0f / 450.0f;
 void glEnable2D()
 {
 	int vPort[4];
@@ -185,7 +218,7 @@ void glEnable2D()
 	glPushMatrix();
 	glLoadIdentity();
   
-	glOrtho(0.0, 450.0, 0.0, 800.0, 1.0, -1.0);
+	glOrtho(0.0, 450.0, 800.0, 0.0, 1.0, -1.0);
 	//glOrtho(-aspect, aspect, -1, 1, -1, 1);
 	//glOrtho(0, aspect, 0, 1, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
@@ -195,10 +228,10 @@ void glEnable2D()
 
 void glDisable2D()
 {
+	glPopMatrix();	
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();   
 	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();	
 	glEnable(GL_DEPTH_TEST);
 }
 double ar = 800.0/450.0;
@@ -212,36 +245,69 @@ void AS::Rendering::COpenGLRenderer::Render()
 
 	glClear( GL_COLOR_BUFFER_BIT );
 
-	
-	glTranslatef(0.0f,0.0f,-6.0f);
-	static float angle1 = 2.4f;
-	angle1 += 2.4f;
-	//glLoadIdentity();
-	glRotatef(angle1, 0.0f, 1.0f, 0.0f);
-	DrawCube();
+	// glEnable2D();
+	//glDisable(GL_DEPTH_TEST);
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
 	glLoadIdentity();
-	glEnable2D();
-	//glScalef(0.05f,0.05f,0.05f);
-	//int id = gTextureID;
+	glOrtho(0.0, 450.0, 800.0, 0.0, 1.0, -1.0);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	
+	glScalef(1.0f/ar, ar, 0.0f);
+	glPushMatrix();
+	static float angle3 = 1.4f;
+	angle3 += 2.4f;
+	//glRotatef(angle3, 1.0f, 0.0f, 0.0f);
+	char txt[] = "000-000-000";
+	rect r = calc_string_rect(txt);
+	draw_string_integer((800-r.width)/2,(450-r.height)/2,txt);
+	glPopMatrix();
 	int id = gCheckerID;
 	glBindTexture(GL_TEXTURE_2D, id);
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 1.0f); 
-									glVertex2f(0.0f, 0.0f);
+									glVertex3f(0.0f, 0.0f,0.0f);
 		glTexCoord2f(1.0f, 1.0f); 
-									glVertex2f(x/aspect, 0.0f);
+									glVertex3f(x/aspect, 0.0f,0.0f);
 		glTexCoord2f(1.0f, 0.0f); 
-									glVertex2f(x/aspect, x*aspect);
+									glVertex3f(x/aspect, x*aspect,0.0f);
 		glTexCoord2f(0.0f, 0.0f); 
-									glVertex2f(0.0f    , x*aspect);
+									glVertex3f(0.0f    , x*aspect,0.0f);
 
 	glEnd();
-	//draw_string_integer(0,0,"hello world");
-	glDisable2D();
-	
 
-	//glLoadIdentity();
-	//DrawTester(0.0,0.0,-6.0);
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	//glEnable(GL_DEPTH_TEST);
+	//glDisable2D();
+
+	glRotatef(5.4f,0.0f,0.0f,1.0f);
+	DrawTester(0.0,0.0,-16.0);
+	glPushMatrix();
+	glLoadIdentity();
+	glTranslatef(-4.0f,0.0f,0.0f);
+	static float angle1 = 2.4f;
+	angle1 += 2.4f;
+	glRotatef(angle1,0.0f,0.0f,1.0f);
+	glTranslatef(4.0f,0.0f,0.0f);
+	DrawTester(-4.0,0.0,-16.0);
+	glPopMatrix();
+
+	glPushMatrix();
+	glLoadIdentity();
+	glTranslatef(0.0f,-2.0f,-14.0f);
+	static float angle4 = 2.4f;
+	angle4 += 2.4f;
+	glRotatef(angle4,0.0f,1.0f,0.0f);
+	DrawTester(4.0,0.0,0.0);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	DrawCube();
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glPopMatrix();	
 
 	
 	//glTranslatef(0.0f,0.0f,-6.0f);
