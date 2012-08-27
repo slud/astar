@@ -13,6 +13,9 @@ void AS::System::CMainLoop::ProcessEvent(Event_T const& event)
 {
 	switch( event.type )
 	{
+	case SDL_QUIT:
+		Stop();
+		break;
 	case SDL_KEYDOWN:
 		switch ( event.key.keysym.sym )
 		{
