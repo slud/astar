@@ -4,10 +4,12 @@
 #include "Types.hpp"
 #include "Common/Common.hpp"
 #include "Framework/ASSDL.hpp"
+#include "Framework/Functional.hpp"
 #include "Framework/Component.hpp"
 #include "Framework/Composite.hpp"
 #include "Framework/Leaf.hpp"
 #include <boost/utility.hpp>
+#include <boost/signals2.hpp>
 #include <string>
 
 namespace AS
@@ -17,6 +19,8 @@ namespace AS
 		class CViewComponent : public AS::Compositing::TComponent<CViewComponent>, boost::noncopyable
 		{
 		public:
+			typedef boost::signals2::signal<void (Event_T const&)> KeyDownEventHandler;
+			typedef AS::Functional::CSimpleEvent<KeyDownEventHandler> KeyDownSimpleEvent;
 			CViewComponent();
 			virtual ~CViewComponent() = 0;
 			virtual CColor const& GetBackgroundColor() const;
@@ -31,6 +35,7 @@ namespace AS
 			virtual void SetPosition(CPosition const& position);
 			virtual void SetSize(CSize const& size);
 			virtual void Show() = 0;
+			KeyDownSimpleEvent KeyDown;
 		protected:
 			virtual void Paint() = 0;
 			virtual void ProcessEvent(Event_T const& event) = 0;
@@ -41,6 +46,7 @@ namespace AS
 			CSize m_Size;
 			CColor m_BackgroundColor;
 			int m_Opacity;
+			KeyDownEventHandler m_KeyDownEventHandler;
 		};
 
 		class CViewComposite : public AS::Compositing::TComposite<CViewComponent>

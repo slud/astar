@@ -3,11 +3,26 @@
 #include "Settings/SettingsSimple.hpp"
 #include "SDL_opengl.h"
 #include "freeglut.h"
+#include <boost/function.hpp>
+#include <list>
 
 #include "Libraries/stb_font_courier_36_usascii.inl"
 
 extern AS::Settings::CSettingsSimple gSettings;
 
+namespace AS
+{
+	namespace Rendering
+	{
+		std::list<boost::function<void ()> > g_2dStack;
+		std::list<boost::function<void ()> > g_3dStack;
+	}
+}
+
+void AS::Rendering::COpenGLRenderer::Add(RenderEventHandler callback)
+{
+	m_RenderingStack.push_back(callback);
+}
 
 static stb_fontchar fontdata[STB_SOMEFONT_NUM_CHARS];
 static GLuint gTextureID = 0;

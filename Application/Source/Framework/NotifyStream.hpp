@@ -10,27 +10,11 @@ namespace AS
 {
 	namespace IO
 	{
-		// I created this class to not put signal in public interface.
-		// So the user won't be able to manipulate connections and so on.
-		template<typename T>
-		class CSimpleEvent // Facade
-		{
-		public:
-			typedef typename T::slot_type SlotType;
-			CSimpleEvent(T& signal) : m_signal(signal) {}
-			boost::signals2::connection Connect(SlotType const& subscriber)
-			{
-				return m_signal.connect(subscriber);
-			}
-		private:
-			T& m_signal;
-		};
-
 		class CNotifyStream
 		{
 		public:
 			typedef boost::signals2::signal<void (std::string const&)> TextChangedEventHandler;
-			typedef CSimpleEvent<TextChangedEventHandler> TextChangedSimpleEvent;
+			typedef AS::Functional::CSimpleEvent<TextChangedEventHandler> TextChangedSimpleEvent;
 			CNotifyStream() : TextChanged(m_Signal) {}
 			TextChangedSimpleEvent TextChanged;
 		protected:

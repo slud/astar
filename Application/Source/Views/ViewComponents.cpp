@@ -5,7 +5,8 @@
 
 AS::Views::CViewComponent::CViewComponent() :
 	m_pParent(nullptr),
-		m_Opacity(100)
+		m_Opacity(100),
+		KeyDown(m_KeyDownEventHandler)
 {
 }
 
@@ -22,6 +23,8 @@ AS::Views::CPosition const& AS::Views::CViewComponent::GetGlobalPosition()
 {
 	if(m_pParent)
 		m_GlobalPosition = m_pParent->GetGlobalPosition() + m_Position;
+	else
+		m_GlobalPosition = m_Position;
 	return m_GlobalPosition;
 }
 
@@ -77,16 +80,32 @@ void AS::Views::CViewComponent::SetSize(const AS::Views::CSize &size)
 void AS::Views::CViewComponent::Show()
 {
 	throw std::exception(AS::Common::Messages::Exceptions::c_NotImplemented);
+	// Prepare a stack of member function pointers from children sub-tree.
+	// Register this.Render() which will itereate through the stack and render each child.
 }
 
 void AS::Views::CViewComponent::Paint()
 {
-	throw std::exception(AS::Common::Messages::Exceptions::c_NotImplemented);
+	glBegin( GL_QUADS );
+		glColor3f(m_BackgroundColor.Red, m_BackgroundColor.Green, m_BackgroundColor.Blue);
+		glVertex2i(GetGlobalPosition().X, GetGlobalPosition().Y);
+		glVertex2i(GetGlobalPosition().X+GetSize().Width, GetGlobalPosition().Y);
+		glVertex2i(GetGlobalPosition().X+GetSize().Width, GetGlobalPosition().Y+GetSize().Height);
+		glVertex2i(GetGlobalPosition().X, GetGlobalPosition().Y+GetSize().Height);
+		glColor3f(1.0f, 0.0f, 1.0f); // TODO: set color to default. magenta here.
+	glEnd();
 }
 
-void AS::Views::CViewComponent::ProcessEvent(const Event_T &event)
+void AS::Views::CViewComponent::ProcessEvent(Event_T const& event)
 {
-	throw std::exception(AS::Common::Messages::Exceptions::c_NotImplemented);
+	switch( event.type )
+	{
+	case SDL_KEYDOWN:
+		m_KeyDownEventHandler(event);
+		break;
+	default:
+		break;
+	}
 }
 
 

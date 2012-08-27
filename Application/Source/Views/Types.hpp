@@ -9,10 +9,10 @@ namespace AS
 		{
 		public:
 			//CColor() {}
-			CColor(int r=0, int g=0, int b=0) : Red(r), Green(g), Blue(b)	{}
-			int Red;
-			int Green;
-			int Blue;
+			CColor(float r=0.25f, float g=0.25f, float b=0.25f) : Red(r), Green(g), Blue(b)	{}
+			float Red;
+			float Green;
+			float Blue;
 		};
 
 		class CPosition
