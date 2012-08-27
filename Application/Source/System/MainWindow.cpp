@@ -117,6 +117,11 @@ void AS::System::CMainWindow::ProcessEvent(Event_T const& event)
 	SceneEvents(event);
 }
 
+void AS::System::CMainWindow::SetView(AS::Views::CView* view)
+{
+
+}
+
 void AS::System::CMainWindow::Show()
 {
 	Initialize();

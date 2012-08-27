@@ -172,7 +172,37 @@ static void DrawTester(float xs, float ys, float zs)
 		glVertex3f(-1.0f+xo, 1.0f+yo, 1.0f+zo);
 	glEnd();
 }
+float aspect = 800.0f / 450.0f;
+void glEnable2D()
+{
+	int vPort[4];
+  
+	glDisable(GL_DEPTH_TEST);
 
+	glGetIntegerv(GL_VIEWPORT, vPort);
+  
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+  
+	glOrtho(0.0, 450.0, 0.0, 800.0, 1.0, -1.0);
+	//glOrtho(-aspect, aspect, -1, 1, -1, 1);
+	//glOrtho(0, aspect, 0, 1, -1, 1);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+}
+
+void glDisable2D()
+{
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();   
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();	
+	glEnable(GL_DEPTH_TEST);
+}
+double ar = 800.0/450.0;
+float x = 40.00f;
 void AS::Rendering::COpenGLRenderer::Render()
 {
 	if(1000/33 > (SDL_GetTicks() - ticks))
@@ -181,6 +211,35 @@ void AS::Rendering::COpenGLRenderer::Render()
 	ticks = SDL_GetTicks();
 
 	glClear( GL_COLOR_BUFFER_BIT );
+
+	
+	glTranslatef(0.0f,0.0f,-6.0f);
+	static float angle1 = 2.4f;
+	angle1 += 2.4f;
+	//glLoadIdentity();
+	glRotatef(angle1, 0.0f, 1.0f, 0.0f);
+	DrawCube();
+	glLoadIdentity();
+	glEnable2D();
+	//glScalef(0.05f,0.05f,0.05f);
+	//int id = gTextureID;
+	int id = gCheckerID;
+	glBindTexture(GL_TEXTURE_2D, id);
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 1.0f); 
+									glVertex2f(0.0f, 0.0f);
+		glTexCoord2f(1.0f, 1.0f); 
+									glVertex2f(x/aspect, 0.0f);
+		glTexCoord2f(1.0f, 0.0f); 
+									glVertex2f(x/aspect, x*aspect);
+		glTexCoord2f(0.0f, 0.0f); 
+									glVertex2f(0.0f    , x*aspect);
+
+	glEnd();
+	//draw_string_integer(0,0,"hello world");
+	glDisable2D();
+	
+
 	//glLoadIdentity();
 	//DrawTester(0.0,0.0,-6.0);
 

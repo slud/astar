@@ -2,6 +2,7 @@
 	#define AS_SYSTEM_MAIN_WINDOW_INCLUDE
 
 #include "Framework/ASSDL.hpp"
+#include "Views/View.hpp"
 #include <boost/utility.hpp>
 
 namespace AS
@@ -15,6 +16,7 @@ namespace AS
 			virtual ~CMainWindow();
 			virtual void Close();
 			virtual void ProcessEvent(Event_T const&);
+			virtual void SetView(AS::Views::CView* view);
 			virtual void Show();
 		protected:
 			virtual void Initialize();

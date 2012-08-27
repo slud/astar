@@ -214,6 +214,10 @@
 				RelativePath=".\Views\View.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Views\ViewComponents.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -233,11 +237,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Framework\Common.hpp"
+				RelativePath=".\Common\Common.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Common\Common.hpp"
+				RelativePath=".\Framework\Common.hpp"
 				>
 			</File>
 			<File
@@ -302,6 +306,10 @@
 			</File>
 			<File
 				RelativePath=".\Views\View.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Views\ViewComponents.hpp"
 				>
 			</File>
 		</Filter>
