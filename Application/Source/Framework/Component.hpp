@@ -51,6 +51,12 @@ namespace AS
 			virtual int                   GetCount()                     { throw std::exception(c_NotImplemented); };
 
 			/**
+			 *  Get the number of descendants.
+			 *  @return Returns descendants count.
+			 */
+			virtual int                   GetDescendantsCount()          { throw std::exception(c_NotImplemented); };
+
+			/**
 			 *  Get the name of the component.
 			 *  @return Returns name of the component.
 			 */

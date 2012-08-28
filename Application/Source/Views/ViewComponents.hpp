@@ -11,6 +11,7 @@
 #include <boost/utility.hpp>
 #include <boost/signals2.hpp>
 #include <string>
+#include <vector>
 
 namespace AS
 {
@@ -21,6 +22,8 @@ namespace AS
 		public:
 			typedef boost::signals2::signal<void (Event_T const&)> KeyDownEventHandler;
 			typedef AS::Functional::CSimpleEvent<KeyDownEventHandler> KeyDownSimpleEvent;
+			typedef boost::function<void ()> PaintDelegate;
+			typedef std::list<PaintDelegate> PaintDelegateCollection;
 			CViewComponent();
 			virtual ~CViewComponent() = 0;
 			virtual CColor const& GetBackgroundColor() const;
@@ -28,17 +31,17 @@ namespace AS
 			virtual int const& GetOpacity() const;
 			virtual CPosition const& GetPosition() const;
 			virtual CSize const& GetSize() const;
+			virtual void Paint() = 0;
+			virtual void ProcessEvent(Event_T const& event) = 0;
+			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates) = 0;
 			virtual void SetBackgroundColor(CColor const& color);
 			virtual void SetBackgroundImage(std::string const& file);
 			virtual void SetOpacity(int percent);
 			virtual void SetParent(CViewComponent* parent);
 			virtual void SetPosition(CPosition const& position);
 			virtual void SetSize(CSize const& size);
-			virtual void Show() = 0;
+			virtual void Show() = 0; // TODO: Move it to CView class.
 			KeyDownSimpleEvent KeyDown;
-		protected:
-			virtual void Paint() = 0;
-			virtual void ProcessEvent(Event_T const& event) = 0;
 		private:
 			CViewComponent* m_pParent;
 			CPosition m_Position;
@@ -51,10 +54,19 @@ namespace AS
 
 		class CViewComposite : public AS::Compositing::TComposite<CViewComponent>
 		{
+		public:
+			virtual void Paint();
+			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
+			virtual void Show();
+		private:
+			std::vector<PaintDelegate> m_PaintDelegates;
 		};
 
 		class CViewLeaf : public AS::Compositing::TLeaf<CViewComponent>
 		{
+		public:
+			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
+			virtual void Show();
 		};
 	}
 }

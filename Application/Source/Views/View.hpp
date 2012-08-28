@@ -10,9 +10,9 @@ namespace AS
 		class CView : public CViewComposite
 		{
 		public:
-			virtual void Show();
+			//virtual void Show();
 		protected:
-			virtual void Paint();
+			//virtual void Paint();
 			virtual void ProcessEvent(Event_T const& event);
 		};
 	}

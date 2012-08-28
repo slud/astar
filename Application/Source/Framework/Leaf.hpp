@@ -33,7 +33,12 @@ namespace AS
 
 			virtual int GetCount() const
 			{
-				throw std::exception(c_InvalidOperation);
+				return 0;
+			}
+
+			virtual int GetDescendantsCount()
+			{
+				return 0;
 			}
 
 			virtual void Remove(T& component)

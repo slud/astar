@@ -2,14 +2,15 @@
 	#define AS_RENDERING_RENDERER_INCLUDE
 
 #include <boost/function.hpp>
-#include <list>
 
 namespace AS
 {
 	namespace Rendering
 	{
-		extern std::list<boost::function<void ()> > g_2dStack;
-		extern std::list<boost::function<void ()> > g_3dStack;
+		typedef boost::function<void ()> PaintDelegate;
+
+		void Register2dPaintHandler(PaintDelegate const&);
+		void Register3dPaintHandler(PaintDelegate const&);
 
 		template<class T>
 		class CRenderer

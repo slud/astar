@@ -4,7 +4,7 @@
 #include "SDL_opengl.h"
 #include "freeglut.h"
 #include <boost/function.hpp>
-#include <list>
+#include <vector>
 
 #include "Libraries/stb_font_courier_36_usascii.inl"
 
@@ -14,8 +14,8 @@ namespace AS
 {
 	namespace Rendering
 	{
-		std::list<boost::function<void ()> > g_2dStack;
-		std::list<boost::function<void ()> > g_3dStack;
+		std::vector<boost::function<void ()> > g_2dPaintDelegates;
+		std::vector<boost::function<void ()> > g_3dPaintDelegates;
 	}
 }
 
@@ -269,8 +269,11 @@ void AS::Rendering::COpenGLRenderer::Render()
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
-	
 	glScalef(1.0f/ar, ar, 0.0f);
+	for(size_t i=0; i<g_2dPaintDelegates.size(); i++)
+	{
+		g_2dPaintDelegates[i]();
+	}
 	glPushMatrix();
 	static float angle3 = 1.4f;
 	angle3 += 2.4f;

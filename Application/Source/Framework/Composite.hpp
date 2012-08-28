@@ -58,8 +58,8 @@ namespace AS
 			virtual void Add(std::auto_ptr<T> component)
 			{
 				ASSERT(component.get() != nullptr, "Null pointer");
-				int Return = m_Components.erase(component->GetName());
-				ASSERT(0 != Return, "Component already existed. Replaced.");
+				//int Return = m_Components.erase(component->GetName());
+				//ASSERT(0 != Return, "Component already existed. Replaced.");
 				m_Components[component->GetName()] = component;
 			}
 
@@ -70,6 +70,17 @@ namespace AS
 			virtual int GetCount() const
 			{
 				return static_cast<size_t>(m_Components.size());
+			}
+
+			virtual int GetDescendantsCount()
+			{
+				int Total = GetCount();
+				ComponentsCollection::const_iterator it;
+				for(it = m_Components.begin(); it != m_Components.end(); it++)
+				{
+					Total += it->second->GetDescendantsCount();
+				}
+				return Total;
 			}
 
 			/**
