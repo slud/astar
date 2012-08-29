@@ -16,6 +16,10 @@ namespace AS
 		class TLeaf : public T
 		{
 		public:
+
+			TLeaf() {}
+			virtual ~TLeaf() {}
+
 			virtual T& operator[](std::string const& name)
 			{
 				throw std::exception(c_InvalidOperation);

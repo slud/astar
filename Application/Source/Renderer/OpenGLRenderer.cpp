@@ -327,12 +327,6 @@ void AS::Rendering::COpenGLRenderer::Render()
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glPopMatrix();	
 
-	
-	//glTranslatef(0.0f,0.0f,-6.0f);
-	//draw_string_integer(0,0,"hello world");
-	//glScalef(0.05f,0.05f,0.05f);
-	//glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-	//draw_string_float(0.0f,0.0f,"bebebe kokoko");
 /*
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
@@ -347,52 +341,7 @@ void AS::Rendering::COpenGLRenderer::Render()
 	glRotatef(angle1, 0.0f, 1.0f, 0.0f);
 	DrawCube();
 	*/
-	/*
-	// sun
-	glBegin( GL_QUADS );
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(-1.0f, 0.0f, 1.0f);
-		glColor3f(1.0f, 1.0f, 0.0f);
-		glVertex3f(1.0f, 0.0f, 1.0f);
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(1.0f, 0.0f, -1.0f);
-		glColor3f(0.0f, 1.0f, 1.0f);
-		glVertex3f(-1.0f, 0.0f, -1.0f);
-	glEnd();
-	
-	glPushMatrix();
-	static float angle2 = 2.4f;
-	angle2 += 9.6f;
-	glTranslatef(-4.0f, 0.0f, 0.0f);
-	glRotatef(angle2, 0.0f, 1.0f, 0.0f);
-	
-	// earth
-	glBegin( GL_QUADS );
-		glColor3f(0.5f, 0.5f, 0.5f);
-		glVertex3f(-1.0f, 0.0f, 1.0f);
-		glColor3f(0.5f, 1.0f, 0.0f);
-		glVertex3f(1.0f, 0.0f, 1.0f);
-		glColor3f(0.0f, 1.0f, 0.5f);
-		glVertex3f(1.0f, 0.0f, -1.0f);
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glVertex3f(-1.0f, 0.0f, -1.0f);
-	glEnd();
-	glPopMatrix();
-	*/
-	//glPopMatrix();
 
-/*
-	glBegin( GL_QUADS );
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(-4.0f, 0.0f, 1.0f);
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(-2.0f, 0.0f, 1.0f);
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-2.0f, 0.0f, -1.0f);
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-4.0f, 0.0f, -1.0f);
-	glEnd();
-*/
 	SDL_GL_SwapBuffers();
 }
 

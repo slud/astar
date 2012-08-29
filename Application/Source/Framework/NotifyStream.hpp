@@ -24,7 +24,7 @@ namespace AS
 		};
 
 		template<class T = std::ostream>
-		class CNotifyOutputStream : public CNotifyStream // Malformed proxy, decorator, facade.
+		class TNotifyOutputStream : public CNotifyStream // Malformed proxy, decorator, facade.
 		{
 		public:
 			CNotifyOutputStream(T& stream) : m_Stream(stream) {}
@@ -40,25 +40,6 @@ namespace AS
 				Tmp << number;
 				std::string TextNumber = Tmp.str();
 				*this << TextNumber;
-				return *this;
-			}
-		private:
-			T& m_Stream;
-		};
-
-		template<class T = std::ofstream>
-		class CNotifyOutputFileStream : public CNotifyOutputStream<T>
-		{
-		public:
-			CNotifyOutputFileStream(T& stream) : CNotifyOutputStream(stream), m_Stream(stream) {}
-			~CNotifyOutputFileStream() {}
-			virtual CNotifyOutputStream& operator<<(std::string const& text)
-			{
-				if( m_Stream.is_open() )
-				{
-					m_Stream << text;
-					GetTextChangedEventHandler()(text);
-				}
 				return *this;
 			}
 		private:

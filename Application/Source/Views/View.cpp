@@ -1,4 +1,13 @@
 #include "View.hpp"
+
+AS::Views::CView::CView()
+{
+}
+
+AS::Views::CView::~CView()
+{
+}
+
 /*
 void AS::Views::CView::Show()
 {

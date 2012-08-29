@@ -21,7 +21,7 @@ namespace AS
 		{
 		public:
 			typedef boost::signals2::signal<void (Event_T const&)> KeyDownEventHandler;
-			typedef AS::Functional::CSimpleEvent<KeyDownEventHandler> KeyDownSimpleEvent;
+			typedef AS::Functional::TSimpleEvent<KeyDownEventHandler> KeyDownSimpleEvent;
 			typedef boost::function<void ()> PaintDelegate;
 			typedef std::list<PaintDelegate> PaintDelegateCollection;
 			CViewComponent();
@@ -55,6 +55,8 @@ namespace AS
 		class CViewComposite : public AS::Compositing::TComposite<CViewComponent>
 		{
 		public:
+			CViewComposite();
+			virtual ~CViewComposite();
 			virtual void Paint();
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
 			virtual void Show();
@@ -65,6 +67,9 @@ namespace AS
 		class CViewLeaf : public AS::Compositing::TLeaf<CViewComponent>
 		{
 		public:
+			CViewLeaf();
+			virtual ~CViewLeaf();
+			virtual void Paint();
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
 			virtual void Show();
 		};

@@ -36,7 +36,7 @@ void AS::System::CMainLoop::Loop()
 	m_Running = true;
 	while( m_Running )
 	{
-		std::list<LoopCallbackEventHandler>::const_iterator it;
+		std::vector<LoopStepCallback>::const_iterator it;
 		for(it = m_LoopCallbacks.begin(); it != m_LoopCallbacks.end(); it++ )
 		{
 			(*it)();
@@ -44,7 +44,7 @@ void AS::System::CMainLoop::Loop()
 	}
 }
 
-void AS::System::CMainLoop::RegisterStepFunction(LoopCallbackEventHandler callback)
+void AS::System::CMainLoop::RegisterStepFunction(LoopStepCallback callback)
 {
 	m_LoopCallbacks.push_back(callback);
 }

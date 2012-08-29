@@ -8,8 +8,8 @@
 
 AS::Views::CViewComponent::CViewComponent() :
 	m_pParent(nullptr),
-		m_Opacity(100),
-		KeyDown(m_KeyDownEventHandler)
+	m_Opacity(100),
+	KeyDown(m_KeyDownEventHandler)
 {
 }
 
@@ -109,6 +109,14 @@ void AS::Views::CViewComponent::Show()
 	AS::Rendering::Register2dPaintHandler(boost::bind(&AS::Views::CViewComponent::Paint, this));
 }
 
+AS::Views::CViewComposite::CViewComposite()
+{
+}
+
+AS::Views::CViewComposite::~CViewComposite()
+{
+}
+
 void AS::Views::CViewComposite::Paint()
 {
 	CViewComponent::Paint(); // Draw myself.
@@ -147,6 +155,19 @@ void AS::Views::CViewComposite::RegisterPaintDelegates(PaintDelegateCollection& 
 	{
 		(*this)[i].RegisterPaintDelegates(delegates);
 	}
+}
+
+AS::Views::CViewLeaf::CViewLeaf()
+{
+}
+
+AS::Views::CViewLeaf::~CViewLeaf()
+{
+}
+
+void AS::Views::CViewLeaf::Paint()
+{
+	CViewComponent::Paint();
 }
 
 void AS::Views::CViewLeaf::RegisterPaintDelegates(PaintDelegateCollection& delegates)

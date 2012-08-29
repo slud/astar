@@ -10,6 +10,8 @@ namespace AS
 		class CView : public CViewComposite
 		{
 		public:
+			CView();
+			virtual ~CView();
 			//virtual void Show();
 		protected:
 			//virtual void Paint();

@@ -34,7 +34,7 @@ void AS::System::CMainWindow::Initialize()
     // Fetch the video info.
     m_pVideoInfo = SDL_GetVideoInfo();
 
-	ASSERT(nullptr != m_pVideoInfo, SDL_GetError());
+	AS_ASSERT(nullptr != m_pVideoInfo, SDL_GetError());
 
     /* The flags to pass to SDL_SetVideoMode */
     m_VideoFlags  = SDL_OPENGL;          /* Enable OpenGL in SDL */
@@ -65,7 +65,7 @@ void AS::System::CMainWindow::Initialize()
     /* Get a SDL surface */
 	m_pDisplay = SDL_SetVideoMode(cScreenWidth, cScreenHeight, cBPP, m_VideoFlags);
 
-	ASSERT(nullptr != m_pDisplay, cCantSetVideoMode);
+	AS_ASSERT(nullptr != m_pDisplay, cCantSetVideoMode);
 }
 
 #include "Settings/SettingsSimple.hpp"

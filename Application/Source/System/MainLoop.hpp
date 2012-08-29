@@ -3,7 +3,7 @@
 
 #include "Framework/ASSDL.hpp"
 #include <boost/function.hpp>
-#include <list>
+#include <vector>
 
 namespace AS
 {
@@ -12,18 +12,18 @@ namespace AS
 		class CMainLoop
 		{
 		public:
-			typedef boost::function<void ()> LoopCallbackEventHandler;
+			typedef boost::function<void ()> LoopStepCallback;
 			CMainLoop();
 			virtual ~CMainLoop();
 			virtual void ProcessEvent(Event_T const& event);
 			virtual void Loop();
-			virtual void RegisterStepFunction(LoopCallbackEventHandler callback);
+			virtual void RegisterStepFunction(LoopStepCallback callback);
 		private:
 			CMainLoop(CMainLoop const&);
 			CMainLoop& operator=(CMainLoop const&);
 			void Stop();
 			bool m_Running;
-			std::list<LoopCallbackEventHandler> m_LoopCallbacks;
+			std::vector<LoopStepCallback> m_LoopCallbacks;
 		};
 	} // ns System
 } // ns AS

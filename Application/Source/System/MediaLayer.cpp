@@ -15,7 +15,7 @@ void AS::System::CMediaLayer::Events()
 
 	SDL_PollEvent(&Event);
 
-	std::list<SystemEventEventHandler>::const_iterator it;
+	std::vector<SystemEventEventHandler>::const_iterator it;
 	for(it = m_EventHandlers.begin(); it != m_EventHandlers.end(); it++ )
 	{
 		(*it)(Event);

@@ -3,7 +3,7 @@
 
 #include "Framework/ASSDL.hpp"
 #include <boost/function.hpp>
-#include <list>
+#include <vector>
 
 namespace AS
 {
@@ -21,7 +21,7 @@ namespace AS
 		private:
 			CMediaLayer(CMediaLayer const&);
 			CMediaLayer& operator=(CMediaLayer const&);
-			std::list<SystemEventEventHandler> m_EventHandlers;
+			std::vector<SystemEventEventHandler> m_EventHandlers;
 		};
 	} // ns System
 } // ns AS

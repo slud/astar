@@ -1,5 +1,5 @@
 /**
- *  Class header template version 3 - increases
+ *  Class header template version 4 - increases
  *  each time this template changes.
  * 
  *  @file name
@@ -9,8 +9,8 @@
 
 // LICENSE
 
-#ifndef AS_NAME_INCLUDE
-    #define AS_NAME_INCLUDE
+#ifndef AS_NAMESPACES_CLASSNAME_INCLUDE
+    #define AS_NAMESPACES_CLASSNAME_INCLUDE
 
 // INCLUDES
 
@@ -77,7 +77,7 @@ private:
 
 // REFERENCES
 
-#endif // AS_NAME_INCLUDE
+#endif // AS_NAMESPACES_CLASSNAME_INCLUDE
 
 
 

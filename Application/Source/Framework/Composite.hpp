@@ -18,6 +18,11 @@ namespace AS
 		class TComposite : public T
 		{
 		public:
+
+			TComposite() {}
+
+			virtual ~TComposite() {}
+
 			/**
 			 *  Access through an index operator.
 			 *  @param A name of the component.
@@ -25,11 +30,9 @@ namespace AS
 			 */
 			virtual T& operator[](std::string const& name)
 			{
+				AS_ASSERT(!name.empty(), "Invalid name. Name cannot be empty.");
 				typename ComponentsCollection::iterator it = m_Components.find(name);
-				if(it == m_Components.end())
-				{
-					assert(0);
-				}
+				AS_ASSERT(it != m_Components.end(), "Can't find component named \"" + name + "\"");
 				return *(it->second);
 			}
 
@@ -41,10 +44,10 @@ namespace AS
 			 */
 			virtual T& operator[](int index)
 			{
-				assert(index < 0 && "Wrong index value.");
-				assert(static_cast<size_t>(index) >= m_Components.size() && "Index is out of range.");
+				AS_ASSERT(index >= 0, "Cannot access collection element at " + AS::Utils::CUtils::Convert<std::string>(index) + ". Index value out of range.");
+				AS_ASSERT(static_cast<size_t>(index) < m_Components.size(),  "Cannot access collection element at " + AS::Utils::CUtils::Convert<std::string>(index) + ". Index value out of range.");
 				typename ComponentsCollection::iterator it = m_Components.begin();
-				for(int i=0; i <= index; i++)
+				for(int i=0; i<index; i++)
 				{
 					it++;
 				}
@@ -57,9 +60,10 @@ namespace AS
 			 */
 			virtual void Add(std::auto_ptr<T> component)
 			{
-				ASSERT(component.get() != nullptr, "Null pointer");
-				//int Return = m_Components.erase(component->GetName());
-				//ASSERT(0 != Return, "Component already existed. Replaced.");
+				AS_ASSERT(nullptr != component.get(), "Null pointer.");
+				AS_ASSERT(!component->GetName().empty(), "Component doesn't have a name.");
+				typename ComponentsCollection::iterator it = m_Components.find(component->GetName());
+				AS_ASSERT(it == m_Components.end(), "Component already exists.");
 				m_Components[component->GetName()] = component;
 			}
 
@@ -88,18 +92,21 @@ namespace AS
 			 */
 			virtual void Remove(T& component)
 			{
-				m_Components.erase(component.GetName());
+				Remove(component.GetName());
 			}
 
 			virtual void Remove(std::string const& name)
 			{
-				m_Components.erase(name);
+				AS_ASSERT(!name.empty(), "Invalid name. Name cannot be empty.");
+				typename ComponentsCollection::iterator it = m_Components.find(name);
+				AS_ASSERT(it != m_Components.end(), "Cannot remove component named \"" + name + "\". Component with that name doesn't exists.");
+				m_Components.erase(it);
 			}
 
 			virtual void Remove(int index)
 			{
-				assert(index < 0 && "Wrong index value.");
-				assert(static_cast<size_t>(index) >= m_Components.size() && "Index is out of range.");
+				AS_ASSERT(index >= 0, "Cannot access collection element at " + AS::Utils::CUtils::Convert<std::string>(index) + ". Index value out of range.");
+				AS_ASSERT(static_cast<size_t>(index) < m_Components.size(),  "Cannot access collection element at " + AS::Utils::CUtils::Convert<std::string>(index) + ". Index value out of range.");
 				typename ComponentsCollection::iterator it = m_Components.begin();
 				for(int i=0; i <= index; i++)
 				{

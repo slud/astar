@@ -9,9 +9,15 @@ int main(int argc, char *argv[])
 		CApplication application;
 		result = application.Start(argc, argv);
 	}
+	catch(std::exception const& e)
+	{
+		std::ofstream error("ERROR.TXT", std::ios::out, std::ios::app);
+		if( error.is_open() )
+			error << "An exception has been thrown:" << "\n" << e.what() << "\n";
+	}
 	catch(...)
 	{
-		std::ofstream error("ERROR.TXT");
+		std::ofstream error("ERROR.TXT", std::ios::out, std::ios::app);
 		if( error.is_open() )
 			error << "An exception has been thrown." << "\n";
 	}
