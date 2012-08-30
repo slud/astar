@@ -22,6 +22,7 @@ namespace AS
 		public:
 			typedef boost::signals2::signal<void (Event_T const&)> EventHandler;
 			typedef AS::Functional::TSimpleEvent<EventHandler> KeyDownSimpleEvent;
+			typedef AS::Functional::TSimpleEvent<EventHandler> KeyPressSimpleEvent;
 			typedef AS::Functional::TSimpleEvent<EventHandler> MouseButtonDownSimpleEvent;
 			typedef boost::function<void (Event_T const&)> EventDelegate;
 			typedef std::list<EventDelegate> EventDelegateCollection;
@@ -46,10 +47,13 @@ namespace AS
 			virtual void SetSize(CSize const& size);
 			virtual void Show() = 0; // TODO: Move it to CView class.
 			KeyDownSimpleEvent KeyDown;
+			KeyPressSimpleEvent KeyPress;
 			MouseButtonDownSimpleEvent MouseButtonDown;
+		public:
+			virtual void RecalculatePositions();
 		private:
+			friend class CViewComponent;
 			void CalculateGlobalPosition();
-			void RecalculatePositions();
 			CViewComponent* m_pParent;
 			CPosition m_Position; // Local position.
 			CPosition m_Point0; // Global draw x0,y0 point.
@@ -58,7 +62,9 @@ namespace AS
 			CSize m_Size;
 			CColor m_BackgroundColor;
 			int m_Opacity;
+			int m_KeyPressed;
 			EventHandler m_KeyDownEventHandler;
+			EventHandler m_KeyPressEventHandler;
 			EventHandler m_MouseButtonDownEventHandler;
 		};
 
@@ -73,7 +79,11 @@ namespace AS
 			virtual void RegisterEventDelegates(EventDelegateCollection& delegates);
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
 			virtual void Show();
+		public:
+			virtual void RecalculatePositions();
 		private:
+			friend class CViewComponent;
+			friend class CViewComposite;
 			std::vector<EventDelegate> m_EventDelegates;
 			std::vector<PaintDelegate> m_PaintDelegates;
 		};
@@ -88,6 +98,11 @@ namespace AS
 			virtual void RegisterEventDelegates(EventDelegateCollection& delegates);
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
 			virtual void Show();
+		public:
+			virtual void RecalculatePositions();
+		private:
+			friend class CViewComponent;
+			friend class CViewLeaf;
 		};
 	}
 }

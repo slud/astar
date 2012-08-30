@@ -9,7 +9,9 @@
 AS::Views::CViewComponent::CViewComponent() :
 	m_pParent(nullptr),
 	m_Opacity(100),
+	m_KeyPressed(false),
 	KeyDown(m_KeyDownEventHandler),
+	KeyPress(m_KeyPressEventHandler),
 	MouseButtonDown(m_MouseButtonDownEventHandler)
 {
 }
@@ -69,19 +71,22 @@ void AS::Views::CViewComponent::ProcessEvent(Event_T const& event)
 	switch( event.type )
 	{
 	case SDL_KEYDOWN:
+		++m_KeyPressed;
 		m_KeyDownEventHandler(event);
+		break;
+	case SDL_KEYUP:
+		--m_KeyPressed;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		m_MouseButtonDownEventHandler(event);
 		break;
+	case SDL_MOUSEMOTION:
+		break;
 	default:
 		break;
 	}
-
-	Uint8 *keystates = SDL_GetKeyState( NULL );
-    //If up is pressed
-    if(keystates[SDLK_UP] || keystates[SDLK_DOWN] || keystates[SDLK_LEFT] || keystates[SDLK_RIGHT])
-		m_KeyDownEventHandler(event);
+	if(m_KeyPressed)
+		m_KeyPressEventHandler(event);
 }
 
 void AS::Views::CViewComponent::RecalculatePositions()
@@ -162,10 +167,20 @@ void AS::Views::CViewComposite::Paint()
 
 void AS::Views::CViewComposite::ProcessEvent(Event_T const& event)
 {
-	CViewComponent::ProcessEvent(event);
-	for(size_t i=0; i < m_EventDelegates.size(); i++)
+	for(int i=m_EventDelegates.size()-1; i >= 0; i--) // From top to bottom.
 	{
 		m_EventDelegates[i](event);
+	}
+	CViewComponent::ProcessEvent(event);
+}
+
+void AS::Views::CViewComposite::RecalculatePositions()
+{
+	CViewComponent::RecalculatePositions();
+	int Count = GetCount();
+	for(int i=0; i<Count; i++)
+	{
+		(*this)[i].RecalculatePositions();
 	}
 }
 
@@ -241,6 +256,11 @@ void AS::Views::CViewLeaf::Paint()
 void AS::Views::CViewLeaf::ProcessEvent(Event_T const& event)
 {
 	CViewComponent::ProcessEvent(event);
+}
+
+void AS::Views::CViewLeaf::RecalculatePositions()
+{
+	CViewComponent::RecalculatePositions();
 }
 
 void AS::Views::CViewLeaf::RegisterEventDelegates(EventDelegateCollection& delegates)
