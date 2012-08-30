@@ -14,6 +14,67 @@ CApplication::~CApplication()
 {
 }
 
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+
+AS::Views::CView View;
+static void Przesun(Event_T const& event)
+{
+	/*
+	switch(event.type)
+	{
+	case SDL_KEYDOWN:
+		switch(event.key.keysym.sym)
+		{
+		case SDLK_LEFT:
+			View["View2"].SetPosition(AS::Views::CPosition(View["View2"].GetPosition().X-1,View["View2"].GetPosition().Y));
+			break;
+		case SDLK_RIGHT:
+			View["View2"].SetPosition(AS::Views::CPosition(View["View2"].GetPosition().X+1,View["View2"].GetPosition().Y));
+			break;
+		case SDLK_UP:
+			View["View2"].SetPosition(AS::Views::CPosition(View["View2"].GetPosition().X,View["View2"].GetPosition().Y-1));
+			break;
+		case SDLK_DOWN:
+			View["View2"].SetPosition(AS::Views::CPosition(View["View2"].GetPosition().X,View["View2"].GetPosition().Y+1));
+			break;
+		}
+		break;
+	default:
+		break;
+	}
+	*/
+	Uint8 *keystates = SDL_GetKeyState( NULL );
+    //If up is pressed
+    if( keystates[ SDLK_UP ] )
+    {
+        View["View2"].SetPosition(AS::Views::CPosition(View["View2"].GetPosition().X,View["View2"].GetPosition().Y-1));
+    }
+
+    //If down is pressed
+    if( keystates[ SDLK_DOWN ] )
+    {
+        View["View2"].SetPosition(AS::Views::CPosition(View["View2"].GetPosition().X,View["View2"].GetPosition().Y+1));
+    }
+
+    //If left is pressed
+    if( keystates[ SDLK_LEFT ] )
+    {
+        View["View2"].SetPosition(AS::Views::CPosition(View["View2"].GetPosition().X-1,View["View2"].GetPosition().Y));
+    }
+
+    //If right is pressed
+    if( keystates[ SDLK_RIGHT ] )
+    {
+        View["View2"].SetPosition(AS::Views::CPosition(View["View2"].GetPosition().X+1,View["View2"].GetPosition().Y));
+    }
+	float r = (float)rand()/(float)RAND_MAX;
+	float g = (float)rand()/(float)RAND_MAX;
+	float b = (float)rand()/(float)RAND_MAX;
+	View.SetBackgroundColor(AS::Views::CColor(r,g,b));
+}
+
 int CApplication::Start(int argc, char* argv[])
 {
 	// TODO: Think about state machine...
@@ -26,7 +87,6 @@ int CApplication::Start(int argc, char* argv[])
 	m_MainLoop.RegisterStepFunction(boost::bind(&AS::System::CMediaLayer::Events, &m_MediaLayer));
 	m_MainLoop.RegisterStepFunction(boost::bind(&AS::Rendering::CRenderer<AS::Rendering::COpenGLRenderer>::Render, &m_Renderer));
 
-	AS::Views::CView View;
 	AS::Views::CView* View2 = new AS::Views::CView();
 	AS::Views::CColor Green;
 	Green.Red = 0.0f;
@@ -50,6 +110,9 @@ int CApplication::Start(int argc, char* argv[])
 	View.SetPosition(Pos1);
 	View.SetSize(AS::Views::CSize(100,80));
 	View2->SetParent(&View);
+	srand ( time(NULL) );
+	m_MediaLayer.RegisterEventHandler(boost::bind(&AS::Views::CView::ProcessEvent, &View, _1));
+	View.KeyDown.Connect(boost::bind(&Przesun, _1));
 	View.Show();
 	//View2.Show();
 

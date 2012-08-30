@@ -12,10 +12,6 @@ namespace AS
 		public:
 			CView();
 			virtual ~CView();
-			//virtual void Show();
-		protected:
-			//virtual void Paint();
-			virtual void ProcessEvent(Event_T const& event);
 		};
 	}
 }

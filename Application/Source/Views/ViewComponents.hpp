@@ -20,8 +20,11 @@ namespace AS
 		class CViewComponent : public AS::Compositing::TComponent<CViewComponent>, boost::noncopyable
 		{
 		public:
-			typedef boost::signals2::signal<void (Event_T const&)> KeyDownEventHandler;
-			typedef AS::Functional::TSimpleEvent<KeyDownEventHandler> KeyDownSimpleEvent;
+			typedef boost::signals2::signal<void (Event_T const&)> EventHandler;
+			typedef AS::Functional::TSimpleEvent<EventHandler> KeyDownSimpleEvent;
+			typedef AS::Functional::TSimpleEvent<EventHandler> MouseButtonDownSimpleEvent;
+			typedef boost::function<void (Event_T const&)> EventDelegate;
+			typedef std::list<EventDelegate> EventDelegateCollection;
 			typedef boost::function<void ()> PaintDelegate;
 			typedef std::list<PaintDelegate> PaintDelegateCollection;
 			CViewComponent();
@@ -33,6 +36,7 @@ namespace AS
 			virtual CSize const& GetSize() const;
 			virtual void Paint() = 0;
 			virtual void ProcessEvent(Event_T const& event) = 0;
+			virtual void RegisterEventDelegates(EventDelegateCollection& delegates) = 0;
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates) = 0;
 			virtual void SetBackgroundColor(CColor const& color);
 			virtual void SetBackgroundImage(std::string const& file);
@@ -42,14 +46,20 @@ namespace AS
 			virtual void SetSize(CSize const& size);
 			virtual void Show() = 0; // TODO: Move it to CView class.
 			KeyDownSimpleEvent KeyDown;
+			MouseButtonDownSimpleEvent MouseButtonDown;
 		private:
+			void CalculateGlobalPosition();
+			void RecalculatePositions();
 			CViewComponent* m_pParent;
-			CPosition m_Position;
-			CPosition m_GlobalPosition;
+			CPosition m_Position; // Local position.
+			CPosition m_Point0; // Global draw x0,y0 point.
+			CPosition m_Point1; // Global draw x1,y1 point.
+			CPosition m_GlobalPosition; // Global position from left upper window corner.
 			CSize m_Size;
 			CColor m_BackgroundColor;
 			int m_Opacity;
-			KeyDownEventHandler m_KeyDownEventHandler;
+			EventHandler m_KeyDownEventHandler;
+			EventHandler m_MouseButtonDownEventHandler;
 		};
 
 		class CViewComposite : public AS::Compositing::TComposite<CViewComponent>
@@ -57,10 +67,14 @@ namespace AS
 		public:
 			CViewComposite();
 			virtual ~CViewComposite();
+			virtual void Add(std::auto_ptr<CViewComponent> viewComponent);
 			virtual void Paint();
+			virtual void ProcessEvent(Event_T const& event);
+			virtual void RegisterEventDelegates(EventDelegateCollection& delegates);
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
 			virtual void Show();
 		private:
+			std::vector<EventDelegate> m_EventDelegates;
 			std::vector<PaintDelegate> m_PaintDelegates;
 		};
 
@@ -70,6 +84,8 @@ namespace AS
 			CViewLeaf();
 			virtual ~CViewLeaf();
 			virtual void Paint();
+			virtual void ProcessEvent(Event_T const& event);
+			virtual void RegisterEventDelegates(EventDelegateCollection& delegates);
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
 			virtual void Show();
 		};
