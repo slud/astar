@@ -10,6 +10,7 @@ AS::Views::CViewComponent::CViewComponent() :
 	m_pParent(nullptr),
 	m_Opacity(100),
 	m_KeyPressed(false),
+	m_Hitted(false),
 	KeyDown(m_KeyDownEventHandler),
 	KeyPress(m_KeyPressEventHandler),
 	MouseButtonDown(m_MouseButtonDownEventHandler)
@@ -20,12 +21,18 @@ AS::Views::CViewComponent::~CViewComponent()
 {
 }
 
+void AS::Views::CViewComponent::CalculateDrawArea()
+{
+	m_Point1.X = m_GlobalPosition.X + m_Size.Width;
+	m_Point1.Y = m_GlobalPosition.Y + m_Size.Height;
+}
+
 void AS::Views::CViewComponent::CalculateGlobalPosition()
 {
 	if(m_pParent)
-		m_GlobalPosition = m_pParent->GetGlobalPosition() + m_Position;
+		m_GlobalPosition = m_pParent->GetGlobalPosition() + m_LocalPosition;
 	else
-		m_GlobalPosition = m_Position;
+		m_GlobalPosition = m_LocalPosition;
 }
 
 AS::Views::CColor const& AS::Views::CViewComponent::GetBackgroundColor() const
@@ -35,7 +42,6 @@ AS::Views::CColor const& AS::Views::CViewComponent::GetBackgroundColor() const
 
 AS::Views::CPosition const& AS::Views::CViewComponent::GetGlobalPosition()
 {
-	CalculateGlobalPosition();
 	return m_GlobalPosition;
 }
 
@@ -44,9 +50,14 @@ int const& AS::Views::CViewComponent::GetOpacity() const
 	return m_Opacity;
 }
 
+AS::Views::CViewComponent* AS::Views::CViewComponent::GetParent()
+{
+	return m_pParent;
+}
+
 AS::Views::CPosition const& AS::Views::CViewComponent::GetPosition() const
 {
-	return m_Position;
+	return m_LocalPosition;
 }
 
 AS::Views::CSize const& AS::Views::CViewComponent::GetSize() const
@@ -54,14 +65,26 @@ AS::Views::CSize const& AS::Views::CViewComponent::GetSize() const
 	return m_Size;
 }
 
+bool AS::Views::CViewComponent::HitTest(CVector2d point)
+{
+	bool HeightCheck = false;
+	bool WidthCheck = false;
+	if(point.X >= m_GlobalPosition.X && point.X <= (m_GlobalPosition.X + m_Size.Width))
+		WidthCheck = true;
+	if(point.Y >= m_GlobalPosition.Y && point.Y <= (m_GlobalPosition.Y + m_Size.Height))
+		HeightCheck = true;
+	if( HeightCheck && WidthCheck ) m_Hitted = true;
+	return m_Hitted;
+}
+
 void AS::Views::CViewComponent::Paint()
 {
 	glBegin( GL_QUADS );
 		glColor3f(m_BackgroundColor.Red, m_BackgroundColor.Green, m_BackgroundColor.Blue);
-		glVertex2i(m_Point0.X, m_Point0.Y);
-		glVertex2i(m_Point1.X, m_Point0.Y);
+		glVertex2i(m_GlobalPosition.X, m_GlobalPosition.Y);
+		glVertex2i(m_Point1.X, m_GlobalPosition.Y);
 		glVertex2i(m_Point1.X, m_Point1.Y);
-		glVertex2i(m_Point0.X, m_Point1.Y);
+		glVertex2i(m_GlobalPosition.X, m_Point1.Y);
 		glColor3f(1.0f, 0.0f, 1.0f); // TODO: Set back color to default value. Magenta here.
 	glEnd();
 }
@@ -78,9 +101,20 @@ void AS::Views::CViewComponent::ProcessEvent(Event_T const& event)
 		--m_KeyPressed;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
+		switch(event.button.button)
+		{
+		case SDL_BUTTON_LEFT:
+			HitTest(CVector2d(event.button.x, event.button.y));
+			break;
+		}
 		m_MouseButtonDownEventHandler(event);
 		break;
+	case SDL_MOUSEBUTTONUP:
+		m_Hitted = false;
+		break;
 	case SDL_MOUSEMOTION:
+		if(m_Hitted)
+			SetPosition(CPosition(m_LocalPosition.X + event.motion.xrel, m_LocalPosition.Y + event.motion.yrel));
 		break;
 	default:
 		break;
@@ -92,10 +126,7 @@ void AS::Views::CViewComponent::ProcessEvent(Event_T const& event)
 void AS::Views::CViewComponent::RecalculatePositions()
 {
 	CalculateGlobalPosition();
-	m_Point0.X = m_GlobalPosition.X;
-	m_Point0.Y = m_GlobalPosition.Y;
-	m_Point1.X = m_GlobalPosition.X + m_Size.Width;
-	m_Point1.Y = m_GlobalPosition.Y + m_Size.Height;
+	CalculateDrawArea();
 }
 
 void AS::Views::CViewComponent::SetBackgroundColor(CColor const& color)
@@ -125,7 +156,7 @@ void AS::Views::CViewComponent::SetParent(CViewComponent* parent)
 
 void AS::Views::CViewComponent::SetPosition(const AS::Views::CPosition &position)
 {
-	m_Position = position;
+	m_LocalPosition = position;
 	RecalculatePositions();
 }
 
@@ -199,7 +230,6 @@ void AS::Views::CViewComposite::Show()
 		m_PaintDelegates[i] = *it0;
 		i++;
 	}
-
 	EventDelegateCollection Collection1;
 	RegisterEventDelegates(Collection1);
 	m_EventDelegates.resize(Collection1.size());

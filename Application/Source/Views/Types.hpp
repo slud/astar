@@ -15,6 +15,18 @@ namespace AS
 			float Blue;
 		};
 
+		class CVector2d
+		{
+		public:
+			CVector2d(int x=0, int y=0) : X(x), Y(y) {}
+			int X;
+			int Y;
+			CVector2d operator+(CVector2d const& position) const
+			{
+				return CVector2d(X+position.X, Y+position.Y);
+			}
+		};
+
 		class CPosition
 		{
 		public:

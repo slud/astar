@@ -21,9 +21,10 @@ namespace AS
 		{
 		public:
 			typedef boost::signals2::signal<void (Event_T const&)> EventHandler;
-			typedef AS::Functional::TSimpleEvent<EventHandler> KeyDownSimpleEvent;
-			typedef AS::Functional::TSimpleEvent<EventHandler> KeyPressSimpleEvent;
-			typedef AS::Functional::TSimpleEvent<EventHandler> MouseButtonDownSimpleEvent;
+			typedef AS::Functional::TSimpleEvent<EventHandler> SimpleEvent;
+			typedef SimpleEvent KeyDownSimpleEvent;
+			typedef SimpleEvent KeyPressSimpleEvent;
+			typedef SimpleEvent MouseButtonDownSimpleEvent;
 			typedef boost::function<void (Event_T const&)> EventDelegate;
 			typedef std::list<EventDelegate> EventDelegateCollection;
 			typedef boost::function<void ()> PaintDelegate;
@@ -33,6 +34,7 @@ namespace AS
 			virtual CColor const& GetBackgroundColor() const;
 			virtual CPosition const& GetGlobalPosition();
 			virtual int const& GetOpacity() const;
+			virtual CViewComponent* GetParent();
 			virtual CPosition const& GetPosition() const;
 			virtual CSize const& GetSize() const;
 			virtual void Paint() = 0;
@@ -54,15 +56,17 @@ namespace AS
 		private:
 			friend class CViewComponent;
 			void CalculateGlobalPosition();
+			void CalculateDrawArea();
+			bool HitTest(CVector2d point);
 			CViewComponent* m_pParent;
-			CPosition m_Position; // Local position.
-			CPosition m_Point0; // Global draw x0,y0 point.
-			CPosition m_Point1; // Global draw x1,y1 point.
+			CPosition m_LocalPosition; // Local position.
+			CPosition m_Point1; // Global draw x1,y1 point - precalculated for Paint procedure.
 			CPosition m_GlobalPosition; // Global position from left upper window corner.
 			CSize m_Size;
 			CColor m_BackgroundColor;
 			int m_Opacity;
 			int m_KeyPressed;
+			bool m_Hitted;
 			EventHandler m_KeyDownEventHandler;
 			EventHandler m_KeyPressEventHandler;
 			EventHandler m_MouseButtonDownEventHandler;
