@@ -11,6 +11,7 @@ AS::Views::CViewComponent::CViewComponent() :
 	m_Opacity(100),
 	m_KeyPressed(false),
 	m_Hitted(false),
+	m_BackgroundImageId(0),
 	KeyDown(m_KeyDownEventHandler),
 	KeyPress(m_KeyPressEventHandler),
 	MouseButtonDown(m_MouseButtonDownEventHandler)
@@ -77,15 +78,34 @@ bool AS::Views::CViewComponent::HitTest(CVector2d point)
 	return m_Hitted;
 }
 
+namespace { GLuint mTextureID = 0; }
 void AS::Views::CViewComponent::Paint()
 {
 	glBegin( GL_QUADS );
-		glColor3f(m_BackgroundColor.Red, m_BackgroundColor.Green, m_BackgroundColor.Blue);
+	if(mTextureID)
+	{
+		//glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, NULL);
+		glBindTexture(GL_TEXTURE_2D, mTextureID);
+		glBegin(GL_QUADS);
+
+			glTexCoord2i(0, 0); glVertex2i(m_GlobalPosition.X, m_GlobalPosition.Y);
+			glTexCoord2i(1, 0); glVertex2i(m_Point1.X, m_GlobalPosition.Y);
+			glTexCoord2i(1, 1); glVertex2i(m_Point1.X, m_Point1.Y);
+			glTexCoord2i(0, 1); glVertex2i(m_GlobalPosition.X, m_Point1.Y);
+
+		glEnd();
+		//glDisable(GL_TEXTURE_2D);
+	}
+	else
+	{
+		//glColor3f(m_BackgroundColor.Red, m_BackgroundColor.Green, m_BackgroundColor.Blue);
 		glVertex2i(m_GlobalPosition.X, m_GlobalPosition.Y);
 		glVertex2i(m_Point1.X, m_GlobalPosition.Y);
 		glVertex2i(m_Point1.X, m_Point1.Y);
 		glVertex2i(m_GlobalPosition.X, m_Point1.Y);
-		glColor3f(1.0f, 0.0f, 1.0f); // TODO: Set back color to default value. Magenta here.
+		//glColor3f(1.0f, 0.0f, 1.0f); // TODO: Set back color to default value. Magenta here.
+	}
 	glEnd();
 }
 
@@ -133,10 +153,108 @@ void AS::Views::CViewComponent::SetBackgroundColor(CColor const& color)
 {
 	m_BackgroundColor = color;
 }
-
-void AS::Views::CViewComponent::SetBackgroundImage(const std::string &file)
+/*
+static void freeTexture()
 {
-	throw std::exception(AS::Common::Messages::Exceptions::c_NotImplemented);
+    //Delete texture
+	GLuint mTextureID = m_BackgroundImageId;
+    if( mTextureID != 0 )
+    {
+        glDeleteTextures( 1, &mTextureID );
+        mTextureID = 0;
+    }
+
+    mTextureWidth = 0;
+    mTextureHeight = 0;
+	m_BackgroundImageId = mTextureID;
+}
+
+static bool loadTextureFromPixels32( GLuint* pixels, GLuint width, GLuint height )
+{
+	GLuint mTextureID = 0;
+    //Free texture if it exists
+    //freeTexture();
+    //Get texture dimensions
+    mTextureWidth = width;
+    mTextureHeight = height;
+    //Generate texture ID
+    glGenTextures( 1, &mTextureID );
+
+    //Bind texture ID
+    glBindTexture( GL_TEXTURE_2D, mTextureID );
+    //Generate texture
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
+    //Set texture parameters
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    //Unbind texture
+    glBindTexture( GL_TEXTURE_2D, NULL );
+
+    //Check for error
+    GLenum error = glGetError();
+    if( error != GL_NO_ERROR )
+    {
+        return false;
+    }
+
+	m_BackgroundImageId = mTextureID;
+
+    return true;
+}
+*/
+
+#include "IL/il.h"
+#include <string>
+
+void AS::Views::CViewComponent::SetBackgroundImage(std::string const& file)
+{
+	glEnable(GL_TEXTURE_2D);
+	ilInit();
+	//std::wstring wfile(L"Resources/Images/PlaybackControls/Play.png");
+    //Texture loading success
+    bool textureLoaded = false;
+	ILuint imgID = 0;
+    ilGenImages( 1, &imgID );
+    ilBindImage( imgID );
+    //Load image
+	//ILboolean success = ilLoadImage( wfile.c_str()/*file.c_str()*/ );
+	ILboolean success = ilLoadImage( file.c_str() );
+    //Image loaded successfully
+    if( success == IL_TRUE )
+    {
+        //Convert image to RGBA
+		int help0 = ilGetInteger(IL_IMAGE_FORMAT);
+        success = ilConvertImage( 6408, IL_UNSIGNED_BYTE );
+        if( success == IL_TRUE )
+        {
+            //Create texture from file pixels
+            //textureLoaded = loadTextureFromPixels32( (GLuint*)ilGetData(), (GLuint)ilGetInteger( IL_IMAGE_WIDTH ), (GLuint)ilGetInteger( IL_IMAGE_HEIGHT ) );
+			
+			//Generate texture ID
+			glGenTextures( 1, &mTextureID );
+			//Bind texture ID
+			glBindTexture( GL_TEXTURE_2D, mTextureID );
+			//Set texture parameters
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+			//Generate texture
+			int help1 = ilGetInteger(IL_IMAGE_FORMAT);
+			glTexImage2D( GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, (GLuint*)ilGetData() );
+			//Unbind texture
+			glBindTexture( GL_TEXTURE_2D, NULL );
+
+			//Check for error
+			GLenum error = glGetError();
+			if( error != GL_NO_ERROR )
+			{
+			}
+
+			m_BackgroundImageId = mTextureID;
+        }
+        //Delete file from memory
+        ilDeleteImages( 1, &imgID );
+    }
+	//throw std::exception(AS::Common::Messages::Exceptions::c_NotImplemented);
 }
 
 void AS::Views::CViewComponent::SetOpacity(int percent)

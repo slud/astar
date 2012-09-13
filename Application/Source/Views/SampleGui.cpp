@@ -61,11 +61,12 @@ void AS::Gui::CSampleGui::DisplayGui(AS::System::CMediaLayer& mediaLayer)
 	Pos.Y = 40;
 	View2->SetPosition(Pos);
 	AS::Views::CSize Size;
-	Size.Width = 40;
-	Size.Height = 40;
+	Size.Width = 64;
+	Size.Height = 64;
 	View2->SetSize(Size);
 	View2->SetName("View2");
-	
+	View2->SetBackgroundImage("Resources/Images/PlaybackControls/Play.png");
+	//View2->SetBackgroundImage("c:/temp/test.png");
 	g_View.Add(View2);
 	AS::Views::CPosition Pos1;
 	Pos1.X = 80;
@@ -76,5 +77,6 @@ void AS::Gui::CSampleGui::DisplayGui(AS::System::CMediaLayer& mediaLayer)
 	srand ( time(NULL) );
 	mediaLayer.RegisterEventHandler(boost::bind(&AS::Views::CView::ProcessEvent, &g_View, _1));
 	g_View.KeyPress.Connect(boost::bind(&Przesun, _1));
+	//g_View.SetBackgroundImage("C://preview.png");
 	g_View.Show();
 }

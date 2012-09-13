@@ -109,7 +109,7 @@ static void draw_string_integer(int x, int y, char *str) // draw with top-left p
     while (*str) {
         int char_codepoint = *str++;
         stb_fontchar *cd = &fontdata[char_codepoint - STB_SOMEFONT_FIRST_CHAR];
-		//glColor3f(1.0f, 0.0f, 0.0f);
+		////glColor3f(1.0f, 0.0f, 0.0f);
 											glTexCoord2f(cd->s0, cd->t0);
 		glVertex2i(x + cd->x0, y + cd->y0); 
 											glTexCoord2f(cd->s1, cd->t0);
@@ -162,6 +162,9 @@ void AS::Rendering::COpenGLRenderer::Initialize()
 	glLoadIdentity();
 	//gluLookAt(0.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0);
 	glEnable( GL_TEXTURE_2D );
+
+	 glClearDepth(0.0f);
+	 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 static int ticks = 0;
@@ -171,20 +174,20 @@ static void DrawCube()
 	glBegin( GL_QUADS );
 		// top red
 	
-		glColor3f(1.0f, 0.0f, 0.0f);
+		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, 1.0f, -1.0f);
 		glVertex3f(1.0f, 1.0f, -1.0f);
 		glVertex3f(1.0f, 1.0f, 1.0f);
 		glVertex3f(-1.0f, 1.0f, 1.0f);
 		// bottom green 
-		glColor3f(0.0f, 1.0f, 0.0f);
+		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);
 		glVertex3f(1.0f, -1.0f, 1.0f);
 		glVertex3f(1.0f, -1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
 		
 		// side xy blue
-		glColor3f(0.0f, 0.0f, 1.0f);
+		//glColor3f(0.0f, 0.0f, 1.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
 		glVertex3f(1.0f, -1.0f, -1.0f);
 		glVertex3f(1.0f, 1.0f, -1.0f);
@@ -203,19 +206,19 @@ static void DrawTester(float xs, float ys, float zs)
 	//int id = NULL;
 	glBindTexture(GL_TEXTURE_2D, id);
 	glBegin( GL_QUADS );
-		glColor3f(1.0f, 0.0f, 1.0f);
+		//glColor3f(1.0f, 0.0f, 1.0f);
 		glTexCoord2f(0.0f,1.0f);
 		glVertex3f(-1.0f+xo, -1.0f+yo, 1.0f+zo);
 
-		//glColor3f(0.0f, 1.0f, 0.0f);
+		////glColor3f(0.0f, 1.0f, 0.0f);
 		glTexCoord2f(1.0f,1.0f);
 		glVertex3f(1.0f+xo, -1.0f+yo, 1.0f+zo);
 
-		//glColor3f(0.0f, 0.0f, 1.0f);
+		////glColor3f(0.0f, 0.0f, 1.0f);
 		glTexCoord2f(1.0f,0.0f);
 		glVertex3f(1.0f+xo, 1.0f+yo, 1.0f+zo);
 
-		//glColor3f(0.0f, 0.0f, 0.0f);
+		////glColor3f(0.0f, 0.0f, 0.0f);
 		glTexCoord2f(0.0f,0.0f);
 		glVertex3f(-1.0f+xo, 1.0f+yo, 1.0f+zo);
 	glEnd();
@@ -324,7 +327,7 @@ void AS::Rendering::COpenGLRenderer::Render()
 	DrawTester(4.0,0.0,0.0);
 	glBindTexture(GL_TEXTURE_2D, NULL);
 	DrawCube();
-	glColor3f(1.0f, 1.0f, 1.0f);
+	//glColor3f(1.0f, 1.0f, 1.0f);
 	glPopMatrix();	
 
 /*
