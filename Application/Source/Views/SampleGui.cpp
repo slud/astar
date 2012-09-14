@@ -66,13 +66,14 @@ void AS::Gui::CSampleGui::DisplayGui(AS::System::CMediaLayer& mediaLayer)
 	View2->SetSize(Size);
 	View2->SetName("View2");
 	View2->SetBackgroundImage("Resources/Images/PlaybackControls/Play.png");
+	//g_View.SetBackgroundImage("Resources/Images/texture.png");
 	//View2->SetBackgroundImage("c:/temp/test.png");
 	g_View.Add(View2);
 	AS::Views::CPosition Pos1;
 	Pos1.X = 80;
 	Pos1.Y = 80;
 	g_View.SetPosition(Pos1);
-	g_View.SetSize(AS::Views::CSize(100,80));
+	g_View.SetSize(AS::Views::CSize(256,128));
 	//View2->SetParent(&g_View);
 	srand ( time(NULL) );
 	mediaLayer.RegisterEventHandler(boost::bind(&AS::Views::CView::ProcessEvent, &g_View, _1));

@@ -7,6 +7,8 @@
 #include <vector>
 
 #include "Libraries/stb_font_courier_36_usascii.inl"
+#include "IL/il.h"
+
 
 extern AS::Settings::CSettingsSimple gSettings;
 
@@ -148,100 +150,66 @@ static void draw_string_float(float x, float y, char *str) // draw with top-left
     glEnd();
 }
 
+GLuint mTextureID = 0;
 void AS::Rendering::COpenGLRenderer::Initialize()
 {
-	init();
-	//glutInitContextVersion(2, 1);
-	glClearColor(0.f, 0.f, 0.f, 1.f);
-	//glViewport(0, 0, 800, 450);
+	//init();
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45.0,800.0/450.0, 0.01, 1000.0);
 	//glOrtho( 0.0, gSettings.Video.Width, gSettings.Video.Height, 0.0, 1.0, -1.0 );
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
-	//gluLookAt(0.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0);
-	glEnable( GL_TEXTURE_2D );
+	//glClearDepth(0.f);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glShadeModel(GL_SMOOTH);
+	//glEnable(GL_DEPTH_TEST); // hidden surface removal
+	//glEnable(GL_CULL_FACE); // do not calculate inside of poly's
+	//glFrontFace(GL_CCW); // counter clock-wise polygons are out
+	glClearColor(0.f, 0.f, 0.f, 1.f);
+	glEnable(GL_TEXTURE_2D);
+	ilInit();
+	ilClearColour( 255, 255, 255, 000 );
 
-	 glClearDepth(0.0f);
-	 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	ILuint imgID = 0;
+    ilGenImages( 1, &imgID );
+    ilBindImage( imgID );
+	ilLoadImage( "Resources/Images/PlaybackControls/Play.png" );
+	ilConvertImage( IL_RGBA, IL_UNSIGNED_BYTE );
+	glGenTextures(1, &mTextureID);
+	glBindTexture(GL_TEXTURE_2D, mTextureID);
+	int BPP = ilGetInteger(IL_IMAGE_BPP);
+	int Width = ilGetInteger(IL_IMAGE_WIDTH);
+	int Height = ilGetInteger(IL_IMAGE_HEIGHT);
+	int Format = ilGetInteger(IL_IMAGE_FORMAT);
+	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, Width, Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLuint*)ilGetData() );
+	//Set texture parameters
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	glBindTexture( GL_TEXTURE_2D, NULL );
+
+	//Delete file from memory
+	ilDeleteImages( 1, &imgID );
 }
 
 static int ticks = 0;
 
-static void DrawCube()
-{
-	glBegin( GL_QUADS );
-		// top red
-	
-		//glColor3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(-1.0f, 1.0f, -1.0f);
-		glVertex3f(1.0f, 1.0f, -1.0f);
-		glVertex3f(1.0f, 1.0f, 1.0f);
-		glVertex3f(-1.0f, 1.0f, 1.0f);
-		// bottom green 
-		//glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-1.0f, -1.0f, 1.0f);
-		glVertex3f(1.0f, -1.0f, 1.0f);
-		glVertex3f(1.0f, -1.0f, -1.0f);
-		glVertex3f(-1.0f, -1.0f, -1.0f);
-		
-		// side xy blue
-		//glColor3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(-1.0f, -1.0f, -1.0f);
-		glVertex3f(1.0f, -1.0f, -1.0f);
-		glVertex3f(1.0f, 1.0f, -1.0f);
-		glVertex3f(-1.0f, 1.0f, -1.0f);
-
-	glEnd();
-}
-
-static void DrawTester(float xs, float ys, float zs)
-{
-	float xo = xs;
-	float yo = ys;
-	float zo = zs;
-	int id = gTextureID;
-	//int id = gCheckerID;
-	//int id = NULL;
-	glBindTexture(GL_TEXTURE_2D, id);
-	glBegin( GL_QUADS );
-		//glColor3f(1.0f, 0.0f, 1.0f);
-		glTexCoord2f(0.0f,1.0f);
-		glVertex3f(-1.0f+xo, -1.0f+yo, 1.0f+zo);
-
-		////glColor3f(0.0f, 1.0f, 0.0f);
-		glTexCoord2f(1.0f,1.0f);
-		glVertex3f(1.0f+xo, -1.0f+yo, 1.0f+zo);
-
-		////glColor3f(0.0f, 0.0f, 1.0f);
-		glTexCoord2f(1.0f,0.0f);
-		glVertex3f(1.0f+xo, 1.0f+yo, 1.0f+zo);
-
-		////glColor3f(0.0f, 0.0f, 0.0f);
-		glTexCoord2f(0.0f,0.0f);
-		glVertex3f(-1.0f+xo, 1.0f+yo, 1.0f+zo);
-	glEnd();
-}
-float aspect = 1.0f; //800.0f / 450.0f;
 void glEnable2D()
 {
-	int vPort[4];
-  
-	glDisable(GL_DEPTH_TEST);
-
-	glGetIntegerv(GL_VIEWPORT, vPort);
-  
+	static const GLdouble w = 800.0;
+	static const GLdouble h = 450.0;
+	//glDisable(GL_DEPTH_TEST);
+	//int vPort[4];
+	//glGetIntegerv(GL_VIEWPORT, vPort);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-  
-	glOrtho(0.0, 450.0, 800.0, 0.0, 1.0, -1.0);
-	//glOrtho(-aspect, aspect, -1, 1, -1, 1);
-	//glOrtho(0, aspect, 0, 1, -1, 1);
+	glOrtho(0.0, h, w, 0.0, 1.0, -1.0);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
+	static GLfloat ar = static_cast<GLfloat>(w/h);
+	glScalef(1.0f/ar, ar, 0.0f);
 }
 
 void glDisable2D()
@@ -250,33 +218,31 @@ void glDisable2D()
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();   
 	glMatrixMode(GL_MODELVIEW);
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 }
-double ar = 800.0/450.0;
-float x = 40.00f;
+
 void AS::Rendering::COpenGLRenderer::Render()
 {
 	if(1000/33 > (SDL_GetTicks() - ticks))
 		return;
-
 	ticks = SDL_GetTicks();
-
 	glClear( GL_COLOR_BUFFER_BIT );
-
-	// glEnable2D();
-	//glDisable(GL_DEPTH_TEST);
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glOrtho(0.0, 450.0, 800.0, 0.0, 1.0, -1.0);
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-	glScalef(1.0f/ar, ar, 0.0f);
+	glEnable2D();
+	//glBindTexture(GL_TEXTURE_2D, gCheckerID);
+	glBindTexture(GL_TEXTURE_2D, mTextureID);
+        glBegin( GL_QUADS );
+            glTexCoord2f( 0.f, 0.f ); glVertex2f(           0.f,            0.f );
+            glTexCoord2f( 1.f, 0.f ); glVertex2f( 64.0f,            0.f );
+            glTexCoord2f( 1.f, 1.f ); glVertex2f( 64.0f, 64.0f );
+            glTexCoord2f( 0.f, 1.f ); glVertex2f(           0.f, 64.0f );
+        glEnd();
+		
 	for(size_t i=0; i<g_2dPaintDelegates.size(); i++)
 	{
 		g_2dPaintDelegates[i]();
 	}
+	
+	/*
 	glPushMatrix();
 	static float angle3 = 1.4f;
 	angle3 += 2.4f;
@@ -298,53 +264,8 @@ void AS::Rendering::COpenGLRenderer::Render()
 									glVertex3f(0.0f    , x*aspect,0.0f);
 
 	glEnd();
-
-	glPopMatrix();
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	//glEnable(GL_DEPTH_TEST);
-	//glDisable2D();
-
-	glRotatef(5.4f,0.0f,0.0f,1.0f);
-	DrawTester(0.0,0.0,-16.0);
-	glPushMatrix();
-	glLoadIdentity();
-	glTranslatef(-4.0f,0.0f,0.0f);
-	static float angle1 = 2.4f;
-	angle1 += 2.4f;
-	glRotatef(angle1,0.0f,0.0f,1.0f);
-	glTranslatef(4.0f,0.0f,0.0f);
-	DrawTester(-4.0,0.0,-16.0);
-	glPopMatrix();
-
-	glPushMatrix();
-	glLoadIdentity();
-	glTranslatef(0.0f,-2.0f,-14.0f);
-	static float angle4 = 2.4f;
-	angle4 += 2.4f;
-	glRotatef(angle4,0.0f,1.0f,0.0f);
-	DrawTester(4.0,0.0,0.0);
-	glBindTexture(GL_TEXTURE_2D, NULL);
-	DrawCube();
-	//glColor3f(1.0f, 1.0f, 1.0f);
-	glPopMatrix();	
-
-/*
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity();
-	gluLookAt(0.0, gSettings.Scene.TargetCamera.EyeY, gSettings.Scene.TargetCamera.EyeZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-	glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
-
-	
-	glPushMatrix();
-	static float angle1 = 2.4f;
-	angle1 += 2.4f;
-	//glLoadIdentity();
-	glRotatef(angle1, 0.0f, 1.0f, 0.0f);
-	DrawCube();
 	*/
-
+	glDisable2D();
 	SDL_GL_SwapBuffers();
 }
 

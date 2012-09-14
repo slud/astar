@@ -67,7 +67,7 @@ namespace AS
 			int m_Opacity;
 			int m_KeyPressed;
 			bool m_Hitted;
-			int m_BackgroundImageId;
+			unsigned int m_BackgroundImageId;
 			EventHandler m_KeyDownEventHandler;
 			EventHandler m_KeyPressEventHandler;
 			EventHandler m_MouseButtonDownEventHandler;
