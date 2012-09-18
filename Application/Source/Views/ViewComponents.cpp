@@ -106,7 +106,7 @@ void AS::Views::CViewComponent::Paint()
 	glEnd();
 }
 
-void AS::Views::CViewComponent::ProcessEvent(Event_T const& event)
+AS::Views::CViewProcessEventFeedback AS::Views::CViewComponent::ProcessEvent(Event_T const& event)
 {
 	switch( event.type )
 	{
@@ -259,13 +259,14 @@ void AS::Views::CViewComposite::Paint()
 	}
 }
 
-void AS::Views::CViewComposite::ProcessEvent(Event_T const& event)
+AS::Views::CViewProcessEventFeedback AS::Views::CViewComposite::ProcessEvent(Event_T const& event)
 {
 	for(int i=m_EventDelegates.size()-1; i >= 0; i--) // From top to bottom.
 	{
-		m_EventDelegates[i](event);
+		CViewProcessEventFeedback& Ref = m_EventDelegates[i](event);
+		
 	}
-	CViewComponent::ProcessEvent(event);
+	return CViewComponent::ProcessEvent(event);
 }
 
 void AS::Views::CViewComposite::RecalculatePositions()
@@ -346,9 +347,9 @@ void AS::Views::CViewLeaf::Paint()
 	CViewComponent::Paint();
 }
 
-void AS::Views::CViewLeaf::ProcessEvent(Event_T const& event)
+AS::Views::CViewProcessEventFeedback AS::Views::CViewLeaf::ProcessEvent(Event_T const& event)
 {
-	CViewComponent::ProcessEvent(event);
+	return CViewComponent::ProcessEvent(event);
 }
 
 void AS::Views::CViewLeaf::RecalculatePositions()

@@ -18,14 +18,28 @@ namespace AS
 {
 	namespace Views
 	{
-		class CViewFeedback : public AS::System::Events::CFeedback
+		enum EModalityLevel
 		{
-		public:
-			class CViewComponent;
-			CViewComponent* Component;
+			e_Self = 0x00000001, // Process and absorbs all media events that falls within it's area.
+			e_Full = 0x00000002, // Process and absorbs all media events that falls within application area.
+			e_SemiTransparent = 0x00000004, // Process events and do not absorb it.
+			e_FullyTransparent = 0x00000008 // Do not process any events and do not absorb them.
 		};
 
-		class CViewComponent : public AS::Compositing::TComponent<CViewComponent>, boost::noncopyable
+		class CViewProcessEventFeedback : public AS::System::Events::CFeedback
+		{
+		public:
+			EModalityLevel ModalityLevel;
+			class CViewComponent;
+			CViewProcessEventFeedback(CViewComponent const& owner) : m_Owner(owner) {}
+			CViewComponent const& GetOwner() const { return m_Owner; }
+		private:
+			CViewComponent const& m_Owner;
+		};
+
+		class IViewMediaEventProcessor : public TEventProcessor<Event_T, CViewProcessEventFeedback> {};
+
+		class CViewComponent : public AS::Compositing::TComponent<CViewComponent>, public IViewMediaEventProcessor, boost::noncopyable
 		{
 		public:
 			typedef boost::signals2::signal<void (Event_T const&)> EventHandler;
@@ -41,12 +55,13 @@ namespace AS
 			virtual ~CViewComponent() = 0;
 			virtual CColor const& GetBackgroundColor() const;
 			virtual CPosition const& GetGlobalPosition();
+			virtual EModalityLevel GetModalityLevel() const = 0;
 			virtual int const& GetOpacity() const;
 			virtual CViewComponent* GetParent();
 			virtual CPosition const& GetPosition() const;
 			virtual CSize const& GetSize() const;
 			virtual void Paint() = 0;
-			virtual void ProcessEvent(Event_T const& event) = 0;
+			virtual CViewProcessEventFeedback ProcessEvent(Event_T const& event) = 0;
 			virtual void RegisterEventDelegates(EventDelegateCollection& delegates) = 0;
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates) = 0;
 			virtual void SetBackgroundColor(CColor const& color);
@@ -61,6 +76,8 @@ namespace AS
 			MouseButtonDownSimpleEvent MouseButtonDown;
 		public:
 			virtual void RecalculatePositions();
+		protected:
+			CViewProcessEventFeedback m_ProcessEventFeedback;
 		private:
 			friend class CViewComponent;
 			void CalculateGlobalPosition();
@@ -88,7 +105,7 @@ namespace AS
 			virtual ~CViewComposite();
 			virtual void Add(std::auto_ptr<CViewComponent> viewComponent);
 			virtual void Paint();
-			virtual void ProcessEvent(Event_T const& event);
+			virtual CViewProcessEventFeedback ProcessEvent(Event_T const& event);
 			virtual void RegisterEventDelegates(EventDelegateCollection& delegates);
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
 			virtual void Show();
@@ -107,7 +124,7 @@ namespace AS
 			CViewLeaf();
 			virtual ~CViewLeaf();
 			virtual void Paint();
-			virtual void ProcessEvent(Event_T const& event);
+			virtual CViewProcessEventFeedback ProcessEvent(Event_T const& event);
 			virtual void RegisterEventDelegates(EventDelegateCollection& delegates);
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
 			virtual void Show();

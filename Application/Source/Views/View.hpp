@@ -12,6 +12,7 @@ namespace AS
 		public:
 			CView();
 			virtual ~CView();
+			EModalityLevel GetModalityLevel() const;
 		};
 	}
 }
