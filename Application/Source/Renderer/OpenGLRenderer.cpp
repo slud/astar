@@ -168,9 +168,10 @@ void AS::Rendering::COpenGLRenderer::Initialize()
 	//glFrontFace(GL_CCW); // counter clock-wise polygons are out
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_ALPHA_TEST);
+	glEnable(GL_BLEND);
 	ilInit();
 	ilClearColour( 255, 255, 255, 000 );
-
 	ILuint imgID = 0;
     ilGenImages( 1, &imgID );
     ilBindImage( imgID );

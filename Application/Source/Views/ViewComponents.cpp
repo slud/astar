@@ -101,7 +101,7 @@ void AS::Views::CViewComponent::Paint()
 		glVertex2i(m_Point1.X, m_GlobalPosition.Y);
 		glVertex2i(m_Point1.X, m_Point1.Y);
 		glVertex2i(m_GlobalPosition.X, m_Point1.Y);
-		glColor3f(1.0f, 0.0f, 1.0f); // TODO: Set back color to default value. Magenta here.
+		glColor3f(1.0f, 1.0f, 1.0f); // TODO: Set back color to default value. Magenta here.
 	}
 	glEnd();
 }

@@ -8,6 +8,7 @@
 #include "Framework/Component.hpp"
 #include "Framework/Composite.hpp"
 #include "Framework/Leaf.hpp"
+#include "System/EventProcessor.hpp"
 #include <boost/utility.hpp>
 #include <boost/signals2.hpp>
 #include <string>
@@ -17,6 +18,13 @@ namespace AS
 {
 	namespace Views
 	{
+		class CViewFeedback : public AS::System::Events::CFeedback
+		{
+		public:
+			class CViewComponent;
+			CViewComponent* Component;
+		};
+
 		class CViewComponent : public AS::Compositing::TComponent<CViewComponent>, boost::noncopyable
 		{
 		public:
