@@ -1,8 +1,6 @@
 #ifndef AS_GUI_SAMPLE_GUI_INCLUDE
 	#define AS_GUI_SAMPLE_GUI_INCLUDE
 
-#include "System/MediaLayer.hpp"
-
 namespace AS
 {
 	namespace Gui
@@ -10,7 +8,7 @@ namespace AS
 		class CSampleGui
 		{
 		public:
-			void DisplayGui(AS::System::CMediaLayer& mediaLayer);
+			void DisplayGui();
 		};
 	}
 }

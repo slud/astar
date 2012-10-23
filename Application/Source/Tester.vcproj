@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../Build/Windows/$(ProjectName)/$(ConfigurationName)"
+			OutputDirectory="$(ASTAR_DIR)/Application/Build/Windows/$(ProjectName)/$(ConfigurationName)"
 			IntermediateDirectory="$(OutDir)/Intermediate"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ASTAR_DIR)/Application/Source&quot;;&quot;$(ASTAR_DIR)/Application/Source/Libraries/cppunit-1.12.1/include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="&quot;$(BOOST_DIR)&quot;;&quot;$(ASTAR_DIR)/Application/Source&quot;;&quot;$(ASTAR_DIR)/Application/Source/Libraries/cppunit-1.12.1/include&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG1;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -174,7 +174,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Tests\Framework\ConsoleTest.cpp"
+				RelativePath=".\Framework\Assert.cpp"
 				>
 			</File>
 			<File
@@ -182,7 +182,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Tests\Framework\NotifyStreamTest.cpp"
+				RelativePath=".\Tests\Framework\Math\MathTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Tests\Meshes\MeshTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Tests\Scene\SceneTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Tests\Common\ValueTypeTest.cpp"
 				>
 			</File>
 		</Filter>
@@ -192,15 +204,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\ConsoleTest.hpp"
+				RelativePath=".\Tests\Framework\Math\MathTest.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Tests\Framework\ConsoleTest.hpp"
+				RelativePath=".\Tests\Meshes\MeshTest.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Tests\Framework\NotifyStreamTest.hpp"
+				RelativePath=".\Tests\Scene\SceneTest.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Tests\Common\ValueTypeTest.hpp"
 				>
 			</File>
 		</Filter>

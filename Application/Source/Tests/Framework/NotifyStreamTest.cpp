@@ -20,11 +20,11 @@ void CNotifyStreamTest::tearDown()
 
 void CNotifyStreamTest::Test1()
 {
-	AS::CNotifyStringStream<std::stringstream> nss;
+	//AS::CNotifyStringStream<std::stringstream> nss;
 }
 
 void CNotifyStreamTest::Test2()
 {
-	boost::shared_ptr<std::stringstream> p(new std::stringstream);
-	AS::CNotifyStringStream<std::stringstream> nss(p);
+	//boost::shared_ptr<std::stringstream> p(new std::stringstream);
+	//AS::CNotifyStringStream<std::stringstream> nss(p);
 }

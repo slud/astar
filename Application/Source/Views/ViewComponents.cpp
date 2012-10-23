@@ -16,6 +16,7 @@ AS::Views::CViewComponent::CViewComponent() :
 	KeyPress(m_KeyPressEventHandler),
 	MouseButtonDown(m_MouseButtonDownEventHandler)
 {
+	m_ProcessEventFeedback.ModalityLevel = e_FullyTransparent;
 }
 
 AS::Views::CViewComponent::~CViewComponent()
@@ -75,6 +76,23 @@ bool AS::Views::CViewComponent::HitTest(CVector2d point)
 	if(point.Y >= m_GlobalPosition.Y && point.Y <= (m_GlobalPosition.Y + m_Size.Height))
 		HeightCheck = true;
 	if( HeightCheck && WidthCheck ) m_Hitted = true;
+	switch(m_ProcessEventFeedback.ModalityLevel)
+	{
+	case e_SemiModal:
+		m_ProcessEventFeedback.MouseHitEaten = m_Hitted ? true : false;
+		break;
+	case e_FullyModal:
+		m_ProcessEventFeedback.MouseHitEaten = true;
+		break;
+	case e_SemiTransparent:
+		m_ProcessEventFeedback.MouseHitEaten = false;
+		break;
+	case e_FullyTransparent:
+		m_ProcessEventFeedback.MouseHitEaten = false;
+		break;
+	default:
+		break;
+	}
 	return m_Hitted;
 }
 
@@ -106,7 +124,7 @@ void AS::Views::CViewComponent::Paint()
 	glEnd();
 }
 
-AS::Views::CViewProcessEventFeedback AS::Views::CViewComponent::ProcessEvent(Event_T const& event)
+AS::Views::CViewProcessEventFeedback const& AS::Views::CViewComponent::ProcessEvent(Event_T const& event)
 {
 	switch( event.type )
 	{
@@ -121,7 +139,7 @@ AS::Views::CViewProcessEventFeedback AS::Views::CViewComponent::ProcessEvent(Eve
 		switch(event.button.button)
 		{
 		case SDL_BUTTON_LEFT:
-			HitTest(CVector2d(event.button.x, event.button.y));
+			bool Tmp = HitTest(CVector2d(event.button.x, event.button.y));
 			break;
 		}
 		m_MouseButtonDownEventHandler(event);
@@ -138,6 +156,8 @@ AS::Views::CViewProcessEventFeedback AS::Views::CViewComponent::ProcessEvent(Eve
 	}
 	if(m_KeyPressed)
 		m_KeyPressEventHandler(event);
+
+	return m_ProcessEventFeedback;
 }
 
 void AS::Views::CViewComponent::RecalculatePositions()
@@ -259,12 +279,13 @@ void AS::Views::CViewComposite::Paint()
 	}
 }
 
-AS::Views::CViewProcessEventFeedback AS::Views::CViewComposite::ProcessEvent(Event_T const& event)
+AS::Views::CViewProcessEventFeedback const& AS::Views::CViewComposite::ProcessEvent(Event_T const& event)
 {
 	for(int i=m_EventDelegates.size()-1; i >= 0; i--) // From top to bottom.
 	{
-		CViewProcessEventFeedback& Ref = m_EventDelegates[i](event);
-		
+		CViewProcessEventFeedback const& Ref = m_EventDelegates[i](event);
+		if(Ref.MouseHitEaten)
+			return Ref;
 	}
 	return CViewComponent::ProcessEvent(event);
 }
@@ -347,7 +368,7 @@ void AS::Views::CViewLeaf::Paint()
 	CViewComponent::Paint();
 }
 
-AS::Views::CViewProcessEventFeedback AS::Views::CViewLeaf::ProcessEvent(Event_T const& event)
+AS::Views::CViewProcessEventFeedback const& AS::Views::CViewLeaf::ProcessEvent(Event_T const& event)
 {
 	return CViewComponent::ProcessEvent(event);
 }

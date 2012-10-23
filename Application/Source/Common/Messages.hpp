@@ -10,6 +10,7 @@ namespace AS
 			namespace Exceptions
 			{
 				const char c_NotImplemented[] = "Not implemented.";
+				const char c_IndexOutOfRange[] = "Index out of range.";
 			}
 		}
 	}

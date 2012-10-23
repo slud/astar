@@ -2,13 +2,13 @@
 	#define AS_VIEWS_VIEW_COMPONENTS_INCLUDE
 
 #include "Types.hpp"
+#include "ViewMediaEventProcessor.hpp"
 #include "Common/Common.hpp"
 #include "Framework/ASSDL.hpp"
 #include "Framework/Functional.hpp"
 #include "Framework/Component.hpp"
 #include "Framework/Composite.hpp"
 #include "Framework/Leaf.hpp"
-#include "System/EventProcessor.hpp"
 #include <boost/utility.hpp>
 #include <boost/signals2.hpp>
 #include <string>
@@ -20,8 +20,8 @@ namespace AS
 	{
 		enum EModalityLevel
 		{
-			e_Self = 0x00000001, // Process and absorbs all media events that falls within it's area.
-			e_Full = 0x00000002, // Process and absorbs all media events that falls within application area.
+			e_SemiModal = 0x00000001, // Process and absorbs all media events that falls within it's area.
+			e_FullyModal = 0x00000002, // Process and absorbs all media events that falls within application area.
 			e_SemiTransparent = 0x00000004, // Process events and do not absorb it.
 			e_FullyTransparent = 0x00000008 // Do not process any events and do not absorb them.
 		};
@@ -29,15 +29,10 @@ namespace AS
 		class CViewProcessEventFeedback : public AS::System::Events::CFeedback
 		{
 		public:
+			CViewProcessEventFeedback() : MouseHitEaten(false) {}
+			bool MouseHitEaten;
 			EModalityLevel ModalityLevel;
-			class CViewComponent;
-			CViewProcessEventFeedback(CViewComponent const& owner) : m_Owner(owner) {}
-			CViewComponent const& GetOwner() const { return m_Owner; }
-		private:
-			CViewComponent const& m_Owner;
 		};
-
-		class IViewMediaEventProcessor : public TEventProcessor<Event_T, CViewProcessEventFeedback> {};
 
 		class CViewComponent : public AS::Compositing::TComponent<CViewComponent>, public IViewMediaEventProcessor, boost::noncopyable
 		{
@@ -47,7 +42,7 @@ namespace AS
 			typedef SimpleEvent KeyDownSimpleEvent;
 			typedef SimpleEvent KeyPressSimpleEvent;
 			typedef SimpleEvent MouseButtonDownSimpleEvent;
-			typedef boost::function<void (Event_T const&)> EventDelegate;
+			typedef boost::function<CViewProcessEventFeedback const& (Event_T const&)> EventDelegate;
 			typedef std::list<EventDelegate> EventDelegateCollection;
 			typedef boost::function<void ()> PaintDelegate;
 			typedef std::list<PaintDelegate> PaintDelegateCollection;
@@ -55,13 +50,12 @@ namespace AS
 			virtual ~CViewComponent() = 0;
 			virtual CColor const& GetBackgroundColor() const;
 			virtual CPosition const& GetGlobalPosition();
-			virtual EModalityLevel GetModalityLevel() const = 0;
 			virtual int const& GetOpacity() const;
 			virtual CViewComponent* GetParent();
 			virtual CPosition const& GetPosition() const;
 			virtual CSize const& GetSize() const;
 			virtual void Paint() = 0;
-			virtual CViewProcessEventFeedback ProcessEvent(Event_T const& event) = 0;
+			virtual CViewProcessEventFeedback const& ProcessEvent(Event_T const& event) = 0;
 			virtual void RegisterEventDelegates(EventDelegateCollection& delegates) = 0;
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates) = 0;
 			virtual void SetBackgroundColor(CColor const& color);
@@ -105,7 +99,7 @@ namespace AS
 			virtual ~CViewComposite();
 			virtual void Add(std::auto_ptr<CViewComponent> viewComponent);
 			virtual void Paint();
-			virtual CViewProcessEventFeedback ProcessEvent(Event_T const& event);
+			virtual CViewProcessEventFeedback const& ProcessEvent(Event_T const& event);
 			virtual void RegisterEventDelegates(EventDelegateCollection& delegates);
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
 			virtual void Show();
@@ -124,7 +118,7 @@ namespace AS
 			CViewLeaf();
 			virtual ~CViewLeaf();
 			virtual void Paint();
-			virtual CViewProcessEventFeedback ProcessEvent(Event_T const& event);
+			virtual CViewProcessEventFeedback const& ProcessEvent(Event_T const& event);
 			virtual void RegisterEventDelegates(EventDelegateCollection& delegates);
 			virtual void RegisterPaintDelegates(PaintDelegateCollection& delegates);
 			virtual void Show();

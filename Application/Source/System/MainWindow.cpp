@@ -1,18 +1,11 @@
 #include "MainWindow.hpp"
-
 #include "Common/Common.hpp"
 #include "Framework/Assert.hpp"
-
-
-// TODO: Read-in those values from an xml settings file.
-const int cScreenWidth  = 800;
-const int cScreenHeight = 450;
-const int cBPP          = 32;
+#include "Settings/SettingsSimple.hpp"
 
 const char cVideoInitFailed[]  = "Video initialization failed.";
 const char cVideoQueryFailed[] = "Video query failed.";
 const char cCantSetVideoMode[] = "Can't set video mode.";
-
 
 AS::System::CMainWindow::CMainWindow() :
 	m_pDisplay(nullptr),
@@ -25,23 +18,16 @@ AS::System::CMainWindow::~CMainWindow()
 {
 }
 
-void AS::System::CMainWindow::Close()
-{
-}
-
 void AS::System::CMainWindow::Initialize()
 {
     // Fetch the video info.
     m_pVideoInfo = SDL_GetVideoInfo();
-
 	AS_ASSERT(nullptr != m_pVideoInfo, SDL_GetError());
-
     /* The flags to pass to SDL_SetVideoMode */
     m_VideoFlags  = SDL_OPENGL;          /* Enable OpenGL in SDL */
     m_VideoFlags |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
     m_VideoFlags |= SDL_HWPALETTE;       /* Store the palette in hardware */
     //m_VideoFlags |= SDL_RESIZABLE;       /* Enable window resizing */
-
     /* This checks to see if surfaces can be stored in memory */
     if(m_pVideoInfo->hw_available)
 	{
@@ -51,48 +37,17 @@ void AS::System::CMainWindow::Initialize()
 	{
 		m_VideoFlags |= SDL_SWSURFACE;
 	}
-
     /* This checks if hardware blits can be done */
     if ( m_pVideoInfo->blit_hw )
 	{
 		m_VideoFlags |= SDL_HWACCEL;
 	}
-
     /* Sets up OpenGL double buffering */
 	// TODO: Why? We set this earlier in m_VideoFlags?
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-
     /* Get a SDL surface */
-	m_pDisplay = SDL_SetVideoMode(cScreenWidth, cScreenHeight, cBPP, m_VideoFlags);
-
+	m_pDisplay = SDL_SetVideoMode(AS::Settings::Settings.Video.Width, AS::Settings::Settings.Video.Height, AS::Settings::Settings.Video.BPP, m_VideoFlags);
 	AS_ASSERT(nullptr != m_pDisplay, cCantSetVideoMode);
-}
-
-#include "Settings/SettingsSimple.hpp"
-extern AS::Settings::CSettingsSimple gSettings;
-static void SceneEvents(Event_T const& event)
-{
-	const double Value = 0.5;
-	switch(event.type)
-	{
-		case SDL_MOUSEBUTTONUP:
-			switch(event.button.button)
-			{
-			case SDL_BUTTON_WHEELUP:
-				//gSettings.Scene.TargetCamera.EyeX += Value;
-				gSettings.Scene.TargetCamera.EyeY -= Value;
-				gSettings.Scene.TargetCamera.EyeZ -= Value;
-				break;
-			case SDL_BUTTON_WHEELDOWN:
-				//gSettings.Scene.TargetCamera.EyeX -= Value;
-				gSettings.Scene.TargetCamera.EyeY += Value;
-				gSettings.Scene.TargetCamera.EyeZ += Value;
-				break;
-			}
-			break;
-		default:
-			break;
-	}
 }
 
 // Try to optimise.
@@ -114,12 +69,6 @@ void AS::System::CMainWindow::ProcessEvent(Event_T const& event)
 		default:
 			break;
 	}
-	SceneEvents(event);
-}
-
-void AS::System::CMainWindow::SetView(AS::Views::CView* view)
-{
-
 }
 
 void AS::System::CMainWindow::Show()

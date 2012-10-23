@@ -14,9 +14,7 @@ namespace AS
 		public:
 			CMainWindow();
 			virtual ~CMainWindow();
-			virtual void Close();
 			virtual void ProcessEvent(Event_T const&);
-			virtual void SetView(AS::Views::CView* view);
 			virtual void Show();
 		protected:
 			virtual void Initialize();

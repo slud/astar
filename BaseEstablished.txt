@@ -26,7 +26,10 @@ Deprecated: Add paths to SDL include and lib folders under Visual C++. Visual C+
 
 Deprecated: Add paths to boost folder under Visual C++.
 
+Set Debugging->Working directory to: $(ASTAR_DIR)/Application
+
 Copy SDL.dll to where your *.exe file is.
+Copy DevIL.dll to where your *.exe file is.
 
 
 Projects construction steps:

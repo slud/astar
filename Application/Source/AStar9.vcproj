@@ -185,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\System\Gui.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -198,6 +202,10 @@
 			</File>
 			<File
 				RelativePath=".\System\MediaLayer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Meshes\Mesh.cpp"
 				>
 			</File>
 			<File
@@ -259,6 +267,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Framework\Deprecated.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\System\EventProcessor.hpp"
 				>
 			</File>
@@ -283,7 +295,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Framework\Math\Math.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\System\MediaLayer.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Meshes\Mesh.hpp"
 				>
 			</File>
 			<File
@@ -304,6 +324,10 @@
 			</File>
 			<File
 				RelativePath=".\Views\SampleGui.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\Scene.hpp"
 				>
 			</File>
 			<File
@@ -328,6 +352,10 @@
 			</File>
 			<File
 				RelativePath=".\Views\ViewComponents.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Views\ViewMediaEventProcessor.hpp"
 				>
 			</File>
 		</Filter>

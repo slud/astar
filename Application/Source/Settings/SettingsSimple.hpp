@@ -1,6 +1,8 @@
 #ifndef AS_SETTINGS_SETTINGS_SIMPLE_INCLUDE
 	#define AS_SETTINGS_SETTINGS_SIMPLE_INCLUDE
 
+#include <string>
+
 namespace AS
 {
 	namespace Settings
@@ -37,11 +39,16 @@ namespace AS
 		class CSettingsSimple
 		{
 		public:
+			CSettingsSimple();
 			CScene Scene;
 			CVideo Video;
 			void Load();
 			void Save();
+		private:
+			std::string m_SettingsFile;
 		};
+
+		extern CSettingsSimple Settings;
 	}
 }
 

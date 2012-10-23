@@ -2,10 +2,22 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
+namespace AS
+{
+	namespace Settings
+	{
+		CSettingsSimple Settings;
+	}
+}
+
+AS::Settings::CSettingsSimple::CSettingsSimple() : m_SettingsFile("Settings.xml")
+{
+}
+
 void AS::Settings::CSettingsSimple::Load()
 {
 	boost::property_tree::ptree PropertyTree;
-	boost::property_tree::xml_parser::read_xml("Settings.xml", PropertyTree);
+	boost::property_tree::xml_parser::read_xml(m_SettingsFile, PropertyTree);
 	Scene.DefaultTargetCamera.EyeX = PropertyTree.get("Settings.Scene.DefaultTargetCamera.EyeX", 10.0);
 	Scene.DefaultTargetCamera.EyeY = PropertyTree.get("Settings.Scene.DefaultTargetCamera.EyeY", 10.0);
 	Scene.DefaultTargetCamera.EyeZ = PropertyTree.get("Settings.Scene.DefaultTargetCamera.EyeZ", 10.0);
@@ -56,5 +68,5 @@ void AS::Settings::CSettingsSimple::Save()
 	PropertyTree.put("Settings.Scene.DefaultTargetCamera.UpX", pTargetCamera->UpX);
 	PropertyTree.put("Settings.Scene.DefaultTargetCamera.UpY", pTargetCamera->UpY);
 	PropertyTree.put("Settings.Scene.DefaultTargetCamera.UpZ", pTargetCamera->UpZ);
-	boost::property_tree::xml_parser::write_xml("Settings.xml", PropertyTree);
+	boost::property_tree::xml_parser::write_xml(m_SettingsFile, PropertyTree);
 }
