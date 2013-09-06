@@ -2,6 +2,7 @@
 	#define AS_MESHES_MESH_INCLUDE
 
 #include <boost/smart_ptr.hpp>
+#include <vector>
 
 namespace AS
 {

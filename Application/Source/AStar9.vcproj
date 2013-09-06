@@ -185,7 +185,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Temp\ColladaLoader.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\System\Gui.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Renderer\Helpers.cpp"
 				>
 			</File>
 			<File
@@ -210,6 +218,10 @@
 			</File>
 			<File
 				RelativePath=".\Renderer\OpenGLRenderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Libraries\pugixml-1.0\pugixml.cpp"
 				>
 			</File>
 			<File
@@ -251,6 +263,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Temp\ColladaLoader.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Common\Common.hpp"
 				>
 			</File>
@@ -280,6 +296,10 @@
 			</File>
 			<File
 				RelativePath=".\System\Gui.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Renderer\Helpers.hpp"
 				>
 			</File>
 			<File
@@ -319,6 +339,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Libraries\pugixml-1.0\pugixml.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Renderer\Renderer.hpp"
 				>
 			</File>
@@ -336,6 +360,10 @@
 			</File>
 			<File
 				RelativePath=".\Settings\SettingsSimple.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Temp\TargetCamera.hpp"
 				>
 			</File>
 			<File
